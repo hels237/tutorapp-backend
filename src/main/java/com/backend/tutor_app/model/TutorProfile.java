@@ -15,8 +15,12 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TutorProfile extends AbstractEntiity{
+
+    @Column(columnDefinition = "TEXT")
     private String bio;
+
     private String experience; // "5 ans"
+
     private String responseTime; // "< 1h"
 
     @ElementCollection
