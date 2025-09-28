@@ -17,5 +17,12 @@ public class UserProfileDto {
     private Boolean emailVerified;
     private LocalDateTime lastLogin;
 
+    ///############################################
+
+    private StudentProfileDto studentProfile;
+    private TutorProfileDto tutorProfile;
+    private ParentProfileDto parentProfile;
+    private AdminProfileDto adminProfile;
+
 
 }
