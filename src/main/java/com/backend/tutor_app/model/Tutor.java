@@ -60,7 +60,11 @@ public class Tutor extends User{
 
     //relation with Subject
     @ManyToMany
-    @JoinTable(name = "tutor_subjects")
+    @JoinTable(
+            name = "tutor_subjects"
+            , joinColumns = @JoinColumn(name = "tutor_id")
+            , inverseJoinColumns = @JoinColumn(name = "subject_id")
+    )
     private Set<Subject> subjects;
 
     //relation with TutorAvailability

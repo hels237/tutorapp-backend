@@ -48,6 +48,11 @@ public class Subject extends AbstractEntiity{
 
     // Relations
     @ManyToMany(mappedBy = "subjects")
+    @JoinTable(
+            name = "tutor_subjects",
+            joinColumns = @JoinColumn(name = "subject_id"),
+            inverseJoinColumns = @JoinColumn(name = "tutor_id")
+    )
     private Set<Tutor> tutors;
 
     @OneToMany(mappedBy = "subject")
