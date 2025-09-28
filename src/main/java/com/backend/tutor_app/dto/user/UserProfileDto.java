@@ -1,4 +1,4 @@
-package com.backend.tutor_app.dto;
+package com.backend.tutor_app.dto.user;
 
 import com.backend.tutor_app.model.enums.Role;
 import com.backend.tutor_app.model.enums.UserStatus;

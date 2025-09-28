@@ -4,6 +4,10 @@ package com.backend.tutor_app.model;
 import com.backend.tutor_app.model.enums.VerificationStatus;
 import com.backend.tutor_app.model.tutor.*;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,27 +26,34 @@ import java.util.Set;
 @AllArgsConstructor
 public class Tutor extends User{
 
-    @Column(columnDefinition = "TEXT",name = "biography")
+    @Column(columnDefinition = "TEXT")
+    @Size(max = 2000, message = "La biographie ne peut pas dépasser 2000 caractères")
     private String bio;
 
-    @Column(name = "hourly_rate")
+    @Column(name = "hourly_rate", precision = 10, scale = 2)
+    @DecimalMin(value = "0.0", message = "Le tarif horaire doit être positif")
     private BigDecimal hourlyRate;
 
     @Column(name = "experience_years")
+    @Min(value = 0, message = "L'expérience ne peut pas être négative")
     private Integer experienceYears;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "verification_status")
-    private VerificationStatus verificationStatus;
+    @Column(name = "verification_status", length = 20)
+    private VerificationStatus verificationStatus = VerificationStatus.PENDING;
 
-    @Column(name = "average_rating")
-    private Double averageRating;
+    @Column(name = "average_rating", precision = 3, scale = 2)
+    @DecimalMin(value = "0.0")
+    @DecimalMax(value = "5.0")
+    private Double averageRating = 0.0;
 
     @Column(name = "total_reviews")
+    @Min(value = 0)
     private Integer totalReviews = 0;
 
     @Column(name = "total_lessons")
-    private Integer totalLessons;
+    @Min(value = 0)
+    private Integer totalLessons = 0;
 
     @Column(name = "response_time_hours")
     private Integer responseTimeHours = 24; // Temps de réponse moyen en heures
@@ -50,12 +61,17 @@ public class Tutor extends User{
     @Column(name = "is_available", nullable = false)
     private Boolean isAvailable = true;
 
+    @Column(name = "location", length = 100)
+    private String location;
+
     @Column(name = "video_intro_url")
     private String videoIntroUrl;
 
-    @Column(name = "location")
-    private String location;
+    @Column(name = "timezone", length = 50)
+    private String timezone = "Europe/Paris";
 
+    @Column(name = "verification_notes", columnDefinition = "TEXT")
+    private String verificationNotes;
 
 
     //relation with Subject
@@ -72,13 +88,15 @@ public class Tutor extends User{
     private List<TutorAvailability> availabilities = new ArrayList<>();
 
     //relation with Qualification
+    //@Transient
     @OneToMany(mappedBy = "tutor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Qualification> qualifications = new ArrayList<>();
 
-
+    //@Transient
     @OneToMany(mappedBy = "tutor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<TutorSubject> tutorSubjects = new ArrayList<>();
 
+    //@Transient
     @OneToMany(mappedBy = "tutor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<TutorLanguage> languages = new ArrayList<>();
 
@@ -102,7 +120,16 @@ public class Tutor extends User{
     )
     private Set<Student> favoriteByStudents = new HashSet<>();
 
-
+    public void updateRating(double newRating) {
+        if (totalReviews == 0) {
+            averageRating = newRating;
+            totalReviews = 1;
+        } else {
+            double totalScore = averageRating * totalReviews;
+            totalReviews++;
+            averageRating = (totalScore + newRating) / totalReviews;
+        }
+    }
 
     // Méthodes utilitaires
     public void updateAverageRating() {
@@ -131,5 +158,8 @@ public class Tutor extends User{
                 .map(TutorSubject::getHourlyRate)
                 .orElse(this.hourlyRate);
     }
+
+    //#########################################################################################
+
 
 }

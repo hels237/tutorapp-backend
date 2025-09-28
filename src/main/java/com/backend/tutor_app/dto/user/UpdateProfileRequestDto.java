@@ -1,4 +1,4 @@
-package com.backend.tutor_app.dto.requestDto;
+package com.backend.tutor_app.dto.user;
 
 import jakarta.validation.constraints.Size;
 

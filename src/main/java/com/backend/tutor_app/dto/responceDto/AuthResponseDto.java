@@ -1,6 +1,6 @@
 package com.backend.tutor_app.dto.responceDto;
 
-import com.backend.tutor_app.dto.UserProfileDto;
+import com.backend.tutor_app.dto.user.UserProfileDto;
 
 public class AuthResponseDto {
     private String accessToken;
