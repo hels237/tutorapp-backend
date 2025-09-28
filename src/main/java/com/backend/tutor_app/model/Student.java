@@ -8,6 +8,8 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Set;
 
 @Setter @Getter
 @Entity
@@ -27,6 +29,19 @@ public class Student extends User{
     @ManyToOne
     @JoinColumn(name = "parent_id")
     private Parent parent;
+
+    // relation with Lesson
+    @OneToMany(mappedBy = "student")
+    private List<Lesson> lessons;
+
+    // relation with Tutor for favorite tutors
+    @ManyToMany
+    @JoinTable(
+            name = "student_favorite_tutors",
+            joinColumns = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "tutor_id")
+    )
+    private Set<Tutor> favoriteTutors;
 
 
 }

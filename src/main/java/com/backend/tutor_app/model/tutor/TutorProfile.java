@@ -1,5 +1,7 @@
-package com.backend.tutor_app.model;
+package com.backend.tutor_app.model.tutor;
 
+import com.backend.tutor_app.model.AbstractEntiity;
+import com.backend.tutor_app.model.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,7 +16,7 @@ import java.util.Set;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class TutorProfile extends AbstractEntiity{
+public class TutorProfile extends AbstractEntiity {
 
     @Column(columnDefinition = "TEXT")
     private String bio;
