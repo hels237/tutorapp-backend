@@ -16,6 +16,4 @@ public enum Role {
         this.displayName = displayName;
         this.authority = authority;
     }
-
-
 }
