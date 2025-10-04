@@ -35,7 +35,9 @@ public class SecurityConfig {
     private final CustomUserService userDetailsService;
 
     @Bean
-    PasswordEncoder passwordEncoder() { return new BCryptPasswordEncoder(); }
+    PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
@@ -53,7 +55,7 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-      return  http
+        return http
                 .csrf(AbstractHttpConfigurer::disable) // Désactive CSRF pour les APIs stateless
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Active CORS
                 .authorizeHttpRequests(auth -> auth
@@ -86,3 +88,4 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", configuration); // Appliquer cette configuration à toutes les routes
         return source;
     }
+}
