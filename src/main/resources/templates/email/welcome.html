@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenue sur TutorApp !</title>
+    <link rel="stylesheet" th:href="@{/css/email-styles.css}">
+</head>
+<body>
+<div class="email-container">
+    <!-- Header -->
+    <div class="email-header welcome-header">
+        <div class="logo-container">
+            <img th:src="@{/images/logo.png}" alt="TutorApp" class="logo">
+            <h1 class="app-name">TutorApp</h1>
+        </div>
+        <div class="celebration">🎉</div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="email-content">
+        <div class="welcome-section">
+            <h2 class="main-title welcome-title">Bienvenue dans la communauté TutorApp !</h2>
+            <div class="greeting">
+                <p class="welcome-message">
+                    Félicitations <span class="user-name" th:text="${user.firstName}">Utilisateur</span> !
+                    Votre compte a été activé avec succès.
+                </p>
+            </div>
+        </div>
+
+        <div class="message-section">
+            <div class="role-welcome" th:if="${user.role == 'STUDENT'}">
+                <div class="student-welcome">
+                    <h3>🎓 Vous êtes maintenant étudiant sur TutorApp !</h3>
+                    <p>Découvrez un monde d'apprentissage personnalisé avec nos tuteurs experts.</p>
+
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">🔍</div>
+                            <h4>Trouvez votre tuteur</h4>
+                            <p>Parcourez des centaines de tuteurs qualifiés dans toutes les matières</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">📅</div>
+                            <h4>Réservez facilement</h4>
+                            <p>Planifiez vos cours selon vos disponibilités</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">💬</div>
+                            <h4>Apprenez en ligne</h4>
+                            <p>Cours vidéo interactifs avec partage d'écran</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="role-welcome" th:if="${user.role == 'TUTOR'}">
+                <div class="tutor-welcome">
+                    <h3>👨‍🏫 Bienvenue dans l'équipe des tuteurs TutorApp !</h3>
+                    <p>Partagez votre expertise et aidez des étudiants à réussir.</p>
+
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">📝</div>
+                            <h4>Complétez votre profil</h4>
+                            <p>Ajoutez vos qualifications et spécialités</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">⏰</div>
+                            <h4>Gérez vos disponibilités</h4>
+                            <p>Définissez vos créneaux d'enseignement</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">💰</div>
+                            <h4>Fixez vos tarifs</h4>
+                            <p>Déterminez vos prix par matière</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="role-welcome" th:if="${user.role == 'PARENT'}">
+                <div class="parent-welcome">
+                    <h3>👨‍👩‍👧‍👦 Bienvenue, parent attentionné !</h3>
+                    <p>Suivez et soutenez la réussite scolaire de vos enfants.</p>
+
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">👶</div>
+                            <h4>Gérez les profils</h4>
+                            <p>Créez et gérez les comptes de vos enfants</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">📊</div>
+                            <h4>Suivez les progrès</h4>
+                            <p>Consultez les rapports de progression</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">💳</div>
+                            <h4>Gérez les paiements</h4>
+                            <p>Contrôlez les dépenses d'éducation</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cta-section">
+                <h3>Prêt à commencer ?</h3>
+                <div class="button-container">
+                    <a th:href="${dashboardUrl}" class="cta-button">
+                        <span class="button-icon">🚀</span>
+                        Accéder à mon tableau de bord
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <div class="stats-section">
+                <h3>Rejoignez notre communauté grandissante :</h3>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">10,000+</div>
+                        <div class="stat-label">Étudiants actifs</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">2,500+</div>
+                        <div class="stat-label">Tuteurs experts</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">50+</div>
+                        <div class="stat-label">Matières enseignées</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">98%</div>
+                        <div class="stat-label">Satisfaction</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="support-section">
+                <h3>Besoin d'aide pour commencer ?</h3>
+                <p>Notre équipe support est disponible 7j/7 pour vous accompagner :</p>
+                <ul>
+                    <li>📚 <a href="#">Guide de démarrage rapide</a></li>
+                    <li>❓ <a href="#">FAQ - Questions fréquentes</a></li>
+                    <li>🎥 <a href="#">Tutoriels vidéo</a></li>
+                    <li>💬 <a href="#">Chat en direct</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="email-footer">
+        <div class="contact-info">
+            <p>L'équipe TutorApp</p>
+            <p>
+                📧 <a th:href="'mailto:' + ${supportEmail}" th:text="${supportEmail}">support@tutorapp.com</a> |
+                🌐 <a href="https://tutorapp.com">www.tutorapp.com</a>
+            </p>
+        </div>
+
+        <div class="social-links">
+            <a href="#" class="social-link">Facebook</a>
+            <a href="#" class="social-link">Twitter</a>
+            <a href="#" class="social-link">LinkedIn</a>
+            <a href="#" class="social-link">Instagram</a>
+        </div>
+
+        <div class="copyright">
+            <p>&copy; 2024 TutorApp. Tous droits réservés.</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

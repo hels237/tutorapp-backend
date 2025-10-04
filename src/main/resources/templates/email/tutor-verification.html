@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Résultat de vérification - TutorApp</title>
+    <link rel="stylesheet" th:href="@{/css/email-styles.css}">
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="email-header" th:classappend="${verificationStatus == 'VERIFIED'} ? 'success-header' : 'rejection-header'">
+            <div class="logo-container">
+                <img th:src="@{/images/logo.png}" alt="TutorApp" class="logo">
+                <h1 class="app-name">TutorApp</h1>
+            </div>
+            <div class="status-icon" th:if="${verificationStatus == 'VERIFIED'}">✅</div>
+            <div class="status-icon" th:if="${verificationStatus == 'REJECTED'}">❌</div>
+            <div class="status-icon" th:if="${verificationStatus == 'UNDER_REVIEW'}">🔍</div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="email-content">
+            <div class="welcome-section">
+                <h2 class="main-title"
+                    th:text="${verificationStatus == 'VERIFIED'} ? 'Félicitations ! Votre profil est vérifié' : 
+                                 (${verificationStatus == 'REJECTED'} ? 'Profil non vérifié' : 'Profil en cours d\'examen')">
+                    Résultat de vérification
+                </h2>
+                <div class="greeting">
+                    <p>Bonjour <span class="user-name" th:text="${tutor.firstName}">Tuteur</span>,</p>
+                </div>
+            </div>
+
+            <!-- Profil Vérifié -->
+            <div class="message-section" th:if="${verificationStatus == 'VERIFIED'}">
+                <div class="success-message">
+                    <div class="success-box">
+                        <h3>🎉 Votre profil de tuteur a été approuvé !</h3>
+                        <p>
+                            Après examen de vos qualifications et documents, nous sommes heureux de vous confirmer
+                            que votre profil répond à nos standards de qualité.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="verification-details">
+                    <h3>Éléments vérifiés :</h3>
+                    <ul class="verification-list">
+                        <li>✅ Identité et documents officiels</li>
+                        <li>✅ Diplômes et certifications</li>
+                        <li>✅ Expérience professionnelle</li>
+                        <li>✅ Références et recommandations</li>
+                        <li>✅ Casier judiciaire (si requis)</li>
+                    </ul>
+                </div>
+
+                <div class="benefits-section">
+                    <h3>Avantages du profil vérifié :</h3>
+                    <div class="benefits-grid">
+                        <div class="benefit-card">
+                            <div class="benefit-icon">🏆</div>
+                            <h4>Badge "Vérifié"</h4>
+                            <p>Votre profil affiche maintenant le badge de confiance</p>
+                        </div>
+                        <div class="benefit-card">
+                            <div class="benefit-icon">🔍</div>
+                            <h4>Meilleure visibilité</h4>
+                            <p>Apparition prioritaire dans les résultats de recherche</p>
+                        </div>
+                        <div class="benefit-card">
+                            <div class="benefit-icon">💰</div>
+                            <h4>Tarifs premium</h4>
+                            <p>Possibilité de fixer des tarifs plus élevés</p>
+                        </div>
+                        <div class="benefit-card">
+                            <div class="benefit-icon">🎯</div>
+                            <h4>Plus de réservations</h4>
+                            <p>Les étudiants font plus confiance aux profils vérifiés</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="next-steps">
+                    <h3>Prochaines étapes :</h3>
+                    <div class="button-container">
+                        <a th:href="${dashboardUrl}" class="success-button">
+                            <span class="button-icon">🚀</span>
+                            Accéder à mon tableau de bord
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profil Rejeté -->
+            <div class="message-section" th:if="${verificationStatus == 'REJECTED'}">
+                <div class="rejection-message">
+                    <div class="rejection-box">
+                        <h3>Profil non approuvé</h3>
+                        <p>Malheureusement, votre profil ne répond pas encore à nos critères de vérification.</p>
+                    </div>
+                </div>
+
+                <div class="rejection-reasons">
+                    <h3>Motifs :</h3>
+                    <div class="reason-box">
+                        <p th:text="${verificationNotes}">Raisons du rejet</p>
+                    </div>
+                </div>
+
+                <div class="resubmission-info">
+                    <h3>Comment procéder ?</h3>
+                    <p>Vous pouvez corriger les points mentionnés et soumettre à nouveau votre profil :</p>
+                    <div class="button-container">
+                        <a th:href="${profileUrl}" class="retry-button">
+                            Modifier mon profil
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- En cours d'examen -->
+            <div class="message-section" th:if="${verificationStatus == 'UNDER_REVIEW'}">
+                <div class="review-message">
+                    <div class="review-box">
+                        <h3>🔍 Examen en cours</h3>
+                        <p>Votre profil est actuellement en cours d'examen par notre équipe.</p>
+                        <p>Délai estimé : <strong>2-3 jours ouvrés</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="email-footer">
+            <div class="contact-info">
+                <p>Équipe Vérification TutorApp</p>
+                <p>📧 <a th:href="'mailto:' + ${verificationEmail}">verification@tutorapp.com</a></p>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2024 TutorApp. Tous droits réservés.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

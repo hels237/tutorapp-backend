@@ -9,7 +9,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AuthRequestDto {
+public class AuthRequest {
 
     @Email(message = "Format d'email invalide")
     @NotBlank(message = "L'email est requis")

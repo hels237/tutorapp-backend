@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suspension de compte - TutorApp</title>
+    <link rel="stylesheet" th:href="@{/css/email-styles.css}">
+</head>
+<body>
+<div class="email-container">
+    <!-- Header -->
+    <div class="email-header suspension-header">
+        <div class="logo-container">
+            <img th:src="@{/images/logo.png}" alt="TutorApp" class="logo">
+            <h1 class="app-name">TutorApp</h1>
+        </div>
+        <div class="alert-icon">⚠️</div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="email-content">
+        <div class="welcome-section">
+            <h2 class="main-title suspension-title">Suspension temporaire de votre compte</h2>
+            <div class="greeting">
+                <p>Bonjour <span class="user-name" th:text="${user.firstName}">Utilisateur</span>,</p>
+            </div>
+        </div>
+
+        <div class="message-section">
+            <div class="suspension-notice">
+                <div class="alert-box suspension-alert">
+                    <p class="suspension-text">
+                        <strong>Votre compte TutorApp a été temporairement suspendu.</strong>
+                    </p>
+                    <p class="suspension-date">
+                        Date de suspension : <span th:text="${suspensionDate}">Date</span>
+                    </p>
+                    <p class="suspension-duration" th:if="${suspensionDuration}">
+                        Durée : <span th:text="${suspensionDuration}">Durée</span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="reason-section">
+                <h3>Motif de la suspension :</h3>
+                <div class="reason-box">
+                    <p th:text="${suspensionReason}">
+                        Violation des conditions d'utilisation de la plateforme.
+                    </p>
+                </div>
+            </div>
+
+            <div class="details-section" th:if="${violationDetails}">
+                <h3>Détails :</h3>
+                <div class="details-box">
+                    <p th:text="${violationDetails}">
+                        Détails de la violation
+                    </p>
+                </div>
+            </div>
+
+            <div class="consequences-section">
+                <h3>Conséquences de la suspension :</h3>
+                <ul class="consequences-list">
+                    <li>❌ Accès au tableau de bord suspendu</li>
+                    <li th:if="${user.role == 'TUTOR'}">❌ Impossibilité de donner des cours</li>
+                    <li th:if="${user.role == 'STUDENT'}">❌ Impossibilité de réserver des cours</li>
+                    <li>❌ Accès aux fonctionnalités de messagerie limité</li>
+                    <li>📧 Notifications par email maintenues</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <div class="appeal-section">
+                <h3>Comment contester cette décision ?</h3>
+                <p>Si vous pensez que cette suspension est injustifiée, vous pouvez :</p>
+
+                <div class="appeal-options">
+                    <div class="appeal-option">
+                        <h4>📧 Contacter le support</h4>
+                        <p>Envoyez un email détaillé à notre équipe :</p>
+                        <a th:href="'mailto:' + ${appealEmail} + '?subject=Contestation suspension - ' + ${user.id}"
+                           class="appeal-button">
+                            Contester la suspension
+                        </a>
+                    </div>
+
+                    <div class="appeal-option">
+                        <h4>📝 Formulaire de recours</h4>
+                        <p>Remplissez notre formulaire officiel :</p>
+                        <a th:href="${appealFormUrl}" class="appeal-button secondary">
+                            Formulaire de recours
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="reinstatement-section" th:if="${isTemporary}">
+                <h3>Réactivation de votre compte</h3>
+                <div class="reinstatement-info">
+                    <p th:if="${reinstatementDate}">
+                        <strong>Date de réactivation prévue :</strong>
+                        <span class="highlight" th:text="${reinstatementDate}">Date</span>
+                    </p>
+                    <p>
+                        Votre compte sera automatiquement réactivé à la fin de la période de suspension,
+                        à condition qu'aucune nouvelle violation ne soit constatée.
+                    </p>
+                </div>
+            </div>
+
+            <div class="prevention-section">
+                <h3>Pour éviter de futures suspensions :</h3>
+                <ul class="prevention-list">
+                    <li>📖 Relisez nos <a href="#">Conditions d'utilisation</a></li>
+                    <li>🤝 Respectez notre <a href="#">Code de conduite</a></li>
+                    <li>💬 Maintenez des interactions respectueuses</li>
+                    <li>📚 Suivez nos <a href="#">Bonnes pratiques</a></li>
+                </ul>
+            </div>
+
+            <div class="support-section">
+                <div class="support-box">
+                    <h4>Besoin d'aide ou de clarifications ?</h4>
+                    <p>Notre équipe support reste disponible pour répondre à vos questions :</p>
+                    <p>
+                        📧 <a th:href="'mailto:' + ${supportEmail}" th:text="${supportEmail}">support@tutorapp.com</a><br>
+                        📞 +33 1 23 45 67 89<br>
+                        💬 Chat en direct (disponible sur le site)
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="email-footer">
+        <div class="contact-info">
+            <p>Équipe Modération TutorApp</p>
+            <p>
+                📧 <a th:href="'mailto:' + ${moderationEmail}" th:text="${moderationEmail}">moderation@tutorapp.com</a>
+            </p>
+        </div>
+
+        <div class="copyright">
+            <p>&copy; 2024 TutorApp. Tous droits réservés.</p>
+            <p class="legal-notice">
+                Cette décision a été prise conformément à nos conditions d'utilisation.
+            </p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

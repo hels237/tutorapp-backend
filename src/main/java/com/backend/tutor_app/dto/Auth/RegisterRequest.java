@@ -1,12 +1,19 @@
-package com.backend.tutor_app.dto.user;
+package com.backend.tutor_app.dto.Auth;
+
 
 import com.backend.tutor_app.model.enums.Role;
 import jakarta.validation.constraints.*;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public class UserRegisterRequest {
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class RegisterRequest {
 
     @NotBlank(message = "Le prénom est requis")
     @Size(min = 2, max = 50, message = "Le prénom doit contenir entre 2 et 50 caractères")
@@ -70,14 +77,13 @@ public class UserRegisterRequest {
     @Size(max = 100, message = "Le contact d'urgence ne peut pas dépasser 100 caractères")
     private String emergencyContact;
 
-
-    // #------------- Validation personnalisée
+    // Validation personnalisée
     @AssertTrue(message = "Les mots de passe ne correspondent pas")
     public boolean isPasswordMatching() {
         return password != null && password.equals(confirmPassword);
     }
 
-    // #------------ Méthodes utilitaires
+    // Méthodes utilitaires
     public boolean isStudent() {
         return Role.STUDENT.equals(userType);
     }

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vérification de votre email - TutorApp</title>
+    <link rel="stylesheet" th:href="@{/css/email-styles.css}">
+</head>
+<body>
+<div class="email-container">
+    <!-- Header -->
+    <div class="email-header">
+        <div class="logo-container">
+            <img th:src="@{/images/logo.png}" alt="TutorApp" class="logo">
+            <h1 class="app-name">TutorApp</h1>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="email-content">
+        <div class="welcome-section">
+            <h2 class="main-title">Vérifiez votre adresse email</h2>
+            <div class="greeting">
+                <p>Bonjour <span class="user-name" th:text="${user.firstName}">Utilisateur</span>,</p>
+            </div>
+        </div>
+
+        <div class="message-section">
+            <p class="welcome-message">
+                Bienvenue sur <strong>TutorApp</strong> ! Nous sommes ravis de vous compter parmi nous.
+            </p>
+
+            <p class="instruction">
+                Pour activer votre compte et commencer à utiliser nos services,
+                veuillez cliquer sur le bouton ci-dessous pour vérifier votre adresse email :
+            </p>
+
+            <div class="button-container">
+                <a th:href="${verificationUrl}" class="verify-button">
+                    <span class="button-icon">✓</span>
+                    Vérifier mon email
+                </a>
+            </div>
+
+            <div class="alternative-link">
+                <p class="small-text">
+                    Si le bouton ne fonctionne pas, copiez et collez ce lien dans votre navigateur :
+                </p>
+                <div class="link-box">
+                    <a th:href="${verificationUrl}" th:text="${verificationUrl}" class="verification-link">
+                        Lien de vérification
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <div class="expiration-notice">
+                <p class="warning-text">
+                    ⏰ <strong>Important :</strong> Ce lien expire dans
+                    <span class="highlight" th:text="${expirationHours}">24</span> heures.
+                </p>
+            </div>
+
+            <div class="role-specific-message" th:if="${user.role == 'TUTOR'}">
+                <div class="tutor-next-steps">
+                    <h3>Prochaines étapes pour les tuteurs :</h3>
+                    <ul>
+                        <li>✅ Vérifiez votre email (cette étape)</li>
+                        <li>📝 Complétez votre profil</li>
+                        <li>📄 Téléchargez vos documents</li>
+                        <li>⏰ Définissez vos disponibilités</li>
+                        <li>🎯 Commencez à enseigner !</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="role-specific-message" th:if="${user.role == 'STUDENT'}">
+                <div class="student-next-steps">
+                    <h3>Découvrez TutorApp :</h3>
+                    <ul>
+                        <li>🔍 Trouvez le tuteur parfait</li>
+                        <li>📚 Explorez nos matières</li>
+                        <li>📅 Réservez vos cours</li>
+                        <li>🎓 Atteignez vos objectifs !</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="security-notice">
+                <p class="small-text security-text">
+                    🔒 Si vous n'avez pas créé de compte sur TutorApp,
+                    vous pouvez ignorer cet email en toute sécurité.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="email-footer">
+        <div class="contact-info">
+            <p>Besoin d'aide ? Contactez-nous :</p>
+            <p>
+                📧 <a th:href="'mailto:' + ${supportEmail}" th:text="${supportEmail}">support@tutorapp.com</a> |
+                🌐 <a href="https://tutorapp.com">www.tutorapp.com</a>
+            </p>
+        </div>
+
+        <div class="social-links">
+            <a href="#" class="social-link">Facebook</a>
+            <a href="#" class="social-link">Twitter</a>
+            <a href="#" class="social-link">LinkedIn</a>
+        </div>
+
+        <div class="copyright">
+            <p>&copy; 2024 TutorApp. Tous droits réservés.</p>
+            <p class="unsubscribe">
+                <a href="#" class="small-link">Se désabonner</a> |
+                <a href="#" class="small-link">Politique de confidentialité</a>
+            </p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
