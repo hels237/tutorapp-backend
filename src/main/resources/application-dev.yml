@@ -5,9 +5,9 @@ spring:
     active: dev
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/tutorapp_dev
-    username: tutorapp_dev
-    password: dev_password
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME_DEV:tutorapp_dev}
+    username: ${DB_USERNAME_DEV:tutorapp_dev}
+    password: ${DB_PASSWORD_DEV}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -20,10 +20,10 @@ spring:
         format_sql: true
 
   mail:
-    host: smtp.gmail.com
-    port: 587
-    username: ${EMAIL_USERNAME:dev@tutorapp.com}
-    password: ${EMAIL_PASSWORD:dev_password}
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${EMAIL_USERNAME}
+    password: ${EMAIL_PASSWORD}
     properties:
       mail:
         smtp:
@@ -44,7 +44,7 @@ spring:
 
 app:
   jwt:
-    secret: ${JWT_SECRET_DEV:devSecretKey123456789}
+    secret: ${JWT_SECRET_DEV}
     expiration: 86400000 # 24h
     refresh-expiration: 604800000 # 7 jours
 

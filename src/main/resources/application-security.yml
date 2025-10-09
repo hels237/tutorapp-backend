@@ -1,0 +1,67 @@
+# ==========================================
+# CONFIGURATION SÉCURITÉ INTÉGRÉE TutorApp
+# ==========================================
+# Aligne les configurations JWT existantes avec les nouveaux services métier
+
+# Configuration JWT existante (CONSERVÉE - utilisée par JwtServiceUtil)
+jwt:
+  secret:
+    key: "${JWT_SECRET_KEY}"
+  expiration: 3600000 # 1 heure en millisecondes
+
+# Configuration services métier (AJOUTÉE - utilisée par les nouvelles implémentations)
+app:
+  # Tokens métier
+  refresh-token:
+    expiration: 2592000 # 30 jours en secondes
+  email-verification-token:
+    expiration: 86400 # 24 heures en secondes  
+  password-reset-token:
+    expiration: 3600 # 1 heure en secondes
+    
+  # Stockage de fichiers
+  file:
+    upload-dir: "uploads"
+    max-size: 10485760 # 10MB
+    base-url: "http://localhost:8080/api/files"
+    
+  # Configuration email
+  mail:
+    from: "noreply@tutorapp.com"
+    
+  # Frontend URL
+  frontend:
+    url: "http://localhost:3000"
+    
+  # OAuth2 Social Login
+  oauth2:
+    google:
+      client-id: "${GOOGLE_CLIENT_ID}"
+      client-secret: "${GOOGLE_CLIENT_SECRET}"
+    facebook:
+      client-id: "${FACEBOOK_CLIENT_ID}"
+      client-secret: "${FACEBOOK_CLIENT_SECRET}"
+    github:
+      client-id: "${GITHUB_CLIENT_ID}"
+      client-secret: "${GITHUB_CLIENT_SECRET}"
+
+# Configuration Spring Mail (pour EmailService)
+spring:
+  mail:
+    host: "${MAIL_HOST}"
+    port: "${MAIL_PORT}"
+    username: "${MAIL_USERNAME}"
+    password: "${MAIL_PASSWORD}"
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+# Configuration logging pour debug
+logging:
+  level:
+    com.backend.tutor_app.security: DEBUG
+    com.backend.tutor_app.servicesImpl: DEBUG
+    org.springframework.security: DEBUG

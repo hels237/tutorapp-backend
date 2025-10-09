@@ -7,12 +7,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 
 @Setter @Getter
 @Entity
 @Table(name = "refresh_tokens")
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 public class RefreshToken extends AbstractEntiity {
