@@ -1,5 +1,7 @@
 package com.backend.tutor_app.services;
 
+import com.backend.tutor_app.dto.Auth.UserDto;
+import com.backend.tutor_app.dto.user.UpdatePersonalInfoRequest;
 import com.backend.tutor_app.model.User;
 import com.backend.tutor_app.model.enums.Role;
 import com.backend.tutor_app.model.enums.UserStatus;
@@ -118,7 +120,7 @@ public interface UserService {
      * @param userId ID de l'utilisateur
      * @param profilePictureUrl URL de la nouvelle photo de profil
      */
-    void updateProfilePicture(Long userId, String profilePictureUrl);
+    UserDto updateProfilePicture(Long userId, String profilePictureUrl);
     
     /**
      * Met à jour les informations personnelles d'un utilisateur
@@ -136,6 +138,52 @@ public interface UserService {
      * @return Page d'utilisateurs correspondant à la recherche
      */
     Page<User> searchUsers(String query, Pageable pageable);
+
+    // ==================== METHODS USED BY UserController ====================
+    /** Profil utilisateur courant (DTO) */
+    UserDto getUserProfile(Long userId);
+
+    /** Mise à jour des infos personnelles via DTO de requête */
+    UserDto updatePersonalInfo(Long userId, UpdatePersonalInfoRequest request);
+
+    /** Changement de mot de passe (déplacé ici pour usage contrôleur) */
+    void changePassword(Long userId, com.backend.tutor_app.dto.user.ChangePasswordRequest request);
+
+    /** Infos de sécurité */
+    java.util.Map<String, Object> getSecurityInfo(Long userId);
+
+    /** Recherche avec filtres supplémentaires (rôle, statut) retournant DTO paginé */
+    com.backend.tutor_app.dto.common.PagedResponse<UserDto> searchUsers(String query, String role, String status, Pageable pageable);
+
+    /** Listing des tuteurs avec filtres */
+    com.backend.tutor_app.dto.common.PagedResponse<UserDto> getTutors(String subject, String level, Double minPrice, Double maxPrice, Double minRating, Boolean available, Pageable pageable);
+
+    /** Profil public */
+    UserDto getPublicProfile(Long userId);
+
+    /** Soumettre une demande de tuteur */
+    Object submitTutorApplication(Long userId, String tutorData, String[] documentPaths);
+
+    /** Statut de la demande de tuteur */
+    Object getTutorApplicationStatus(Long userId);
+
+    /** Statistiques utilisateur par ID */
+    java.util.Map<String, Object> getUserStatistics(Long userId);
+
+    /** Désactivation avec raison */
+    void deactivateUser(Long userId, String reason);
+
+    /** Réactivation qui renvoie le profil DTO */
+    UserDto reactivateUser(Long userId);
+
+    /** Suppression de compte (GDPR) */
+    void deleteUserAccount(Long userId, String confirmationPassword);
+
+    /** Préférences utilisateur */
+    java.util.Map<String, Object> getUserPreferences(Long userId);
+
+    /** Mise à jour préférences utilisateur */
+    java.util.Map<String, Object> updateUserPreferences(Long userId, java.util.Map<String, Object> preferences);
     
     /**
      * Récupère les utilisateurs non vérifiés plus anciens qu'une date

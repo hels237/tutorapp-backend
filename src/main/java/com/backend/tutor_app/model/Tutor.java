@@ -42,7 +42,7 @@ public class Tutor extends User{
     @Column(name = "verification_status", length = 20)
     private VerificationStatus verificationStatus = VerificationStatus.PENDING;
 
-    @Column(name = "average_rating", precision = 3, scale = 2)
+    @Column(name = "average_rating")
     @DecimalMin(value = "0.0")
     @DecimalMax(value = "5.0")
     private Double averageRating = 0.0;
@@ -109,15 +109,10 @@ public class Tutor extends User{
     @OneToOne(mappedBy = "tutor", cascade = CascadeType.ALL)
     private TutorPreferences preferences;
 
-    @OneToMany(mappedBy = "tutor", fetch = FetchType.LAZY)
-    private List<Lesson> lessons = new ArrayList<>();
+//    @OneToMany(mappedBy = "tutor", fetch = FetchType.LAZY)
+//    private List<Lesson> lessons = new ArrayList<>();
 
     @ManyToMany(mappedBy = "favoriteTutors", fetch = FetchType.LAZY)
-    @JoinTable(
-            name="student_favorite_tutors",
-            joinColumns = @JoinColumn(name="tutor_id"),
-            inverseJoinColumns = @JoinColumn(name="student_id")
-    )
     private Set<Student> favoriteByStudents = new HashSet<>();
 
     public void updateRating(double newRating) {

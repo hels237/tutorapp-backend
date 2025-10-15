@@ -4,6 +4,7 @@ import com.backend.tutor_app.dto.Auth.AuthRequest;
 import com.backend.tutor_app.dto.Auth.AuthResponse;
 import com.backend.tutor_app.dto.Auth.RegisterRequest;
 import com.backend.tutor_app.dto.Auth.ResetPasswordRequest;
+import com.backend.tutor_app.dto.Auth.UserDto;
 import com.backend.tutor_app.model.User;
 import com.backend.tutor_app.model.enums.SocialProvider;
 
@@ -80,11 +81,16 @@ public interface AuthService {
     boolean isAuthenticated(String token);
     
     /**
+     * Valide un token JWT (alias isAuthenticated)
+     */
+    default boolean validateToken(String token) { return isAuthenticated(token); }
+    
+    /**
      * Récupère l'utilisateur actuel depuis un token JWT
      * @param token Token JWT
      * @return Utilisateur authentifié
      */
-    User getCurrentUser(String token);
+    UserDto getCurrentUser(String token);
     
     /**
      * Révoque tous les tokens d'un utilisateur

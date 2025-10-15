@@ -56,6 +56,14 @@ public interface FileStorageService {
      * @return Liste des URLs des fichiers uploadés
      */
     List<String> uploadMultipleFiles(List<MultipartFile> files, String directory);
+
+    /**
+     * Upload de plusieurs documents pour un tuteur (convenience pour le contrôleur)
+     * @param files Fichiers à uploader
+     * @param userId ID du tuteur/utilisateur
+     * @return Tableau d'URLs des documents uploadés
+     */
+    String[] uploadTutorDocuments(MultipartFile[] files, Long userId);
     
     // ==================== FILE DOWNLOAD ====================
     

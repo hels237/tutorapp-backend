@@ -77,6 +77,10 @@ public class RegisterRequest {
     @Size(max = 100, message = "Le contact d'urgence ne peut pas dépasser 100 caractères")
     private String emergencyContact;
 
+    // Champs techniques
+    private String deviceInfo;
+    private String ipAddress;
+
     // Validation personnalisée
     @AssertTrue(message = "Les mots de passe ne correspondent pas")
     public boolean isPasswordMatching() {

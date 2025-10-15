@@ -44,9 +44,9 @@ public class TutorReview extends AbstractEntiity {
     @JoinColumn(name = "student_id", nullable = false)
     private Student student;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "lesson_id")
-    private Lesson lesson; // Cours associé à l'avis
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "lesson_id")
+//    private Lesson lesson; // Cours associé à l'avis
 
 
 }

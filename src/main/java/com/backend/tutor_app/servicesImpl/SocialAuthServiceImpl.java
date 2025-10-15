@@ -1,6 +1,7 @@
 package com.backend.tutor_app.servicesImpl;
 
 import com.backend.tutor_app.dto.Auth.AuthResponse;
+import com.backend.tutor_app.dto.user.UserProfileDto;
 import com.backend.tutor_app.model.User;
 import com.backend.tutor_app.model.enums.Role;
 import com.backend.tutor_app.model.enums.SocialProvider;
@@ -100,7 +101,7 @@ public class SocialAuthServiceImpl implements SocialAuthService {
                 .refreshToken(refreshToken)
                 .tokenType("Bearer")
                 .expiresIn(3600L)
-                .user(mapUserToDto(user))
+                .user(UserProfileDto.fromEntity(user))
                 .build();
                 
         } catch (Exception e) {

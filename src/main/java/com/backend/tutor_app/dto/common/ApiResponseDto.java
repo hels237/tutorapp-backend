@@ -9,7 +9,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ApiResponse <T>{
+public class ApiResponseDto<T>{
     private boolean success;
     private String message;
     private T data;
@@ -19,8 +19,8 @@ public class ApiResponse <T>{
     private int status;
 
     // Méthodes statiques pour faciliter la création
-    public static <T> ApiResponse<T> success(T data) {
-        return ApiResponse.<T>builder()
+    public static <T> ApiResponseDto<T> success(T data) {
+        return ApiResponseDto.<T>builder()
                 .success(true)
                 .data(data)
                 .timestamp(LocalDateTime.now())
@@ -28,8 +28,8 @@ public class ApiResponse <T>{
                 .build();
     }
 
-    public static <T> ApiResponse<T> success(T data, String message) {
-        return ApiResponse.<T>builder()
+    public static <T> ApiResponseDto<T> success(T data, String message) {
+        return ApiResponseDto.<T>builder()
                 .success(true)
                 .message(message)
                 .data(data)
@@ -38,8 +38,8 @@ public class ApiResponse <T>{
                 .build();
     }
 
-    public static <T> ApiResponse<T> error(String message) {
-        return ApiResponse.<T>builder()
+    public static <T> ApiResponseDto<T> error(String message) {
+        return ApiResponseDto.<T>builder()
                 .success(false)
                 .message(message)
                 .timestamp(LocalDateTime.now())
@@ -47,8 +47,8 @@ public class ApiResponse <T>{
                 .build();
     }
 
-    public static <T> ApiResponse<T> error(String message, List<String> errors) {
-        return ApiResponse.<T>builder()
+    public static <T> ApiResponseDto<T> error(String message, List<String> errors) {
+        return ApiResponseDto.<T>builder()
                 .success(false)
                 .message(message)
                 .errors(errors)
@@ -57,8 +57,8 @@ public class ApiResponse <T>{
                 .build();
     }
 
-    public static <T> ApiResponse<T> error(String message, int status) {
-        return ApiResponse.<T>builder()
+    public static <T> ApiResponseDto<T> error(String message, int status) {
+        return ApiResponseDto.<T>builder()
                 .success(false)
                 .message(message)
                 .timestamp(LocalDateTime.now())
@@ -66,8 +66,8 @@ public class ApiResponse <T>{
                 .build();
     }
 
-    public static <T> ApiResponse<T> error(String message, List<String> errors, int status, String path) {
-        return ApiResponse.<T>builder()
+    public static <T> ApiResponseDto<T> error(String message, List<String> errors, int status, String path) {
+        return ApiResponseDto.<T>builder()
                 .success(false)
                 .message(message)
                 .errors(errors)

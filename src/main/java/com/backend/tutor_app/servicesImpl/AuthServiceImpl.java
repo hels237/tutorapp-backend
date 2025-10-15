@@ -4,6 +4,8 @@ import com.backend.tutor_app.dto.Auth.AuthRequest;
 import com.backend.tutor_app.dto.Auth.AuthResponse;
 import com.backend.tutor_app.dto.Auth.RegisterRequest;
 import com.backend.tutor_app.dto.Auth.ResetPasswordRequest;
+import com.backend.tutor_app.dto.Auth.UserDto;
+import com.backend.tutor_app.dto.user.UserProfileDto;
 import com.backend.tutor_app.model.User;
 import com.backend.tutor_app.model.enums.Role;
 import com.backend.tutor_app.model.enums.SocialProvider;
@@ -71,7 +73,7 @@ public class AuthServiceImpl implements AuthService {
             
             // Génération des tokens (TokenService délègue maintenant à JwtServiceUtil)
             String jwtToken = tokenService.generateJwtToken(user);  // ← Délègue à JwtServiceUtil.generateToken()
-            String refreshToken = tokenService.createRefreshToken(user, request.getDeviceInfo(), clientIp).getToken();
+            String refreshToken = tokenService.createRefreshToken(user, request.getDeviceInfo() != null ? request.getDeviceInfo() : "Unknown", clientIp).getToken();
             
             // Mise à jour des informations de connexion
             userService.updateLastLogin(user.getId(), LocalDateTime.now());
@@ -137,7 +139,7 @@ public class AuthServiceImpl implements AuthService {
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .phoneNumber(request.getPhoneNumber())
-                .role(request.getRole() != null ? request.getRole() : Role.STUDENT)
+                .role(request.getUserType() != null ? request.getUserType() : Role.STUDENT)
                 .status(UserStatus.PENDING_VERIFICATION)
                 .emailVerified(false)
                 .loginAttempts(0)
@@ -151,7 +153,7 @@ public class AuthServiceImpl implements AuthService {
             
             // Génération des tokens pour connexion automatique après inscription (délégation JwtServiceUtil)
             String jwtToken = tokenService.generateJwtToken(savedUser);  // ← Délègue à JwtServiceUtil.generateToken()
-            String refreshToken = tokenService.createRefreshToken(savedUser, request.getDeviceInfo(), clientIp).getToken();
+            String refreshToken = tokenService.createRefreshToken(savedUser, request.getDeviceInfo() != null ? request.getDeviceInfo() : "Unknown", clientIp).getToken();
             
             // Enregistrement de la tentative d'inscription
             rateLimitService.recordRegistrationAttempt(clientIp);
@@ -167,7 +169,6 @@ public class AuthServiceImpl implements AuthService {
                 .tokenType("Bearer")
                 .expiresIn(3600L)
                 .user(mapUserToDto(savedUser))
-                .message("Inscription réussie. Veuillez vérifier votre email.")
                 .build();
                 
         } catch (Exception e) {
@@ -436,15 +437,17 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public User getCurrentUser(String token) {
+    public UserDto getCurrentUser(String token) {
         try {
             if (!tokenService.validateJwtToken(token)) {
                 throw new RuntimeException("Token invalide");
             }
             
             Long userId = tokenService.getUserIdFromJwtToken(token);
-            return userService.getUserById(userId)
+            User user = userService.getUserById(userId)
                 .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+            
+            return UserDto.fromEntity(user);
                 
         } catch (Exception e) {
             log.error("Erreur lors de la récupération de l'utilisateur actuel: {}", e.getMessage());
@@ -519,17 +522,10 @@ public class AuthServiceImpl implements AuthService {
         return "127.0.0.1";
     }
 
-    private Object mapUserToDto(User user) {
-        // TODO: Implémenter le mapping vers un DTO utilisateur
-        // Pour l'instant, on retourne l'utilisateur directement (à éviter en production)
-        return java.util.Map.of(
-            "id", user.getId(),
-            "email", user.getEmail(),
-            "firstName", user.getFirstName(),
-            "lastName", user.getLastName(),
-            "role", user.getRole(),
-            "status", user.getStatus(),
-            "emailVerified", user.getEmailVerified()
-        );
+    /**
+     * Convertit une entité User en UserProfileDto pour l'API
+     */
+    private UserProfileDto mapUserToDto(User user) {
+        return UserProfileDto.fromEntity(user);
     }
 }

@@ -43,3 +43,6 @@ uploads/
 ### Logs ###
 logs/
 *.log
+
+### markdown files ###
+*.md

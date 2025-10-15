@@ -51,9 +51,9 @@ public class TutorAvailability extends AbstractEntiity {
     private String timezone; // Fuseau horaire du tuteur
 
 
-    // Relations
-    @OneToMany(mappedBy = "availability")
-    private List<Lesson> lessons; // Cours réservés sur ce créneau
+//    // Relations
+//    @OneToMany(mappedBy = "availability")
+//    private List<Lesson> lessons; // Cours réservés sur ce créneau
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tutor_id", nullable = false)

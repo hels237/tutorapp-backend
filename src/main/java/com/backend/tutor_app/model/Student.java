@@ -41,8 +41,8 @@ public class Student extends User{
     private String goals;
 
     // relation with Lesson
-    @OneToMany(mappedBy = "student")
-    private List<Lesson> lessons;
+//    @OneToMany(mappedBy = "student")
+//    private List<Lesson> lessons;
 
     // relation with Tutor for favorite tutors
     @ManyToMany

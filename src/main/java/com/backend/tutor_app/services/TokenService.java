@@ -7,6 +7,7 @@ import com.backend.tutor_app.model.support.RefreshToken;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -211,7 +212,7 @@ public interface TokenService {
      * Récupère les statistiques des tokens
      * @return Map avec les statistiques
      */
-    java.util.Map<String, Object> getTokenStatistics();
+   Map<String, Object> getTokenStatistics();
     
     /**
      * Nettoie tous les tokens expirés

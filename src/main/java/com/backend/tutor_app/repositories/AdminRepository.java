@@ -18,15 +18,9 @@ import java.util.Optional;
 public interface AdminRepository extends JpaRepository<Admin, Long> {
     
     /**
-     * Trouve un admin par l'utilisateur associé
+     * Trouve un admin par son ID (Admin hérite de User, donc pas de relation user séparée)
      */
-    Optional<Admin> findByUser(User user);
-    
-    /**
-     * Trouve un admin par l'ID de l'utilisateur
-     */
-    @Query("SELECT a FROM Admin a WHERE a.user.id = :userId")
-    Optional<Admin> findByUserId(@Param("userId") Long userId);
+    Optional<Admin> findById(Long id);
     
     /**
      * Trouve tous les admins avec pagination
@@ -51,8 +45,9 @@ public interface AdminRepository extends JpaRepository<Admin, Long> {
     
     /**
      * Trouve les admins actifs (dernière connexion récente)
+     * Note: Admin hérite de User, donc on accède directement à lastLogin
      */
-    @Query("SELECT a FROM Admin a WHERE a.user.lastLogin >= :since")
+    @Query("SELECT a FROM Admin a WHERE a.lastLogin >= :since")
     List<Admin> findActiveAdmins(@Param("since") LocalDateTime since);
     
     /**
@@ -69,17 +64,19 @@ public interface AdminRepository extends JpaRepository<Admin, Long> {
     
     /**
      * Vérifie si un admin existe par email
+     * Note: Admin hérite de User, donc on accède directement à email
      */
-    @Query("SELECT CASE WHEN COUNT(a) > 0 THEN true ELSE false END FROM Admin a WHERE a.user.email = :email")
+    @Query("SELECT CASE WHEN COUNT(a) > 0 THEN true ELSE false END FROM Admin a WHERE a.email = :email")
     boolean existsByEmail(@Param("email") String email);
     
     /**
      * Recherche d'admins par nom, email ou département
+     * Note: Admin hérite de User, donc on accède directement aux champs firstName, lastName, email
      */
     @Query("SELECT a FROM Admin a WHERE " +
-           "LOWER(a.user.firstName) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
-           "LOWER(a.user.lastName) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
-           "LOWER(a.user.email) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
+           "LOWER(a.firstName) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
+           "LOWER(a.lastName) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
+           "LOWER(a.email) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
            "LOWER(a.department) LIKE LOWER(CONCAT('%', :query, '%'))")
     Page<Admin> searchAdmins(@Param("query") String query, Pageable pageable);
 }

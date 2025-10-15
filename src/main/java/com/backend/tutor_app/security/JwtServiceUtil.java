@@ -7,6 +7,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -18,15 +19,16 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
+
 public class JwtServiceUtil {
 
     // La clé secrète Récupéré de application.yml
-    @Value("${jwt.secret.key}")
-    private String SECRET_KEY;
+    @Value("${app.jwt.secret}")
+    private  String SECRET_KEY;
 
     // Durée de validité du token en ms (ex: 3600000 pour 1 heure)
-    @Value("${jwt.expiration}")
-    private long EXPIRATION_TIME;
+    @Value("${app.jwt.expiration}")
+    private  long EXPIRATION_TIME;
 
 
 

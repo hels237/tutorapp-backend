@@ -154,6 +154,19 @@ public class FileStorageServiceImpl implements FileStorageService {
         return uploadedFiles;
     }
 
+    @Override
+    public String[] uploadTutorDocuments(MultipartFile[] files, Long userId) {
+        if (files == null || files.length == 0) return new String[0];
+        List<String> urls = new ArrayList<>();
+        for (MultipartFile file : files) {
+            if (file == null || file.isEmpty()) continue;
+            // Par défaut, on utilise "document" comme type si non fourni par appelant
+            String url = uploadTutorDocument(file, userId, "document");
+            urls.add(url);
+        }
+        return urls.toArray(new String[0]);
+    }
+
     // ==================== FILE DOWNLOAD ====================
 
     @Override
