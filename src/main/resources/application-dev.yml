@@ -1,0 +1,101 @@
+# ==========================================
+# CONFIGURATION DÉVELOPPEMENT - TUTORAPP
+# ==========================================
+
+spring:
+  application:
+    name: tutorapp-backend
+
+  # ==========================================
+  # BASE DE DONNÉES POSTGRESQL
+  # ==========================================
+  datasource:
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME_DEV}
+    username: ${DB_USERNAME_DEV}
+    password: ${DB_PASSWORD_DEV}
+    driver-class-name: org.postgresql.Driver
+
+  # ==========================================
+  # CONFIGURATION JPA/HIBERNATE
+  # ==========================================
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+  # ==========================================
+  # CONFIGURATION EMAIL (GMAIL SMTP)
+  # ==========================================
+  mail:
+    host: ${MAIL_HOST}
+    port: ${MAIL_PORT}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        mime:
+          charset: UTF-8
+        smtp:
+          writetimeout: 10000
+          connectiontimeout: 10000
+          timeout: 10000
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            trust: ${SMTP_SSL_TRUST}
+
+  # ==========================================
+  # OAUTH2 SOCIAL LOGIN
+  # ==========================================
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID_DEV}
+            client-secret: ${GOOGLE_CLIENT_SECRET_DEV}
+          facebook:
+            client-id: ${FACEBOOK_CLIENT_ID_DEV}
+            client-secret: ${FACEBOOK_CLIENT_SECRET_DEV}
+
+# ==========================================
+# CONFIGURATION APPLICATION
+# ==========================================
+app:
+  # JWT Configuration
+  jwt:
+    secret: ${JWT_SECRET_DEV}
+    expiration: 86400000      # 24 heures
+    refresh-expiration: 604800000  # 7 jours
+
+  # CORS Configuration
+  cors:
+    allowed-origins: http://localhost:3000,http://localhost:3001
+
+  # Upload de fichiers
+  file:
+    upload-dir: ./uploads/dev
+    max-size: 10485760        # 10MB
+
+  # Configuration email
+  mail:
+    from: noreply@tutorapp.com
+  
+  # URL Frontend
+  frontend:
+    url: http://localhost:3000
+
+# ==========================================
+# CONFIGURATION LOGGING
+# ==========================================
+logging:
+  level:
+    com.backend.tutor_app: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.mail: DEBUG
+    org.hibernate.SQL: DEBUG

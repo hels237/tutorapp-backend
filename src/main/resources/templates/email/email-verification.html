@@ -4,14 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vérification de votre email - TutorApp</title>
-    <link rel="stylesheet" th:href="@{/css/email-styles.css}">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; }
+        .email-container { max-width: 600px; margin: 0 auto; background-color: white; }
+        .email-header { background-color: #2563eb; color: white; padding: 20px; text-align: center; }
+        .logo-container { display: flex; align-items: center; justify-content: center; }
+        .app-name { margin: 0; font-size: 24px; }
+        .email-content { padding: 30px; }
+        .main-title { color: #1f2937; font-size: 28px; margin-bottom: 20px; }
+        .verify-button { background-color: #10b981; color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; display: inline-block; font-weight: bold; }
+        .button-container { text-align: center; margin: 30px 0; }
+        .link-box { background-color: #f9fafb; padding: 15px; border-radius: 8px; margin: 15px 0; }
+        .verification-link { color: #2563eb; word-break: break-all; }
+        .warning-text { color: #dc2626; font-weight: bold; }
+        .highlight { background-color: #fef3c7; padding: 2px 6px; border-radius: 4px; }
+        .email-footer { background-color: #f9fafb; padding: 20px; text-align: center; color: #6b7280; }
+        .small-text { font-size: 14px; color: #6b7280; }
+    </style>
 </head>
 <body>
 <div class="email-container">
     <!-- Header -->
     <div class="email-header">
         <div class="logo-container">
-            <img th:src="@{/images/logo.png}" alt="TutorApp" class="logo">
+            <!-- Logo sera ajouté plus tard -->
             <h1 class="app-name">TutorApp</h1>
         </div>
     </div>
