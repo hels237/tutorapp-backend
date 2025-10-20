@@ -1,7 +1,7 @@
 package com.backend.tutor_app.services;
 
 import com.backend.tutor_app.dto.Auth.AuthResponse;
-import com.backend.tutor_app.model.User;
+import com.backend.tutor_app.model.Utilisateur;
 import com.backend.tutor_app.model.enums.SocialProvider;
 import com.backend.tutor_app.model.support.SocialAccount;
 
@@ -54,15 +54,15 @@ public interface SocialAuthService {
     
     /**
      * Crée ou met à jour un compte social
-     * @param user Utilisateur associé
+     * @param utilisateur Utilisateur associé
      * @param provider Fournisseur OAuth2
      * @param providerData Données du fournisseur
      * @param accessToken Token d'accès
      * @param refreshToken Token de rafraîchissement (optionnel)
      * @return Compte social créé ou mis à jour
      */
-    SocialAccount createOrUpdateSocialAccount(User user, SocialProvider provider, Map<String, Object> providerData, 
-                                            String accessToken, String refreshToken);
+    SocialAccount createOrUpdateSocialAccount(Utilisateur utilisateur, SocialProvider provider, Map<String, Object> providerData,
+                                              String accessToken, String refreshToken);
     
     /**
      * Trouve un compte social par provider et provider ID
@@ -133,16 +133,16 @@ public interface SocialAuthService {
      * @param providerData Données du fournisseur
      * @return Utilisateur créé
      */
-    User createUserFromSocialProvider(SocialProvider provider, Map<String, Object> providerData);
+    Utilisateur createUserFromSocialProvider(SocialProvider provider, Map<String, Object> providerData);
     
     /**
      * Met à jour les informations utilisateur avec les données du fournisseur social
-     * @param user Utilisateur à mettre à jour
+     * @param utilisateur Utilisateur à mettre à jour
      * @param provider Fournisseur OAuth2
      * @param providerData Données du fournisseur
      * @return Utilisateur mis à jour
      */
-    User updateUserFromSocialProvider(User user, SocialProvider provider, Map<String, Object> providerData);
+    Utilisateur updateUserFromSocialProvider(Utilisateur utilisateur, SocialProvider provider, Map<String, Object> providerData);
     
     // ==================== VALIDATION ====================
     

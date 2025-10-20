@@ -1,13 +1,12 @@
 package com.backend.tutor_app.security;
 
 
-import com.backend.tutor_app.model.User;
+import com.backend.tutor_app.model.Utilisateur;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -32,14 +31,14 @@ public class JwtServiceUtil {
 
 
 
-    public String generateToken(User userDetails) {
+    public String generateToken(Utilisateur utilisateurDetails) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("id", userDetails.getId());
-        claims.put("role", userDetails.getRole().name());
-        claims.put("nom", userDetails.getFirstName());
-        claims.put("email", userDetails.getEmail());
+        claims.put("id", utilisateurDetails.getId());
+        claims.put("role", utilisateurDetails.getRole().name());
+        claims.put("nom", utilisateurDetails.getFirstName());
+        claims.put("email", utilisateurDetails.getEmail());
 
-        return createToken(claims, userDetails.getUsername());
+        return createToken(claims, utilisateurDetails.getUsername());
     }
 
     private String createToken(Map<String, Object> claims, String subject) {

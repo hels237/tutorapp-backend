@@ -1,6 +1,6 @@
 package com.backend.tutor_app.repositories;
 
-import com.backend.tutor_app.model.User;
+import com.backend.tutor_app.model.Utilisateur;
 import com.backend.tutor_app.model.support.RefreshToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -24,13 +24,13 @@ public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Long
     /**
      * Trouve tous les refresh tokens d'un utilisateur
      */
-    List<RefreshToken> findByUser(User user);
+    List<RefreshToken> findByUtilisateur(Utilisateur utilisateur);
     
     /**
      * Trouve tous les refresh tokens actifs d'un utilisateur (non expirés et non révoqués)
      */
-    @Query("SELECT rt FROM RefreshToken rt WHERE rt.user = :user AND rt.expiresAt > :now AND rt.isRevoked = false")
-    List<RefreshToken> findActiveTokensByUser(@Param("user") User user, @Param("now") LocalDateTime now);
+    @Query("SELECT rt FROM RefreshToken rt WHERE rt.utilisateur = :user AND rt.expiresAt > :now AND rt.isRevoked = false")
+    List<RefreshToken> findActiveTokensByUser(@Param("user") Utilisateur utilisateur, @Param("now") LocalDateTime now);
     
     /**
      * Trouve un refresh token actif par sa valeur
@@ -64,8 +64,8 @@ public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Long
     /**
      * Compte les refresh tokens actifs pour un utilisateur
      */
-    @Query("SELECT COUNT(rt) FROM RefreshToken rt WHERE rt.user = :user AND rt.expiresAt > :now AND rt.isRevoked = false")
-    long countActiveTokensByUser(@Param("user") User user, @Param("now") LocalDateTime now);
+    @Query("SELECT COUNT(rt) FROM RefreshToken rt WHERE rt.utilisateur = :utilisateur AND rt.expiresAt > :now AND rt.isRevoked = false")
+    long countActiveTokensByUser(@Param("user") Utilisateur utilisateur, @Param("now") LocalDateTime now);
     
     /**
      * Révoque un refresh token
@@ -80,15 +80,15 @@ public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Long
      */
     @Modifying
     @Transactional
-    @Query("UPDATE RefreshToken rt SET rt.isRevoked = true WHERE rt.user = :user AND rt.isRevoked = false")
-    int revokeAllUserTokens(@Param("user") User user);
+    @Query("UPDATE RefreshToken rt SET rt.isRevoked = true WHERE rt.utilisateur = :user AND rt.isRevoked = false")
+    int revokeAllUserTokens(@Param("user") Utilisateur utilisateur);
     
     /**
      * Supprime tous les refresh tokens d'un utilisateur
      */
     @Modifying
     @Transactional
-    void deleteByUser(User user);
+    void deleteByUtilisateur(Utilisateur utilisateur);
     
     /**
      * Supprime tous les refresh tokens expirés

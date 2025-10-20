@@ -1,6 +1,6 @@
 package com.backend.tutor_app.repositories;
 
-import com.backend.tutor_app.model.User;
+import com.backend.tutor_app.model.Utilisateur;
 import com.backend.tutor_app.model.support.EmailVerificationToken;
 import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,7 +15,9 @@ import java.util.Optional;
 @Repository
 public interface EmailVerificationTokenRepository extends JpaRepository<EmailVerificationToken, Long> {
     Optional<EmailVerificationToken> findByToken(String token);
-    List<EmailVerificationToken> findByUserAndVerifiedAtIsNull(User user);
+    List<EmailVerificationToken> findByUtilisateurAndVerifiedAtIsNull(Utilisateur utilisateur);
+
+    
 /*
     Par défaut, une requête annotée avec @Query est considérée comme une requête SELECT.
     @Modifying dit à Spring Data JPA : attention, cette requête modifie la base de données

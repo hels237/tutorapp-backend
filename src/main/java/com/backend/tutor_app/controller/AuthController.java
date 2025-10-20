@@ -73,7 +73,7 @@ public class AuthController {
 
     /**
      * POST /api/v1/auth/register
-     * Inscription utilisateur - Compatible avec le frontend register form
+     * Inscription utilisateur
      */
     @PostMapping("/register")
     @Operation(summary = "Inscription utilisateur", description = "Crée un nouveau compte utilisateur")

@@ -2,7 +2,7 @@ package com.backend.tutor_app.model.support;
 
 
 import com.backend.tutor_app.model.AbstractEntiity;
-import com.backend.tutor_app.model.User;
+import com.backend.tutor_app.model.Utilisateur;
 import com.backend.tutor_app.model.enums.SocialProvider;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -53,7 +53,7 @@ public class SocialAccount extends AbstractEntiity {
     //relations
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private Utilisateur utilisateur;
 
     @Column(name = "is_primary", nullable = false)
     private Boolean isPrimary = false;

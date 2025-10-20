@@ -1,7 +1,6 @@
 package com.backend.tutor_app.repositories;
 
 import com.backend.tutor_app.model.Parent;
-import com.backend.tutor_app.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

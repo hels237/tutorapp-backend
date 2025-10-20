@@ -1,7 +1,7 @@
 package com.backend.tutor_app.model.tutor;
 
 import com.backend.tutor_app.model.AbstractEntiity;
-import com.backend.tutor_app.model.User;
+import com.backend.tutor_app.model.Utilisateur;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,7 +35,7 @@ public class TutorProfile extends AbstractEntiity {
 
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    private Utilisateur utilisateur;
 
 
     private boolean isVerified = false;

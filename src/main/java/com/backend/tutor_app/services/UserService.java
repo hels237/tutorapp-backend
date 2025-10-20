@@ -2,7 +2,7 @@ package com.backend.tutor_app.services;
 
 import com.backend.tutor_app.dto.Auth.UserDto;
 import com.backend.tutor_app.dto.user.UpdatePersonalInfoRequest;
-import com.backend.tutor_app.model.User;
+import com.backend.tutor_app.model.Utilisateur;
 import com.backend.tutor_app.model.enums.Role;
 import com.backend.tutor_app.model.enums.UserStatus;
 import org.springframework.data.domain.Page;
@@ -20,18 +20,18 @@ public interface UserService {
     
     /**
      * Crée un nouvel utilisateur
-     * @param user Données de l'utilisateur à créer
+     * @param utilisateur Données de l'utilisateur à créer
      * @return Utilisateur créé
      */
-    User createUser(User user);
+    Utilisateur createUser(Utilisateur utilisateur);
     
     /**
      * Met à jour un utilisateur existant
      * @param userId ID de l'utilisateur
-     * @param user Nouvelles données de l'utilisateur
+     * @param utilisateur Nouvelles données de l'utilisateur
      * @return Utilisateur mis à jour
      */
-    User updateUser(Long userId, User user);
+    Utilisateur updateUser(Long userId, Utilisateur utilisateur);
     
     /**
      * Supprime un utilisateur (soft delete)
@@ -44,21 +44,21 @@ public interface UserService {
      * @param userId ID de l'utilisateur
      * @return Utilisateur trouvé
      */
-    Optional<User> getUserById(Long userId);
+    Optional<Utilisateur> getUserById(Long userId);
     
     /**
      * Récupère un utilisateur par son email
      * @param email Email de l'utilisateur
      * @return Utilisateur trouvé
      */
-    Optional<User> getUserByEmail(String email);
+    Optional<Utilisateur> getUserByEmail(String email);
     
     /**
      * Récupère tous les utilisateurs avec pagination
      * @param pageable Paramètres de pagination
      * @return Page d'utilisateurs
      */
-    Page<User> getAllUsers(Pageable pageable);
+    Page<Utilisateur> getAllUsers(Pageable pageable);
     
     /**
      * Récupère les utilisateurs par rôle
@@ -66,7 +66,7 @@ public interface UserService {
      * @param pageable Paramètres de pagination
      * @return Page d'utilisateurs avec le rôle spécifié
      */
-    Page<User> getUsersByRole(Role role, Pageable pageable);
+    Page<Utilisateur> getUsersByRole(Role role, Pageable pageable);
     
     /**
      * Récupère les utilisateurs par statut
@@ -74,7 +74,7 @@ public interface UserService {
      * @param pageable Paramètres de pagination
      * @return Page d'utilisateurs avec le statut spécifié
      */
-    Page<User> getUsersByStatus(UserStatus status, Pageable pageable);
+    Page<Utilisateur> getUsersByStatus(UserStatus status, Pageable pageable);
     
     /**
      * Vérifie si un email existe déjà
@@ -137,7 +137,7 @@ public interface UserService {
      * @param pageable Paramètres de pagination
      * @return Page d'utilisateurs correspondant à la recherche
      */
-    Page<User> searchUsers(String query, Pageable pageable);
+    Page<Utilisateur> searchUsers(String query, Pageable pageable);
 
     // ==================== METHODS USED BY UserController ====================
     /** Profil utilisateur courant (DTO) */
@@ -190,7 +190,7 @@ public interface UserService {
      * @param date Date limite
      * @return Liste des utilisateurs non vérifiés
      */
-    List<User> getUnverifiedUsersOlderThan(LocalDateTime date);
+    List<Utilisateur> getUnverifiedUsersOlderThan(LocalDateTime date);
     
     /**
      * Marque l'email d'un utilisateur comme vérifié

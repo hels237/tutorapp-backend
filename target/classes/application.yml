@@ -1,0 +1,9 @@
+spring:
+
+  config:
+    import: optional:file:.env
+
+  application:
+    name: tutorapp-backend
+  profiles:
+    active: dev

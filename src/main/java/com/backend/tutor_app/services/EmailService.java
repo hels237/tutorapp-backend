@@ -1,6 +1,6 @@
 package com.backend.tutor_app.services;
 
-import com.backend.tutor_app.model.User;
+import com.backend.tutor_app.model.Utilisateur;
 
 import java.util.Map;
 
@@ -12,56 +12,56 @@ public interface EmailService {
     
     /**
      * Envoie un email de vérification d'adresse
-     * @param user Utilisateur destinataire
+     * @param utilisateur Utilisateur destinataire
      * @param verificationToken Token de vérification
      */
-    void sendEmailVerification(User user, String verificationToken);
+    void sendEmailVerification(Utilisateur utilisateur, String verificationToken);
     
     /**
      * Envoie un email de réinitialisation de mot de passe
-     * @param user Utilisateur destinataire
+     * @param utilisateur Utilisateur destinataire
      * @param resetToken Token de réinitialisation
      */
-    void sendPasswordResetEmail(User user, String resetToken);
+    void sendPasswordResetEmail(Utilisateur utilisateur, String resetToken);
     
     /**
      * Envoie un email de bienvenue après inscription
-     * @param user Nouvel utilisateur
+     * @param utilisateur Nouvel utilisateur
      */
-    void sendWelcomeEmail(User user);
+    void sendWelcomeEmail(Utilisateur utilisateur);
     
     /**
      * Envoie un email de confirmation après vérification
-     * @param user Utilisateur dont l'email a été vérifié
+     * @param utilisateur Utilisateur dont l'email a été vérifié
      */
-    void sendEmailVerificationConfirmation(User user);
+    void sendEmailVerificationConfirmation(Utilisateur utilisateur);
     
     /**
      * Envoie un email de confirmation après changement de mot de passe
-     * @param user Utilisateur ayant changé son mot de passe
+     * @param utilisateur Utilisateur ayant changé son mot de passe
      */
-    void sendPasswordChangeConfirmation(User user);
+    void sendPasswordChangeConfirmation(Utilisateur utilisateur);
     
     /**
      * Envoie un email d'alerte de sécurité
-     * @param user Utilisateur concerné
+     * @param utilisateur Utilisateur concerné
      * @param alertType Type d'alerte (connexion suspecte, changement de mot de passe, etc.)
      * @param details Détails de l'alerte
      */
-    void sendSecurityAlert(User user, String alertType, Map<String, Object> details);
+    void sendSecurityAlert(Utilisateur utilisateur, String alertType, Map<String, Object> details);
     
     /**
      * Envoie un email de notification de suspension de compte
-     * @param user Utilisateur suspendu
+     * @param utilisateur Utilisateur suspendu
      * @param reason Raison de la suspension
      */
-    void sendAccountSuspensionNotification(User user, String reason);
+    void sendAccountSuspensionNotification(Utilisateur utilisateur, String reason);
     
     /**
      * Envoie un email de notification de réactivation de compte
-     * @param user Utilisateur réactivé
+     * @param utilisateur Utilisateur réactivé
      */
-    void sendAccountReactivationNotification(User user);
+    void sendAccountReactivationNotification(Utilisateur utilisateur);
     
     /**
      * Envoie un email personnalisé avec template
@@ -128,25 +128,25 @@ public interface EmailService {
     
     /**
      * Envoie un email de notification pour les tuteurs
-     * @param user Tuteur destinataire
+     * @param utilisateur Tuteur destinataire
      * @param notificationType Type de notification
      * @param data Données de la notification
      */
-    void sendTutorNotification(User user, String notificationType, Map<String, Object> data);
+    void sendTutorNotification(Utilisateur utilisateur, String notificationType, Map<String, Object> data);
     
     /**
      * Envoie un email de notification pour les étudiants
-     * @param user Étudiant destinataire
+     * @param utilisateur Étudiant destinataire
      * @param notificationType Type de notification
      * @param data Données de la notification
      */
-    void sendStudentNotification(User user, String notificationType, Map<String, Object> data);
+    void sendStudentNotification(Utilisateur utilisateur, String notificationType, Map<String, Object> data);
     
     /**
      * Envoie un email de notification pour les parents
-     * @param user Parent destinataire
+     * @param utilisateur Parent destinataire
      * @param notificationType Type de notification
      * @param data Données de la notification
      */
-    void sendParentNotification(User user, String notificationType, Map<String, Object> data);
+    void sendParentNotification(Utilisateur utilisateur, String notificationType, Map<String, Object> data);
 }

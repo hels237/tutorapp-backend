@@ -1,7 +1,7 @@
 package com.backend.tutor_app.model.support;
 
 import com.backend.tutor_app.model.AbstractEntiity;
-import com.backend.tutor_app.model.User;
+import com.backend.tutor_app.model.Utilisateur;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,7 +32,7 @@ public class PasswordResetToken extends AbstractEntiity {
     // Relation with User entity
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private Utilisateur utilisateur;
 
 
 }

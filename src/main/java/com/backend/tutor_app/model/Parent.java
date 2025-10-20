@@ -15,7 +15,7 @@ import java.util.List;
 @DiscriminatorValue("PARENT")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Parent extends User{
+public class Parent extends Utilisateur {
 
     @Column(name = "occupation", length = 100)
     private String occupation;

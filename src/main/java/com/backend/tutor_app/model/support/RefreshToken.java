@@ -1,7 +1,7 @@
 package com.backend.tutor_app.model.support;
 
 import com.backend.tutor_app.model.AbstractEntiity;
-import com.backend.tutor_app.model.User;
+import com.backend.tutor_app.model.Utilisateur;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,7 +24,7 @@ public class RefreshToken extends AbstractEntiity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private Utilisateur utilisateur;
 
     @Column(name = "expires_at", nullable = false)
     private LocalDateTime expiresAt;
@@ -42,8 +42,8 @@ public class RefreshToken extends AbstractEntiity {
     private LocalDateTime lastUsed;
 
     // Constructeur utilitaire
-    public RefreshToken(User user, String token, int expirationDays) {
-        this.user = user;
+    public RefreshToken(Utilisateur utilisateur, String token, int expirationDays) {
+        this.utilisateur = utilisateur;
         this.token = token;
         this.expiresAt = LocalDateTime.now().plusDays(expirationDays);
     }

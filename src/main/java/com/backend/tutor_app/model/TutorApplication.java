@@ -29,9 +29,9 @@ import java.util.List;
 public class TutorApplication extends AbstractEntiity {
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "utilisateur_id", nullable = false)
     @NotNull(message = "L'utilisateur est requis")
-    private User user;
+    private Utilisateur utilisateur;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)

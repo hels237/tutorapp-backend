@@ -30,12 +30,12 @@ public class ModerationReport extends AbstractEntiity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reporter_id", nullable = false)
     @NotNull(message = "Le rapporteur est requis")
-    private User reporter;
+    private Utilisateur reporter;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reported_user_id", nullable = false)
     @NotNull(message = "L'utilisateur signalé est requis")
-    private User reportedUser;
+    private Utilisateur reportedUtilisateur;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 30)
@@ -140,7 +140,7 @@ public class ModerationReport extends AbstractEntiity {
         };
     }
 
-    public boolean canBeResolvedBy(User admin) {
+    public boolean canBeResolvedBy(Utilisateur admin) {
         return admin != null && admin.getRole().name().equals("ADMIN");
     }
 

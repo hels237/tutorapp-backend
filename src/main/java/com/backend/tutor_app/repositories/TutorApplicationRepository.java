@@ -32,12 +32,12 @@ public interface TutorApplicationRepository extends JpaRepository<TutorApplicati
     /**
      * Trouve une candidature par ID utilisateur
      */
-    Optional<TutorApplication> findByUserId(Long userId);
+    Optional<TutorApplication> findByUtilisateurId(Long userId);
 
     /**
      * Vérifie si un utilisateur a une candidature avec un statut donné
      */
-    boolean existsByUserIdAndStatus(Long userId, ApplicationStatus status);
+    boolean existsByUtilisateurIdAndStatus(Long userId, ApplicationStatus status);
 
     /**
      * Compte les candidatures par statut
@@ -60,8 +60,8 @@ public interface TutorApplicationRepository extends JpaRepository<TutorApplicati
     /**
      * Trouve les candidatures par utilisateur avec statuts multiples
      */
-    @Query("SELECT ta FROM TutorApplication ta WHERE ta.user.id = :userId AND ta.status IN :statuses")
-    List<TutorApplication> findByUserIdAndStatusIn(@Param("userId") Long userId, @Param("statuses") List<ApplicationStatus> statuses);
+    @Query("SELECT ta FROM TutorApplication ta WHERE ta.utilisateur.id = :userId AND ta.status IN :status")
+    List<TutorApplication> findByUserIdAndStatusIn(@Param("userId") Long userId, @Param("status") List<ApplicationStatus> status);
 
     /**
      * Trouve les candidatures par reviewer (admin)
@@ -76,7 +76,7 @@ public interface TutorApplicationRepository extends JpaRepository<TutorApplicati
            "FROM TutorApplication ta " +
            "WHERE ta.submittedAt >= :startDate " +
            "GROUP BY YEAR(ta.submittedAt), MONTH(ta.submittedAt) " +
-           "ORDER BY year DESC, month DESC")
+           "ORDER BY YEAR(ta.submittedAt) DESC, MONTH(ta.submittedAt) DESC")
     List<Object[]> getApplicationStatsByMonth(@Param("startDate") LocalDateTime startDate);
 
     /**
@@ -137,8 +137,8 @@ public interface TutorApplicationRepository extends JpaRepository<TutorApplicati
     @Query("SELECT ta FROM TutorApplication ta WHERE " +
            "LOWER(ta.motivation) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
            "LOWER(ta.experience) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
-           "LOWER(ta.user.firstName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
-           "LOWER(ta.user.lastName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
-           "LOWER(ta.user.email) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
+           "LOWER(ta.utilisateur.firstName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+           "LOWER(ta.utilisateur.lastName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+           "LOWER(ta.utilisateur.email) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
     Page<TutorApplication> searchApplications(@Param("searchTerm") String searchTerm, Pageable pageable);
 }

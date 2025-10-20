@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @DiscriminatorValue("ADMIN")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Admin extends User{
+public class Admin extends Utilisateur {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "admin_level")

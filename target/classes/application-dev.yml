@@ -10,7 +10,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     show-sql: true
     properties:
       hibernate:
@@ -24,10 +24,18 @@ spring:
     password: ${EMAIL_PASSWORD}
     properties:
       mail:
+        mime:
+          charset: UTF-8
         smtp:
+          writetimeout: 10000
+          connectiontimeout: 10000
+          timeout: 10000
           auth: true
           starttls:
             enable: true
+          ssl:
+            trust: ${SMTP_SSL_TRUST:smtp.gmail.com}
+
 
   security:
     oauth2:

@@ -1,6 +1,6 @@
 package com.backend.tutor_app.servicesImpl;
 
-import com.backend.tutor_app.model.User;
+import com.backend.tutor_app.model.Utilisateur;
 import com.backend.tutor_app.services.EmailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -46,145 +46,145 @@ public class EmailServiceImpl implements EmailService {
     );
 
     @Override
-    public void sendEmailVerification(User user, String verificationToken) {
-        log.info("Envoi d'email de vérification à: {}", user.getEmail());
+    public void sendEmailVerification(Utilisateur utilisateur, String verificationToken) {
+        log.info("Envoi d'email de vérification à: {}", utilisateur.getEmail());
         
         try {
             String verificationUrl = generateEmailVerificationUrl(verificationToken);
             
             Context context = new Context();
-            context.setVariable("user", user);
+            context.setVariable("user", utilisateur);
             context.setVariable("verificationUrl", verificationUrl);
             context.setVariable("appName", appName);
             
             String subject = "Vérifiez votre adresse email - " + appName;
-            String templateName = "email-verification";
+            String templateName = "email/email-verification";
             
-            sendTemplatedEmail(user.getEmail(), subject, templateName, 
+            sendTemplatedEmail(utilisateur.getEmail(), subject, templateName,
                 Map.of(
-                    "user", user,
+                    "user", utilisateur,
                     "verificationUrl", verificationUrl,
                     "appName", appName
                 )
             );
             
-            log.info("Email de vérification envoyé avec succès à: {}", user.getEmail());
+            log.info("Email de vérification envoyé avec succès à: {}", utilisateur.getEmail());
             
         } catch (Exception e) {
-            log.error("Erreur lors de l'envoi de l'email de vérification à: {} - {}", user.getEmail(), e.getMessage());
+            log.error("Erreur lors de l'envoi de l'email de vérification à: {} - {}", utilisateur.getEmail(), e.getMessage());
             throw new RuntimeException("Erreur lors de l'envoi de l'email de vérification");
         }
     }
 
     @Override
-    public void sendPasswordResetEmail(User user, String resetToken) {
-        log.info("Envoi d'email de réinitialisation de mot de passe à: {}", user.getEmail());
+    public void sendPasswordResetEmail(Utilisateur utilisateur, String resetToken) {
+        log.info("Envoi d'email de réinitialisation de mot de passe à: {}", utilisateur.getEmail());
         
         try {
             String resetUrl = generatePasswordResetUrl(resetToken);
             
             String subject = "Réinitialisation de votre mot de passe - " + appName;
-            String templateName = "password-reset";
+            String templateName = "email/password-reset";
             
-            sendTemplatedEmail(user.getEmail(), subject, templateName,
+            sendTemplatedEmail(utilisateur.getEmail(), subject, templateName,
                 Map.of(
-                    "user", user,
+                    "user", utilisateur,
                     "resetUrl", resetUrl,
                     "appName", appName,
                     "expirationTime", "1 heure"
                 )
             );
             
-            log.info("Email de réinitialisation envoyé avec succès à: {}", user.getEmail());
+            log.info("Email de réinitialisation envoyé avec succès à: {}", utilisateur.getEmail());
             
         } catch (Exception e) {
-            log.error("Erreur lors de l'envoi de l'email de réinitialisation à: {} - {}", user.getEmail(), e.getMessage());
+            log.error("Erreur lors de l'envoi de l'email de réinitialisation à: {} - {}", utilisateur.getEmail(), e.getMessage());
             throw new RuntimeException("Erreur lors de l'envoi de l'email de réinitialisation");
         }
     }
 
     @Override
-    public void sendWelcomeEmail(User user) {
-        log.info("Envoi d'email de bienvenue à: {}", user.getEmail());
+    public void sendWelcomeEmail(Utilisateur utilisateur) {
+        log.info("Envoi d'email de bienvenue à: {}", utilisateur.getEmail());
         
         try {
             String subject = "Bienvenue sur " + appName + " !";
-            String templateName = "welcome";
+            String templateName = "email/welcome";
             
-            sendTemplatedEmail(user.getEmail(), subject, templateName,
+            sendTemplatedEmail(utilisateur.getEmail(), subject, templateName,
                 Map.of(
-                    "user", user,
+                    "user", utilisateur,
                     "appName", appName,
                     "loginUrl", frontendUrl + "/login",
                     "supportEmail", fromEmail
                 )
             );
             
-            log.info("Email de bienvenue envoyé avec succès à: {}", user.getEmail());
+            log.info("Email de bienvenue envoyé avec succès à: {}", utilisateur.getEmail());
             
         } catch (Exception e) {
-            log.error("Erreur lors de l'envoi de l'email de bienvenue à: {} - {}", user.getEmail(), e.getMessage());
+            log.error("Erreur lors de l'envoi de l'email de bienvenue à: {} - {}", utilisateur.getEmail(), e.getMessage());
             // On ne lance pas d'exception pour ne pas bloquer l'inscription
         }
     }
 
     @Override
-    public void sendEmailVerificationConfirmation(User user) {
-        log.info("Envoi d'email de confirmation de vérification à: {}", user.getEmail());
+    public void sendEmailVerificationConfirmation(Utilisateur utilisateur) {
+        log.info("Envoi d'email de confirmation de vérification à: {}", utilisateur.getEmail());
         
         try {
             String subject = "Email vérifié avec succès - " + appName;
             String templateName = "email-verified";
             
-            sendTemplatedEmail(user.getEmail(), subject, templateName,
+            sendTemplatedEmail(utilisateur.getEmail(), subject, templateName,
                 Map.of(
-                    "user", user,
+                    "user", utilisateur,
                     "appName", appName,
                     "dashboardUrl", frontendUrl + "/dashboard"
                 )
             );
             
-            log.info("Email de confirmation de vérification envoyé avec succès à: {}", user.getEmail());
+            log.info("Email de confirmation de vérification envoyé avec succès à: {}", utilisateur.getEmail());
             
         } catch (Exception e) {
-            log.error("Erreur lors de l'envoi de l'email de confirmation de vérification à: {} - {}", user.getEmail(), e.getMessage());
+            log.error("Erreur lors de l'envoi de l'email de confirmation de vérification à: {} - {}", utilisateur.getEmail(), e.getMessage());
         }
     }
 
     @Override
-    public void sendPasswordChangeConfirmation(User user) {
-        log.info("Envoi d'email de confirmation de changement de mot de passe à: {}", user.getEmail());
+    public void sendPasswordChangeConfirmation(Utilisateur utilisateur) {
+        log.info("Envoi d'email de confirmation de changement de mot de passe à: {}", utilisateur.getEmail());
         
         try {
             String subject = "Mot de passe modifié - " + appName;
             String templateName = "password-changed";
             
-            sendTemplatedEmail(user.getEmail(), subject, templateName,
+            sendTemplatedEmail(utilisateur.getEmail(), subject, templateName,
                 Map.of(
-                    "user", user,
+                    "user", utilisateur,
                     "appName", appName,
                     "changeTime", java.time.LocalDateTime.now(),
                     "supportEmail", fromEmail
                 )
             );
             
-            log.info("Email de confirmation de changement de mot de passe envoyé avec succès à: {}", user.getEmail());
+            log.info("Email de confirmation de changement de mot de passe envoyé avec succès à: {}", utilisateur.getEmail());
             
         } catch (Exception e) {
-            log.error("Erreur lors de l'envoi de l'email de confirmation de changement de mot de passe à: {} - {}", user.getEmail(), e.getMessage());
+            log.error("Erreur lors de l'envoi de l'email de confirmation de changement de mot de passe à: {} - {}", utilisateur.getEmail(), e.getMessage());
         }
     }
 
     @Override
-    public void sendSecurityAlert(User user, String alertType, Map<String, Object> details) {
-        log.info("Envoi d'alerte de sécurité à: {} - Type: {}", user.getEmail(), alertType);
+    public void sendSecurityAlert(Utilisateur utilisateur, String alertType, Map<String, Object> details) {
+        log.info("Envoi d'alerte de sécurité à: {} - Type: {}", utilisateur.getEmail(), alertType);
         
         try {
             String subject = "Alerte de sécurité - " + appName;
             String templateName = "security-alert";
             
             Map<String, Object> templateVariables = Map.of(
-                "user", user,
+                "user", utilisateur,
                 "appName", appName,
                 "alertType", alertType,
                 "details", details,
@@ -192,26 +192,26 @@ public class EmailServiceImpl implements EmailService {
                 "supportEmail", fromEmail
             );
             
-            sendTemplatedEmail(user.getEmail(), subject, templateName, templateVariables);
+            sendTemplatedEmail(utilisateur.getEmail(), subject, templateName, templateVariables);
             
-            log.info("Alerte de sécurité envoyée avec succès à: {}", user.getEmail());
+            log.info("Alerte de sécurité envoyée avec succès à: {}", utilisateur.getEmail());
             
         } catch (Exception e) {
-            log.error("Erreur lors de l'envoi de l'alerte de sécurité à: {} - {}", user.getEmail(), e.getMessage());
+            log.error("Erreur lors de l'envoi de l'alerte de sécurité à: {} - {}", utilisateur.getEmail(), e.getMessage());
         }
     }
 
     @Override
-    public void sendAccountSuspensionNotification(User user, String reason) {
-        log.info("Envoi de notification de suspension de compte à: {}", user.getEmail());
+    public void sendAccountSuspensionNotification(Utilisateur utilisateur, String reason) {
+        log.info("Envoi de notification de suspension de compte à: {}", utilisateur.getEmail());
         
         try {
             String subject = "Suspension de votre compte - " + appName;
-            String templateName = "account-suspended";
+            String templateName = "email/account-suspension";
             
-            sendTemplatedEmail(user.getEmail(), subject, templateName,
+            sendTemplatedEmail(utilisateur.getEmail(), subject, templateName,
                 Map.of(
-                    "user", user,
+                    "user", utilisateur,
                     "appName", appName,
                     "reason", reason,
                     "supportEmail", fromEmail,
@@ -219,33 +219,33 @@ public class EmailServiceImpl implements EmailService {
                 )
             );
             
-            log.info("Notification de suspension envoyée avec succès à: {}", user.getEmail());
+            log.info("Notification de suspension envoyée avec succès à: {}", utilisateur.getEmail());
             
         } catch (Exception e) {
-            log.error("Erreur lors de l'envoi de la notification de suspension à: {} - {}", user.getEmail(), e.getMessage());
+            log.error("Erreur lors de l'envoi de la notification de suspension à: {} - {}", utilisateur.getEmail(), e.getMessage());
         }
     }
 
     @Override
-    public void sendAccountReactivationNotification(User user) {
-        log.info("Envoi de notification de réactivation de compte à: {}", user.getEmail());
+    public void sendAccountReactivationNotification(Utilisateur utilisateur) {
+        log.info("Envoi de notification de réactivation de compte à: {}", utilisateur.getEmail());
         
         try {
             String subject = "Votre compte a été réactivé - " + appName;
             String templateName = "account-reactivated";
             
-            sendTemplatedEmail(user.getEmail(), subject, templateName,
+            sendTemplatedEmail(utilisateur.getEmail(), subject, templateName,
                 Map.of(
-                    "user", user,
+                    "user", utilisateur,
                     "appName", appName,
                     "loginUrl", frontendUrl + "/login"
                 )
             );
             
-            log.info("Notification de réactivation envoyée avec succès à: {}", user.getEmail());
+            log.info("Notification de réactivation envoyée avec succès à: {}", utilisateur.getEmail());
             
         } catch (Exception e) {
-            log.error("Erreur lors de l'envoi de la notification de réactivation à: {} - {}", user.getEmail(), e.getMessage());
+            log.error("Erreur lors de l'envoi de la notification de réactivation à: {} - {}", utilisateur.getEmail(), e.getMessage());
         }
     }
 
@@ -398,77 +398,77 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public void sendTutorNotification(User user, String notificationType, Map<String, Object> data) {
-        log.info("Envoi de notification tuteur à: {} - Type: {}", user.getEmail(), notificationType);
+    public void sendTutorNotification(Utilisateur utilisateur, String notificationType, Map<String, Object> data) {
+        log.info("Envoi de notification tuteur à: {} - Type: {}", utilisateur.getEmail(), notificationType);
         
         try {
             String subject = getTutorNotificationSubject(notificationType);
             String templateName = "tutor-notification-" + notificationType.toLowerCase().replace("_", "-");
             
             Map<String, Object> templateVariables = Map.of(
-                "user", user,
+                "user", utilisateur,
                 "appName", appName,
                 "notificationType", notificationType,
                 "data", data,
                 "dashboardUrl", frontendUrl + "/dashboard/tutor"
             );
             
-            sendTemplatedEmail(user.getEmail(), subject, templateName, templateVariables);
+            sendTemplatedEmail(utilisateur.getEmail(), subject, templateName, templateVariables);
             
-            log.info("Notification tuteur envoyée avec succès à: {}", user.getEmail());
+            log.info("Notification tuteur envoyée avec succès à: {}", utilisateur.getEmail());
             
         } catch (Exception e) {
-            log.error("Erreur lors de l'envoi de la notification tuteur à: {} - {}", user.getEmail(), e.getMessage());
+            log.error("Erreur lors de l'envoi de la notification tuteur à: {} - {}", utilisateur.getEmail(), e.getMessage());
         }
     }
 
     @Override
-    public void sendStudentNotification(User user, String notificationType, Map<String, Object> data) {
-        log.info("Envoi de notification étudiant à: {} - Type: {}", user.getEmail(), notificationType);
+    public void sendStudentNotification(Utilisateur utilisateur, String notificationType, Map<String, Object> data) {
+        log.info("Envoi de notification étudiant à: {} - Type: {}", utilisateur.getEmail(), notificationType);
         
         try {
             String subject = getStudentNotificationSubject(notificationType);
             String templateName = "student-notification-" + notificationType.toLowerCase().replace("_", "-");
             
             Map<String, Object> templateVariables = Map.of(
-                "user", user,
+                "user", utilisateur,
                 "appName", appName,
                 "notificationType", notificationType,
                 "data", data,
                 "dashboardUrl", frontendUrl + "/dashboard/student"
             );
             
-            sendTemplatedEmail(user.getEmail(), subject, templateName, templateVariables);
+            sendTemplatedEmail(utilisateur.getEmail(), subject, templateName, templateVariables);
             
-            log.info("Notification étudiant envoyée avec succès à: {}", user.getEmail());
+            log.info("Notification étudiant envoyée avec succès à: {}", utilisateur.getEmail());
             
         } catch (Exception e) {
-            log.error("Erreur lors de l'envoi de la notification étudiant à: {} - {}", user.getEmail(), e.getMessage());
+            log.error("Erreur lors de l'envoi de la notification étudiant à: {} - {}", utilisateur.getEmail(), e.getMessage());
         }
     }
 
     @Override
-    public void sendParentNotification(User user, String notificationType, Map<String, Object> data) {
-        log.info("Envoi de notification parent à: {} - Type: {}", user.getEmail(), notificationType);
+    public void sendParentNotification(Utilisateur utilisateur, String notificationType, Map<String, Object> data) {
+        log.info("Envoi de notification parent à: {} - Type: {}", utilisateur.getEmail(), notificationType);
         
         try {
             String subject = getParentNotificationSubject(notificationType);
             String templateName = "parent-notification-" + notificationType.toLowerCase().replace("_", "-");
             
             Map<String, Object> templateVariables = Map.of(
-                "user", user,
+                "user", utilisateur,
                 "appName", appName,
                 "notificationType", notificationType,
                 "data", data,
                 "dashboardUrl", frontendUrl + "/dashboard/parent"
             );
             
-            sendTemplatedEmail(user.getEmail(), subject, templateName, templateVariables);
+            sendTemplatedEmail(utilisateur.getEmail(), subject, templateName, templateVariables);
             
-            log.info("Notification parent envoyée avec succès à: {}", user.getEmail());
+            log.info("Notification parent envoyée avec succès à: {}", utilisateur.getEmail());
             
         } catch (Exception e) {
-            log.error("Erreur lors de l'envoi de la notification parent à: {} - {}", user.getEmail(), e.getMessage());
+            log.error("Erreur lors de l'envoi de la notification parent à: {} - {}", utilisateur.getEmail(), e.getMessage());
         }
     }
 
@@ -479,8 +479,8 @@ public class EmailServiceImpl implements EmailService {
         content.append("Bonjour,\n\n");
         
         if (templateVariables.containsKey("user")) {
-            User user = (User) templateVariables.get("user");
-            content.append("Cher(e) ").append(user.getFirstName()).append(",\n\n");
+            Utilisateur utilisateur = (Utilisateur) templateVariables.get("user");
+            content.append("Cher(e) ").append(utilisateur.getFirstName()).append(",\n\n");
         }
         
         content.append("Vous recevez cet email de la part de ").append(appName).append(".\n\n");

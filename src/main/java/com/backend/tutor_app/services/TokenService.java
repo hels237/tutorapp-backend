@@ -1,12 +1,10 @@
 package com.backend.tutor_app.services;
 
-import com.backend.tutor_app.model.User;
+import com.backend.tutor_app.model.Utilisateur;
 import com.backend.tutor_app.model.support.EmailVerificationToken;
 import com.backend.tutor_app.model.support.PasswordResetToken;
 import com.backend.tutor_app.model.support.RefreshToken;
 
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -20,10 +18,10 @@ public interface TokenService {
     
     /**
      * Génère un token JWT pour un utilisateur
-     * @param user Utilisateur pour lequel générer le token
+     * @param utilisateur Utilisateur pour lequel générer le token
      * @return Token JWT
      */
-    String generateJwtToken(User user);
+    String generateJwtToken(Utilisateur utilisateur);
     
     /**
      * Valide un token JWT
@@ -57,12 +55,12 @@ public interface TokenService {
     
     /**
      * Crée un refresh token pour un utilisateur
-     * @param user Utilisateur
+     * @param utilisateur Utilisateur
      * @param deviceInfo Informations sur l'appareil
      * @param ipAddress Adresse IP
      * @return Refresh token créé
      */
-    RefreshToken createRefreshToken(User user, String deviceInfo, String ipAddress);
+    RefreshToken createRefreshToken(Utilisateur utilisateur, String deviceInfo, String ipAddress);
     
     /**
      * Trouve un refresh token par sa valeur
@@ -106,11 +104,11 @@ public interface TokenService {
     
     /**
      * Crée un token de vérification d'email
-     * @param user Utilisateur
+     * @param utilisateur Utilisateur
      * @param ipAddress Adresse IP
      * @return Token de vérification créé
      */
-    EmailVerificationToken createEmailVerificationToken(User user, String ipAddress);
+    EmailVerificationToken createEmailVerificationToken(Utilisateur utilisateur, String ipAddress);
     
     /**
      * Trouve un token de vérification d'email par sa valeur
@@ -148,10 +146,10 @@ public interface TokenService {
     
     /**
      * Crée un token de réinitialisation de mot de passe
-     * @param user Utilisateur
+     * @param utilisateur Utilisateur
      * @return Token de réinitialisation créé
      */
-    PasswordResetToken createPasswordResetToken(User user);
+    PasswordResetToken createPasswordResetToken(Utilisateur utilisateur);
     
     /**
      * Trouve un token de réinitialisation de mot de passe par sa valeur

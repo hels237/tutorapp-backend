@@ -24,7 +24,7 @@ import java.util.Set;
 @DiscriminatorValue("TUTOR")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Tutor extends User{
+public class Tutor extends Utilisateur {
 
     @Column(columnDefinition = "TEXT")
     @Size(max = 2000, message = "La biographie ne peut pas dépasser 2000 caractères")

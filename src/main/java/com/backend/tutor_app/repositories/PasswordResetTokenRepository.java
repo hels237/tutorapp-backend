@@ -1,6 +1,6 @@
 package com.backend.tutor_app.repositories;
 
-import com.backend.tutor_app.model.User;
+import com.backend.tutor_app.model.Utilisateur;
 import com.backend.tutor_app.model.support.PasswordResetToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -24,13 +24,13 @@ public interface PasswordResetTokenRepository extends JpaRepository<PasswordRese
     /**
      * Trouve tous les tokens d'un utilisateur
      */
-    List<PasswordResetToken> findByUser(User user);
+    List<PasswordResetToken> findByUtilisateur(Utilisateur utilisateur);
     
     /**
      * Trouve tous les tokens actifs d'un utilisateur (non expirés et non utilisés)
      */
-    @Query("SELECT t FROM PasswordResetToken t WHERE t.user = :user AND t.expiresAt > :now AND t.usedAt IS NULL")
-    List<PasswordResetToken> findActiveTokensByUser(@Param("user") User user, @Param("now") LocalDateTime now);
+    @Query("SELECT t FROM PasswordResetToken t WHERE t.utilisateur = :user AND t.expiresAt > :now AND t.usedAt IS NULL")
+    List<PasswordResetToken> findActiveTokensByUser(@Param("user") Utilisateur utilisateur, @Param("now") LocalDateTime now);
     
     /**
      * Trouve un token actif par sa valeur
@@ -54,8 +54,8 @@ public interface PasswordResetTokenRepository extends JpaRepository<PasswordRese
     /**
      * Compte les tokens actifs pour un utilisateur
      */
-    @Query("SELECT COUNT(t) FROM PasswordResetToken t WHERE t.user = :user AND t.expiresAt > :now AND t.usedAt IS NULL")
-    long countActiveTokensByUser(@Param("user") User user, @Param("now") LocalDateTime now);
+    @Query("SELECT COUNT(t) FROM PasswordResetToken t WHERE t.utilisateur = :user AND t.expiresAt > :now AND t.usedAt IS NULL")
+    long countActiveTokensByUser(@Param("user") Utilisateur utilisateur, @Param("now") LocalDateTime now);
     
     /**
      * Marque un token comme utilisé
@@ -70,7 +70,7 @@ public interface PasswordResetTokenRepository extends JpaRepository<PasswordRese
      */
     @Modifying
     @Transactional
-    void deleteByUser(User user);
+    void deleteByUtilisateur(Utilisateur utilisateur);
     
     /**
      * Supprime tous les tokens expirés
@@ -86,8 +86,8 @@ public interface PasswordResetTokenRepository extends JpaRepository<PasswordRese
     @Modifying
     @Transactional
     @Query("UPDATE PasswordResetToken t SET t.usedAt = :revokedAt " +
-           "WHERE t.user = :user AND t.expiresAt > :now AND t.usedAt IS NULL")
-    int revokeAllActiveTokensForUser(@Param("user") User user, @Param("now") LocalDateTime now, @Param("revokedAt") LocalDateTime revokedAt);
+           "WHERE t.utilisateur = :user AND t.expiresAt > :now AND t.usedAt IS NULL")
+    int revokeAllActiveTokensForUser(@Param("user") Utilisateur utilisateur, @Param("now") LocalDateTime now, @Param("revokedAt") LocalDateTime revokedAt);
     
     /**
      * Trouve les tokens créés dans une période donnée

@@ -10,7 +10,6 @@ import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Setter @Getter
@@ -19,7 +18,7 @@ import java.util.Set;
 @DiscriminatorValue("STUDENT")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Student extends User{
+public class Student extends Utilisateur {
 
     @Column(name = "school_level", length = 50)
     private String schoolLevel; // "Terminale S", "L1", etc.

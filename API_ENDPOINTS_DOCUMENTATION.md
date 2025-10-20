@@ -7,7 +7,7 @@ Votre backend expose **60+ endpoints** répartis en **4 contrôleurs** :
 | Contrôleur | Base URL | Endpoints | Accès | Status |
 |------------|----------|-----------|-------|--------|
 | **AuthController** | `/api/v1/auth` | 10 | Public + Auth | ✅ Prêt |
-| **UserController** | `/api/v1/users` | 17 | Authentifié | ✅ Prêt |
+| **UserController** | `/api/v1/utilisateurs` | 17 | Authentifié | ✅ Prêt |
 | **SocialAuthController** | `/api/v1/auth/social` | 13 | Public + Auth | ✅ Prêt |
 | **AdminController** | `/api/v1/admin` | 20+ | Admin only | ✅ Prêt |
 
@@ -28,14 +28,14 @@ Votre backend expose **60+ endpoints** répartis en **4 contrôleurs** :
 | GET | `/verify-email` | Lien email | Vérifie email |
 | POST | `/resend-verification` | Bouton | Renvoie email |
 | GET | `/validate-token` | Middleware | Valide JWT |
-| GET | `/me` | Dashboard | Info user connecté |
+| GET | `/me` | Dashboard | Info utilisateur connecté |
 
 ### POST `/api/v1/auth/login` - Connexion
 
 **Request:**
 ```json
 {
-  "email": "user@example.com",
+  "email": "utilisateur@example.com",
   "password": "SecurePass123!"
 }
 ```
@@ -49,9 +49,9 @@ Votre backend expose **60+ endpoints** répartis en **4 contrôleurs** :
     "refreshToken": "uuid-token",
     "tokenType": "Bearer",
     "expiresIn": 3600,
-    "user": {
+    "utilisateur": {
       "id": 1,
-      "email": "user@example.com",
+      "email": "utilisateur@example.com",
       "firstName": "John",
       "lastName": "Doe",
       "role": "STUDENT",
@@ -88,7 +88,7 @@ Votre backend expose **60+ endpoints** répartis en **4 contrôleurs** :
   "success": true,
   "data": {
     "accessToken": "jwt-token",
-    "user": {
+    "utilisateur": {
       "id": 2,
       "email": "john@example.com",
       "role": "STUDENT",
@@ -101,7 +101,7 @@ Votre backend expose **60+ endpoints** répartis en **4 contrôleurs** :
 
 ---
 
-## 👤 2. GESTION UTILISATEURS (`/api/v1/users`)
+## 👤 2. GESTION UTILISATEURS (`/api/v1/utilisateurs`)
 
 ### Liste des Endpoints
 
@@ -113,7 +113,7 @@ Votre backend expose **60+ endpoints** répartis en **4 contrôleurs** :
 | DELETE | `/profile/picture` | - | Supprimer photo |
 | PUT | `/password` | Sécurité | Changer password |
 | GET | `/security-info` | Dashboard | Infos sécurité |
-| GET | `/search` | Recherche | Chercher users |
+| GET | `/search` | Recherche | Chercher utilisateurs |
 | GET | `/tutors` | `/tutors` | Liste tuteurs |
 | GET | `/{id}` | `/tutors/{id}` | Profil public |
 | POST | `/become-tutor` | `/become-tutor` | Demande tuteur |
@@ -125,7 +125,7 @@ Votre backend expose **60+ endpoints** répartis en **4 contrôleurs** :
 | POST | `/reactivate` | - | Réactiver compte |
 | DELETE | `/account` | - | Supprimer (GDPR) |
 
-### GET `/api/v1/users/profile` - Mon profil
+### GET `/api/v1/utilisateurs/profile` - Mon profil
 
 **Headers:**
 ```
@@ -138,7 +138,7 @@ Authorization: Bearer eyJhbGc...
   "success": true,
   "data": {
     "id": 1,
-    "email": "user@example.com",
+    "email": "utilisateur@example.com",
     "firstName": "John",
     "lastName": "Doe",
     "phoneNumber": "+33612345678",
@@ -151,7 +151,7 @@ Authorization: Bearer eyJhbGc...
 }
 ```
 
-### GET `/api/v1/users/tutors` - Liste tuteurs
+### GET `/api/v1/utilisateurs/tutors` - Liste tuteurs
 
 **Query Params:**
 - `subject` : Matière (math, physics, etc.)
@@ -161,7 +161,7 @@ Authorization: Bearer eyJhbGc...
 
 **Exemple:**
 ```
-GET /api/v1/users/tutors?subject=math&minPrice=15&maxPrice=30&page=0&size=12
+GET /api/v1/utilisateurs/tutors?subject=math&minPrice=15&maxPrice=30&page=0&size=12
 ```
 
 **Response 200:**
@@ -185,7 +185,7 @@ GET /api/v1/users/tutors?subject=math&minPrice=15&maxPrice=30&page=0&size=12
 }
 ```
 
-### POST `/api/v1/users/become-tutor` - Devenir tuteur
+### POST `/api/v1/utilisateurs/become-tutor` - Devenir tuteur
 
 **Headers:**
 ```
@@ -257,9 +257,9 @@ Content-Type: multipart/form-data
   "success": true,
   "data": {
     "accessToken": "jwt-token",
-    "user": {
+    "utilisateur": {
       "id": 10,
-      "email": "user@gmail.com",
+      "email": "utilisateur@gmail.com",
       "profilePicture": "https://lh3.googleusercontent.com/..."
     }
   },
@@ -279,11 +279,11 @@ Content-Type: multipart/form-data
 |---------|----------|-------------|
 | GET | `/dashboard` | Stats globales |
 | GET | `/stats/overview` | Stats détaillées |
-| GET | `/users` | Liste complète users |
-| GET | `/users/{id}` | Détails user |
-| PUT | `/users/{id}/status` | Modifier statut |
-| PUT | `/users/{id}/role` | Modifier rôle |
-| DELETE | `/users/{id}` | Supprimer user |
+| GET | `/utilisateurs` | Liste complète utilisateurs |
+| GET | `/utilisateurs/{id}` | Détails utilisateur |
+| PUT | `/utilisateurs/{id}/status` | Modifier statut |
+| PUT | `/utilisateurs/{id}/role` | Modifier rôle |
+| DELETE | `/utilisateurs/{id}` | Supprimer utilisateur |
 | GET | `/tutor-applications` | Demandes tuteur |
 | PUT | `/tutor-applications/{id}/approve` | Approuver |
 | PUT | `/tutor-applications/{id}/reject` | Rejeter |
@@ -312,7 +312,7 @@ Content-Type: multipart/form-data
 }
 ```
 
-### GET `/api/v1/admin/users` - Liste utilisateurs
+### GET `/api/v1/admin/utilisateurs` - Liste utilisateurs
 
 **Query Params:**
 - `search` : Recherche
@@ -322,7 +322,7 @@ Content-Type: multipart/form-data
 
 **Exemple:**
 ```
-GET /api/v1/admin/users?role=TUTOR&status=ACTIVE&page=0&size=50
+GET /api/v1/admin/utilisateurs?role=TUTOR&status=ACTIVE&page=0&size=50
 ```
 
 ### PUT `/api/v1/admin/tutor-applications/{id}/approve` - Approuver

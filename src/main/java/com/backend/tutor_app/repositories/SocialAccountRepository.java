@@ -1,6 +1,6 @@
 package com.backend.tutor_app.repositories;
 
-import com.backend.tutor_app.model.User;
+import com.backend.tutor_app.model.Utilisateur;
 import com.backend.tutor_app.model.enums.SocialProvider;
 import com.backend.tutor_app.model.support.SocialAccount;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -23,12 +23,12 @@ public interface SocialAccountRepository extends JpaRepository<SocialAccount, Lo
     /**
      * Trouve tous les comptes sociaux d'un utilisateur
      */
-    List<SocialAccount> findByUser(User user);
+    List<SocialAccount> findByUtilisateur(Utilisateur utilisateur);
     
     /**
      * Trouve un compte social spécifique d'un utilisateur
      */
-    Optional<SocialAccount> findByUserAndProvider(User user, SocialProvider provider);
+    Optional<SocialAccount> findByUtilisateurAndProvider(Utilisateur utilisateur, SocialProvider provider);
     
     /**
      * Trouve tous les comptes par provider
@@ -39,8 +39,8 @@ public interface SocialAccountRepository extends JpaRepository<SocialAccount, Lo
      * Vérifie si un utilisateur a un compte social pour un provider donné
      */
     @Query("SELECT CASE WHEN COUNT(sa) > 0 THEN true ELSE false END FROM SocialAccount sa " +
-           "WHERE sa.user = :user AND sa.provider = :provider")
-    boolean existsByUserAndProvider(@Param("user") User user, @Param("provider") SocialProvider provider);
+           "WHERE sa.utilisateur = :utilisateur AND sa.provider = :provider")
+    boolean existsByUtilisateurAndProvider(@Param("utilisateur") Utilisateur utilisateur, @Param("provider") SocialProvider provider);
     
     /**
      * Vérifie si un compte social existe pour un provider et provider ID
@@ -81,8 +81,8 @@ public interface SocialAccountRepository extends JpaRepository<SocialAccount, Lo
     /**
      * Trouve les utilisateurs ayant plusieurs comptes sociaux
      */
-    @Query("SELECT sa.user FROM SocialAccount sa GROUP BY sa.user HAVING COUNT(sa) > 1")
-    List<User> findUsersWithMultipleSocialAccounts();
+    @Query("SELECT sa.utilisateur FROM SocialAccount sa GROUP BY sa.utilisateur HAVING COUNT(sa) > 1")
+    List<Utilisateur> findUsersWithMultipleSocialAccounts();
     
     /**
      * Statistiques des connexions par provider
@@ -93,10 +93,10 @@ public interface SocialAccountRepository extends JpaRepository<SocialAccount, Lo
     /**
      * Trouve le compte social principal d'un utilisateur
      */
-    Optional<SocialAccount> findByUserAndIsPrimaryTrue(User user);
+    Optional<SocialAccount> findByUtilisateurAndIsPrimaryTrue(Utilisateur utilisateur);
     
     /**
      * Trouve les comptes sociaux non principaux d'un utilisateur
      */
-    List<SocialAccount> findByUserAndIsPrimaryFalse(User user);
+    List<SocialAccount> findByUtilisateurAndIsPrimaryFalse(Utilisateur utilisateur);
 }

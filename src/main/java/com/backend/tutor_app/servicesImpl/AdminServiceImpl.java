@@ -3,7 +3,7 @@ package com.backend.tutor_app.servicesImpl;
 import com.backend.tutor_app.dto.admin.*;
 import com.backend.tutor_app.dto.Auth.UserDto;
 import com.backend.tutor_app.dto.common.PagedResponse;
-import com.backend.tutor_app.model.User;
+import com.backend.tutor_app.model.Utilisateur;
 import com.backend.tutor_app.model.enums.Role;
 import com.backend.tutor_app.model.enums.UserStatus;
 import com.backend.tutor_app.repositories.UserRepository;
@@ -99,15 +99,15 @@ public class AdminServiceImpl implements AdminService {
         
         try {
             // Évolution des utilisateurs
-            List<User> recentUsers = userRepository.findByCreatedAtAfter(startDate);
-            Map<String, Long> usersByDay = recentUsers.stream()
+            List<Utilisateur> recentUtilisateurs = userRepository.findByCreatedAtAfter(startDate);
+            Map<String, Long> usersByDay = recentUtilisateurs.stream()
                 .collect(Collectors.groupingBy(
                     user -> user.getCreatedAt().toLocalDate().toString(),
                     Collectors.counting()
                 ));
             
             stats.put("usersByDay", usersByDay);
-            stats.put("totalNewUsers", (long) recentUsers.size());
+            stats.put("totalNewUsers", (long) recentUtilisateurs.size());
             stats.put("period", days + " jours");
             stats.put("startDate", startDate);
             stats.put("endDate", LocalDateTime.now());
@@ -130,7 +130,7 @@ public class AdminServiceImpl implements AdminService {
         
         try {
             // Pour l'instant, récupération simple - à améliorer avec des critères de recherche
-            Page<User> users = userRepository.findAll(pageable);
+            Page<Utilisateur> users = userRepository.findAll(pageable);
             
             List<UserDto> userDtos = users.getContent().stream()
                 .map(this::convertToUserDto)
@@ -156,32 +156,32 @@ public class AdminServiceImpl implements AdminService {
     public UserDto getUserDetailsForAdmin(Long userId) {
         log.info("Récupération des détails utilisateur {} pour admin", userId);
         
-        User user = userRepository.findById(userId)
+        Utilisateur utilisateur = userRepository.findById(userId)
             .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
         
-        return convertToUserDto(user);
+        return convertToUserDto(utilisateur);
     }
 
     @Override
     public UserDto updateUserStatusByAdmin(Long userId, String status, String reason) {
         log.info("Mise à jour du statut utilisateur {} vers {} par admin", userId, status);
         
-        User user = userRepository.findById(userId)
+        Utilisateur utilisateur = userRepository.findById(userId)
             .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
         
         try {
             UserStatus userStatus = UserStatus.valueOf(status.toUpperCase());
-            user.setStatus(userStatus);
-            user.setLastUpdate(LocalDateTime.now());
+            utilisateur.setStatus(userStatus);
+            utilisateur.setLastUpdate(LocalDateTime.now());
             
-            User updatedUser = userRepository.save(user);
+            Utilisateur updatedUtilisateur = userRepository.save(utilisateur);
             
             // Log de l'action admin
             logAdminAction("UPDATE_USER_STATUS", userId, 
                 "Statut changé vers " + status + ". Raison: " + reason, 
-                Map.of("oldStatus", user.getStatus(), "newStatus", userStatus, "reason", reason));
+                Map.of("oldStatus", utilisateur.getStatus(), "newStatus", userStatus, "reason", reason));
             
-            return convertToUserDto(updatedUser);
+            return convertToUserDto(updatedUtilisateur);
             
         } catch (IllegalArgumentException e) {
             throw new RuntimeException("Statut invalide: " + status);
@@ -192,23 +192,23 @@ public class AdminServiceImpl implements AdminService {
     public UserDto updateUserRoleByAdmin(Long userId, String role) {
         log.info("Mise à jour du rôle utilisateur {} vers {} par admin", userId, role);
         
-        User user = userRepository.findById(userId)
+        Utilisateur utilisateur = userRepository.findById(userId)
             .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
         
         try {
             Role userRole = Role.valueOf(role.toUpperCase());
-            Role oldRole = user.getRole();
-            user.setRole(userRole);
-            user.setLastUpdate(LocalDateTime.now());
+            Role oldRole = utilisateur.getRole();
+            utilisateur.setRole(userRole);
+            utilisateur.setLastUpdate(LocalDateTime.now());
             
-            User updatedUser = userRepository.save(user);
+            Utilisateur updatedUtilisateur = userRepository.save(utilisateur);
             
             // Log de l'action admin
             logAdminAction("UPDATE_USER_ROLE", userId, 
                 "Rôle changé de " + oldRole + " vers " + role, 
                 Map.of("oldRole", oldRole, "newRole", userRole));
             
-            return convertToUserDto(updatedUser);
+            return convertToUserDto(updatedUtilisateur);
             
         } catch (IllegalArgumentException e) {
             throw new RuntimeException("Rôle invalide: " + role);
@@ -219,15 +219,15 @@ public class AdminServiceImpl implements AdminService {
     public void deleteUserByAdmin(Long userId, String reason) {
         log.warn("Suppression définitive de l'utilisateur {} par admin. Raison: {}", userId, reason);
         
-        User user = userRepository.findById(userId)
+        Utilisateur utilisateur = userRepository.findById(userId)
             .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
         
         // Log avant suppression
         logAdminAction("DELETE_USER", userId, 
             "Utilisateur supprimé définitivement. Raison: " + reason, 
-            Map.of("userEmail", user.getEmail(), "userName", user.getFirstName() + " " + user.getLastName()));
+            Map.of("userEmail", utilisateur.getEmail(), "userName", utilisateur.getFirstName() + " " + utilisateur.getLastName()));
         
-        userRepository.delete(user);
+        userRepository.delete(utilisateur);
     }
 
     // ==================== FONCTIONNALITÉS NON IMPLÉMENTÉES (STUBS) ====================
@@ -332,20 +332,20 @@ public class AdminServiceImpl implements AdminService {
 
     // ==================== MÉTHODES UTILITAIRES ====================
 
-    private UserDto convertToUserDto(User user) {
+    private UserDto convertToUserDto(Utilisateur utilisateur) {
         return UserDto.builder()
-            .id(user.getId())
-            .email(user.getEmail())
-            .firstName(user.getFirstName())
-            .lastName(user.getLastName())
-            .role(user.getRole().name())
-            .status(user.getStatus().name())
-            .emailVerified(user.getEmailVerified())
-            .profilePicture(user.getProfilePicture())
-            .phoneNumber(user.getPhoneNumber())
-            .createdAt(user.getCreatedAt())
-            .updatedAt(user.getLastUpdate())
-            .lastLogin(user.getLastLogin())
+            .id(utilisateur.getId())
+            .email(utilisateur.getEmail())
+            .firstName(utilisateur.getFirstName())
+            .lastName(utilisateur.getLastName())
+            .role(utilisateur.getRole().name())
+            .status(utilisateur.getStatus().name())
+            .emailVerified(utilisateur.getEmailVerified())
+            .profilePicture(utilisateur.getProfilePicture())
+            .phoneNumber(utilisateur.getPhoneNumber())
+            .createdAt(utilisateur.getCreatedAt())
+            .updatedAt(utilisateur.getLastUpdate())
+            .lastLogin(utilisateur.getLastLogin())
             .build();
     }
 }

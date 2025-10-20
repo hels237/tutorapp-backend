@@ -1,6 +1,6 @@
 package com.backend.tutor_app.dto.user;
 
-import com.backend.tutor_app.model.User;
+import com.backend.tutor_app.model.Utilisateur;
 import com.backend.tutor_app.model.enums.Role;
 import com.backend.tutor_app.model.enums.UserStatus;
 import lombok.*;
@@ -29,20 +29,20 @@ public class UserProfileDto {
     private ParentProfileDto parentProfile;
     private AdminProfileDto adminProfile;
 
-    public static UserProfileDto fromEntity(User user) {
-        if (user == null) return null;
+    public static UserProfileDto fromEntity(Utilisateur utilisateur) {
+        if (utilisateur == null) return null;
         return UserProfileDto.builder()
-                .id(user.getId())
-                .email(user.getEmail())
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
-                .phoneNumber(user.getPhoneNumber())
-                .profilePicture(user.getProfilePicture())
-                .role(user.getRole())
-                .status(user.getStatus())
-                .emailVerified(user.getEmailVerified())
-                .createdAt(user.getCreatedAt())
-                .lastLogin(user.getLastLogin())
+                .id(utilisateur.getId())
+                .email(utilisateur.getEmail())
+                .firstName(utilisateur.getFirstName())
+                .lastName(utilisateur.getLastName())
+                .phoneNumber(utilisateur.getPhoneNumber())
+                .profilePicture(utilisateur.getProfilePicture())
+                .role(utilisateur.getRole())
+                .status(utilisateur.getStatus())
+                .emailVerified(utilisateur.getEmailVerified())
+                .createdAt(utilisateur.getCreatedAt())
+                .lastLogin(utilisateur.getLastLogin())
                 .build();
     }
 }

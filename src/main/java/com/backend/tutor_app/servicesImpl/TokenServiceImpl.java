@@ -1,6 +1,6 @@
 package com.backend.tutor_app.servicesImpl;
 
-import com.backend.tutor_app.model.User;
+import com.backend.tutor_app.model.Utilisateur;
 import com.backend.tutor_app.model.support.EmailVerificationToken;
 import com.backend.tutor_app.model.support.PasswordResetToken;
 import com.backend.tutor_app.model.support.RefreshToken;
@@ -55,15 +55,15 @@ public class TokenServiceImpl implements TokenService {
     // ==================== JWT TOKENS (DÉLÉGATION vers JwtServiceUtil) ====================
 
     @Override
-    public String generateJwtToken(User user) {
-        log.debug("Génération du token JWT pour l'utilisateur: {} (délégation vers JwtServiceUtil)", user.getEmail());
+    public String generateJwtToken(Utilisateur utilisateur) {
+        log.debug("Génération du token JWT pour l'utilisateur: {} (délégation vers JwtServiceUtil)", utilisateur.getEmail());
         
         try {
             // DÉLÉGATION vers le service JWT existant
-            return jwtServiceUtil.generateToken(user);
+            return jwtServiceUtil.generateToken(utilisateur);
                 
         } catch (Exception e) {
-            log.error("Erreur lors de la génération du token JWT pour l'utilisateur: {} - {}", user.getEmail(), e.getMessage());
+            log.error("Erreur lors de la génération du token JWT pour l'utilisateur: {} - {}", utilisateur.getEmail(), e.getMessage());
             throw new RuntimeException("Erreur lors de la génération du token JWT");
         }
     }
@@ -116,15 +116,15 @@ public class TokenServiceImpl implements TokenService {
     // ==================== REFRESH TOKENS ====================
 
     @Override
-    public RefreshToken createRefreshToken(User user, String deviceInfo, String ipAddress) {
-        log.debug("Création d'un refresh token pour l'utilisateur: {}", user.getEmail());
+    public RefreshToken createRefreshToken(Utilisateur utilisateur, String deviceInfo, String ipAddress) {
+        log.debug("Création d'un refresh token pour l'utilisateur: {}", utilisateur.getEmail());
         
         try {
             // Suppression des anciens refresh tokens expirés pour cet utilisateur
-            cleanupExpiredRefreshTokensForUser(user.getId());
+            cleanupExpiredRefreshTokensForUser(utilisateur.getId());
             
             RefreshToken refreshToken = RefreshToken.builder()
-                .user(user)
+                .utilisateur(utilisateur)
                 .token(generateUuidToken())
                 .expiresAt(LocalDateTime.now().plusSeconds(refreshTokenExpirationInSeconds))
                 .isRevoked(false)
@@ -136,7 +136,7 @@ public class TokenServiceImpl implements TokenService {
             return refreshTokenRepository.save(refreshToken);
             
         } catch (Exception e) {
-            log.error("Erreur lors de la création du refresh token pour l'utilisateur: {} - {}", user.getEmail(), e.getMessage());
+            log.error("Erreur lors de la création du refresh token pour l'utilisateur: {} - {}", utilisateur.getEmail(), e.getMessage());
             throw new RuntimeException("Erreur lors de la création du refresh token");
         }
     }
@@ -179,7 +179,7 @@ public class TokenServiceImpl implements TokenService {
         
         try {
             refreshTokenRepository.revokeAllUserTokens(
-                refreshTokenRepository.findById(userId).orElseThrow().getUser()
+                refreshTokenRepository.findById(userId).orElseThrow().getUtilisateur()
             );
         } catch (Exception e) {
             log.error("Erreur lors de la révocation des refresh tokens pour l'utilisateur ID: {} - {}", userId, e.getMessage());
@@ -211,15 +211,15 @@ public class TokenServiceImpl implements TokenService {
     // ==================== EMAIL VERIFICATION TOKENS ====================
 
     @Override
-    public EmailVerificationToken createEmailVerificationToken(User user, String ipAddress) {
-        log.debug("Création d'un token de vérification email pour l'utilisateur: {}", user.getEmail());
+    public EmailVerificationToken createEmailVerificationToken(Utilisateur utilisateur, String ipAddress) {
+        log.debug("Création d'un token de vérification email pour l'utilisateur: {}", utilisateur.getEmail());
         
         try {
             // Suppression des anciens tokens de vérification pour cet utilisateur
-            deleteUserEmailVerificationTokens(user.getId());
+            deleteUserEmailVerificationTokens(utilisateur.getId());
             
             EmailVerificationToken verificationToken = EmailVerificationToken.builder()
-                .user(user)
+                .utilisateur(utilisateur)
                 .token(generateSecureToken(32))
                 .expiresAt(LocalDateTime.now().plusSeconds(emailVerificationTokenExpirationInSeconds))
                 .ipAddress(ipAddress)
@@ -228,7 +228,7 @@ public class TokenServiceImpl implements TokenService {
             return emailVerificationTokenRepository.save(verificationToken);
             
         } catch (Exception e) {
-            log.error("Erreur lors de la création du token de vérification email pour l'utilisateur: {} - {}", user.getEmail(), e.getMessage());
+            log.error("Erreur lors de la création du token de vérification email pour l'utilisateur: {} - {}", utilisateur.getEmail(), e.getMessage());
             throw new RuntimeException("Erreur lors de la création du token de vérification email");
         }
     }
@@ -288,7 +288,7 @@ public class TokenServiceImpl implements TokenService {
             // Implementation simplifiée - en production, il faudrait une méthode dans le repository
             List<EmailVerificationToken> userTokens = emailVerificationTokenRepository.findAll()
                 .stream()
-                .filter(token -> token.getUser().getId().equals(userId))
+                .filter(token -> token.getUtilisateur().getId().equals(userId))
                 .toList();
             
             emailVerificationTokenRepository.deleteAll(userTokens);
@@ -314,15 +314,15 @@ public class TokenServiceImpl implements TokenService {
     // ==================== PASSWORD RESET TOKENS ====================
 
     @Override
-    public PasswordResetToken createPasswordResetToken(User user) {
-        log.debug("Création d'un token de réinitialisation de mot de passe pour l'utilisateur: {}", user.getEmail());
+    public PasswordResetToken createPasswordResetToken(Utilisateur utilisateur) {
+        log.debug("Création d'un token de réinitialisation de mot de passe pour l'utilisateur: {}", utilisateur.getEmail());
         
         try {
             // Révocation des anciens tokens actifs
-            revokeAllUserPasswordResetTokens(user.getId());
+            revokeAllUserPasswordResetTokens(utilisateur.getId());
             
             PasswordResetToken resetToken = PasswordResetToken.builder()
-                .user(user)
+                .utilisateur(utilisateur)
                 .token(generateSecureToken(32))
                 .expiresAt(LocalDateTime.now().plusSeconds(passwordResetTokenExpirationInSeconds))
                 .build();
@@ -330,7 +330,7 @@ public class TokenServiceImpl implements TokenService {
             return passwordResetTokenRepository.save(resetToken);
             
         } catch (Exception e) {
-            log.error("Erreur lors de la création du token de réinitialisation pour l'utilisateur: {} - {}", user.getEmail(), e.getMessage());
+            log.error("Erreur lors de la création du token de réinitialisation pour l'utilisateur: {} - {}", utilisateur.getEmail(), e.getMessage());
             throw new RuntimeException("Erreur lors de la création du token de réinitialisation");
         }
     }
@@ -372,7 +372,7 @@ public class TokenServiceImpl implements TokenService {
             // Implementation simplifiée
             List<PasswordResetToken> userTokens = passwordResetTokenRepository.findAll()
                 .stream()
-                .filter(token -> token.getUser().getId().equals(userId))
+                .filter(token -> token.getUtilisateur().getId().equals(userId))
                 .toList();
             
             for (PasswordResetToken token : userTokens) {
@@ -419,7 +419,7 @@ public class TokenServiceImpl implements TokenService {
             switch (tokenType.toLowerCase()) {
                 case "refresh":
                     long activeRefreshTokens = refreshTokenRepository.countActiveTokensByUser(
-                        refreshTokenRepository.findById(userId).orElseThrow().getUser(), 
+                        refreshTokenRepository.findById(userId).orElseThrow().getUtilisateur(),
                         LocalDateTime.now()
                     );
                     return activeRefreshTokens > 5; // Maximum 5 refresh tokens actifs
@@ -430,7 +430,7 @@ public class TokenServiceImpl implements TokenService {
                     
                 case "password_reset":
                     long activeResetTokens = passwordResetTokenRepository.countActiveTokensByUser(
-                        passwordResetTokenRepository.findById(userId).orElseThrow().getUser(),
+                        passwordResetTokenRepository.findById(userId).orElseThrow().getUtilisateur(),
                         LocalDateTime.now()
                     );
                     return activeResetTokens > 3; // Maximum 3 tokens de reset actifs
@@ -500,7 +500,7 @@ public class TokenServiceImpl implements TokenService {
             // Implementation simplifiée
             List<RefreshToken> userTokens = refreshTokenRepository.findAll()
                 .stream()
-                .filter(token -> token.getUser().getId().equals(userId) && 
+                .filter(token -> token.getUtilisateur().getId().equals(userId) &&
                                token.getExpiresAt().isBefore(LocalDateTime.now()))
                 .toList();
             

@@ -36,11 +36,15 @@ public class RegisterRequest {
     @NotBlank(message = "La confirmation du mot de passe est requise")
     private String confirmPassword;
 
-    @NotNull(message = "Le type d'utilisateur est requis")
-    private Role userType;
+    @NotBlank(message = "Le type d'utilisateur est requis")
+    private String userType; // "student", "tutor", "parent" (frontend envoie en minuscule)
 
     @Pattern(regexp = "^\\+?[1-9]\\d{1,14}$", message = "Format de numéro de téléphone invalide")
     private String phoneNumber;
+
+    // Champs de consentement (frontend)
+    private Boolean acceptTerms;
+    private Boolean acceptMarketing;
 
     // Champs spécifiques Student
     @Past(message = "La date de naissance doit être dans le passé")
@@ -89,14 +93,26 @@ public class RegisterRequest {
 
     // Méthodes utilitaires
     public boolean isStudent() {
-        return Role.STUDENT.equals(userType);
+        return "student".equalsIgnoreCase(userType);
     }
 
     public boolean isTutor() {
-        return Role.TUTOR.equals(userType);
+        return "tutor".equalsIgnoreCase(userType);
     }
 
     public boolean isParent() {
-        return Role.PARENT.equals(userType);
+        return "parent".equalsIgnoreCase(userType);
+    }
+
+    // Convertir userType string vers Role enum
+    public Role getUserTypeAsRole() {
+        if (userType == null) return Role.STUDENT;
+        
+        return switch (userType.toLowerCase()) {
+            case "student" -> Role.STUDENT;
+            case "tutor" -> Role.TUTOR;
+            case "parent" -> Role.PARENT;
+            default -> Role.STUDENT;
+        };
     }
 }

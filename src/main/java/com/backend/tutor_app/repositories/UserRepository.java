@@ -1,7 +1,6 @@
 package com.backend.tutor_app.repositories;
 
-import com.backend.tutor_app.model.Tutor;
-import com.backend.tutor_app.model.User;
+import com.backend.tutor_app.model.Utilisateur;
 import com.backend.tutor_app.model.enums.Role;
 import com.backend.tutor_app.model.enums.UserStatus;
 import org.springframework.data.repository.query.Param;
@@ -14,19 +13,19 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<Utilisateur, Long> {
 
-    Optional<User> findByEmail(String email);
+    Optional<Utilisateur> findByEmail(String email);
     Boolean existsByEmail(String email);
-    List<User> findByRole(Role role);
-    List<User> findByStatus(UserStatus status);
+    List<Utilisateur> findByRole(Role role);
+    List<Utilisateur> findByStatus(UserStatus status);
     
     // Méthodes pour les statistiques admin
     Long countByStatus(UserStatus status);
     Long countByRole(Role role);
     Long countByCreatedAtAfter(LocalDateTime date);
-    List<User> findByCreatedAtAfter(LocalDateTime date);
+    List<Utilisateur> findByCreatedAtAfter(LocalDateTime date);
 
-    @Query("SELECT u FROM User u WHERE u.emailVerified = false AND u.createdAt < :date")
-    List<User> findUnverifiedUsersOlderThan(@Param("date") LocalDateTime date);
+    @Query("SELECT u FROM Utilisateur u WHERE u.emailVerified = false AND u.createdAt < :date")
+    List<Utilisateur> findUnverifiedUsersOlderThan(@Param("date") LocalDateTime date);
 }

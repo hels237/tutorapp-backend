@@ -2,7 +2,7 @@ package com.backend.tutor_app.model.support;
 
 
 import com.backend.tutor_app.model.AbstractEntiity;
-import com.backend.tutor_app.model.User;
+import com.backend.tutor_app.model.Utilisateur;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,7 +36,7 @@ public class EmailVerificationToken  extends AbstractEntiity {
     // Relations
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private Utilisateur utilisateur;
 
     public boolean isExpired() {
         return LocalDateTime.now().isAfter(expiresAt);
@@ -52,8 +52,8 @@ public class EmailVerificationToken  extends AbstractEntiity {
 //    private String userAgent;
 
     // Constructeur utilitaire
-    public EmailVerificationToken(User user, String token, int expirationHours) {
-        this.user = user;
+    public EmailVerificationToken(Utilisateur utilisateur, String token, int expirationHours) {
+        this.utilisateur = utilisateur;
         this.token = token;
         this.expiresAt = LocalDateTime.now().plusHours(expirationHours);
     }

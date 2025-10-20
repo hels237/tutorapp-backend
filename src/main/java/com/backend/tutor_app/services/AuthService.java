@@ -5,7 +5,6 @@ import com.backend.tutor_app.dto.Auth.AuthResponse;
 import com.backend.tutor_app.dto.Auth.RegisterRequest;
 import com.backend.tutor_app.dto.Auth.ResetPasswordRequest;
 import com.backend.tutor_app.dto.Auth.UserDto;
-import com.backend.tutor_app.model.User;
 import com.backend.tutor_app.model.enums.SocialProvider;
 
 /**

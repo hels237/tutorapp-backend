@@ -1,6 +1,6 @@
 package com.backend.tutor_app.dto.Auth;
 
-import com.backend.tutor_app.model.User;
+import com.backend.tutor_app.model.Utilisateur;
 import com.backend.tutor_app.model.enums.Role;
 import com.backend.tutor_app.model.enums.UserStatus;
 import lombok.AllArgsConstructor;
@@ -40,21 +40,21 @@ public class UserDto {
     /**
      * Construit un UserDto à partir d'une entité User.
      */
-    public static UserDto fromEntity(User user) {
-        if (user == null) return null;
+    public static UserDto fromEntity(Utilisateur utilisateur) {
+        if (utilisateur == null) return null;
         return UserDto.builder()
-                .id(user.getId())
-                .email(user.getEmail())
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
-                .phoneNumber(user.getPhoneNumber())
-                .profilePicture(user.getProfilePicture())
-                .role(user.getRole() != null ? user.getRole().name() : null)
-                .status(user.getStatus() != null ? user.getStatus().name() : null)
-                .emailVerified(user.getEmailVerified())
-                .createdAt(user.getCreatedAt())
-                .updatedAt(user.getLastUpdate())
-                .lastLogin(user.getLastLogin())
+                .id(utilisateur.getId())
+                .email(utilisateur.getEmail())
+                .firstName(utilisateur.getFirstName())
+                .lastName(utilisateur.getLastName())
+                .phoneNumber(utilisateur.getPhoneNumber())
+                .profilePicture(utilisateur.getProfilePicture())
+                .role(utilisateur.getRole() != null ? utilisateur.getRole().name() : null)
+                .status(utilisateur.getStatus() != null ? utilisateur.getStatus().name() : null)
+                .emailVerified(utilisateur.getEmailVerified())
+                .createdAt(utilisateur.getCreatedAt())
+                .updatedAt(utilisateur.getLastUpdate())
+                .lastLogin(utilisateur.getLastLogin())
                 .build();
     }
 
@@ -65,25 +65,25 @@ public class UserDto {
      * - Ne définit PAS les relations (tokens, etc.)
      * - Les champs enums `role` et `status` sont parsés depuis leurs valeurs String
      */
-    public static User toEntity(UserDto userDto) {
+    public static Utilisateur toEntity(UserDto userDto) {
         if (userDto == null) return null;
-        User user = new User();
-        user.setId(userDto.getId());
-        user.setEmail(userDto.getEmail());
-        user.setFirstName(userDto.getFirstName());
-        user.setLastName(userDto.getLastName());
-        user.setPhoneNumber(userDto.getPhoneNumber());
-        user.setProfilePicture(userDto.getProfilePicture());
+        Utilisateur utilisateur = new Utilisateur();
+        utilisateur.setId(userDto.getId());
+        utilisateur.setEmail(userDto.getEmail());
+        utilisateur.setFirstName(userDto.getFirstName());
+        utilisateur.setLastName(userDto.getLastName());
+        utilisateur.setPhoneNumber(userDto.getPhoneNumber());
+        utilisateur.setProfilePicture(userDto.getProfilePicture());
         if (userDto.getRole() != null) {
-            try { user.setRole(Role.valueOf(userDto.getRole().toUpperCase())); } catch (IllegalArgumentException ignored) {}
+            try { utilisateur.setRole(Role.valueOf(userDto.getRole().toUpperCase())); } catch (IllegalArgumentException ignored) {}
         }
         if (userDto.getStatus() != null) {
-            try { user.setStatus(UserStatus.valueOf(userDto.getStatus().toUpperCase())); } catch (IllegalArgumentException ignored) {}
+            try { utilisateur.setStatus(UserStatus.valueOf(userDto.getStatus().toUpperCase())); } catch (IllegalArgumentException ignored) {}
         }
-        user.setEmailVerified(userDto.getEmailVerified() != null ? userDto.getEmailVerified() : Boolean.FALSE);
-        user.setCreatedAt(userDto.getCreatedAt());
-        user.setLastUpdate(userDto.getUpdatedAt());
-        user.setLastLogin(userDto.getLastLogin());
-        return user;
+        utilisateur.setEmailVerified(userDto.getEmailVerified() != null ? userDto.getEmailVerified() : Boolean.FALSE);
+        utilisateur.setCreatedAt(userDto.getCreatedAt());
+        utilisateur.setLastUpdate(userDto.getUpdatedAt());
+        utilisateur.setLastLogin(userDto.getLastLogin());
+        return utilisateur;
     }
 }

@@ -2,7 +2,7 @@ package com.backend.tutor_app.servicesImpl;
 
 import com.backend.tutor_app.dto.Auth.AuthResponse;
 import com.backend.tutor_app.dto.user.UserProfileDto;
-import com.backend.tutor_app.model.User;
+import com.backend.tutor_app.model.Utilisateur;
 import com.backend.tutor_app.model.enums.Role;
 import com.backend.tutor_app.model.enums.SocialProvider;
 import com.backend.tutor_app.model.enums.UserStatus;
@@ -77,31 +77,31 @@ public class SocialAuthServiceImpl implements SocialAuthService {
             
             Optional<SocialAccount> existingSocialAccount = findSocialAccount(provider, providerId);
             
-            User user;
+            Utilisateur utilisateur;
             if (existingSocialAccount.isPresent()) {
-                user = existingSocialAccount.get().getUser();
+                utilisateur = existingSocialAccount.get().getUtilisateur();
                 updateSocialAccountTokens(existingSocialAccount.get(), accessToken, userInfo);
             } else {
-                Optional<User> existingUser = userService.getUserByEmail(email);
+                Optional<Utilisateur> existingUser = userService.getUserByEmail(email);
                 if (existingUser.isPresent()) {
-                    user = existingUser.get();
-                    createOrUpdateSocialAccount(user, provider, userInfo, accessToken, null);
+                    utilisateur = existingUser.get();
+                    createOrUpdateSocialAccount(utilisateur, provider, userInfo, accessToken, null);
                 } else {
-                    user = createUserFromSocialProvider(provider, userInfo);
-                    createOrUpdateSocialAccount(user, provider, userInfo, accessToken, null);
+                    utilisateur = createUserFromSocialProvider(provider, userInfo);
+                    createOrUpdateSocialAccount(utilisateur, provider, userInfo, accessToken, null);
                 }
             }
             
             // Génération des tokens JWT (délégation vers JwtServiceUtil via TokenService refactorisé)
-            String jwtToken = tokenService.generateJwtToken(user);  // ← Délègue à JwtServiceUtil.generateToken()
-            String refreshToken = tokenService.createRefreshToken(user, "Social Login", getCurrentClientIp()).getToken();
+            String jwtToken = tokenService.generateJwtToken(utilisateur);  // ← Délègue à JwtServiceUtil.generateToken()
+            String refreshToken = tokenService.createRefreshToken(utilisateur, "Social Login", getCurrentClientIp()).getToken();
             
             return AuthResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
                 .tokenType("Bearer")
                 .expiresIn(3600L)
-                .user(UserProfileDto.fromEntity(user))
+                .user(UserProfileDto.fromEntity(utilisateur))
                 .build();
                 
         } catch (Exception e) {
@@ -205,19 +205,19 @@ public class SocialAuthServiceImpl implements SocialAuthService {
     }
 
     @Override
-    public SocialAccount createOrUpdateSocialAccount(User user, SocialProvider provider, Map<String, Object> providerData, 
-                                                   String accessToken, String refreshToken) {
+    public SocialAccount createOrUpdateSocialAccount(Utilisateur utilisateur, SocialProvider provider, Map<String, Object> providerData,
+                                                     String accessToken, String refreshToken) {
         try {
             String providerId = extractProviderId(provider, providerData);
             
-            Optional<SocialAccount> existingAccount = socialAccountRepository.findByUserAndProvider(user, provider);
+            Optional<SocialAccount> existingAccount = socialAccountRepository.findByUtilisateurAndProvider(utilisateur, provider);
             
             SocialAccount socialAccount;
             if (existingAccount.isPresent()) {
                 socialAccount = existingAccount.get();
             } else {
                 socialAccount = new SocialAccount();
-                socialAccount.setUser(user);
+                socialAccount.setUtilisateur(utilisateur);
                 socialAccount.setProvider(provider);
                 socialAccount.setProviderId(providerId);
             }
@@ -244,9 +244,9 @@ public class SocialAuthServiceImpl implements SocialAuthService {
     @Override
     public List<SocialAccount> getUserSocialAccounts(Long userId) {
         try {
-            User user = userService.getUserById(userId)
+            Utilisateur utilisateur = userService.getUserById(userId)
                 .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
-            return socialAccountRepository.findByUser(user);
+            return socialAccountRepository.findByUtilisateur(utilisateur);
         } catch (Exception e) {
             log.error("Erreur récupération comptes sociaux utilisateur {} - {}", userId, e.getMessage());
             return new ArrayList<>();
@@ -256,7 +256,7 @@ public class SocialAuthServiceImpl implements SocialAuthService {
     @Override
     public SocialAccount linkSocialAccount(Long userId, SocialProvider provider, String authorizationCode) {
         try {
-            User user = userService.getUserById(userId)
+            Utilisateur utilisateur = userService.getUserById(userId)
                 .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
             
             if (hasUserSocialAccount(userId, provider)) {
@@ -267,7 +267,7 @@ public class SocialAuthServiceImpl implements SocialAuthService {
             String accessToken = exchangeCodeForAccessToken(provider, authorizationCode, redirectUri);
             Map<String, Object> userInfo = getUserInfoFromProvider(provider, accessToken);
             
-            return createOrUpdateSocialAccount(user, provider, userInfo, accessToken, null);
+            return createOrUpdateSocialAccount(utilisateur, provider, userInfo, accessToken, null);
             
         } catch (Exception e) {
             log.error("Erreur liaison compte social - {}", e.getMessage());
@@ -278,10 +278,10 @@ public class SocialAuthServiceImpl implements SocialAuthService {
     @Override
     public void unlinkSocialAccount(Long userId, SocialProvider provider) {
         try {
-            User user = userService.getUserById(userId)
+            Utilisateur utilisateur = userService.getUserById(userId)
                 .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
             
-            Optional<SocialAccount> socialAccount = socialAccountRepository.findByUserAndProvider(user, provider);
+            Optional<SocialAccount> socialAccount = socialAccountRepository.findByUtilisateurAndProvider(utilisateur, provider);
             if (socialAccount.isPresent()) {
                 socialAccountRepository.delete(socialAccount.get());
                 log.info("Compte social {} délié pour utilisateur {}", provider, userId);
@@ -296,9 +296,9 @@ public class SocialAuthServiceImpl implements SocialAuthService {
     @Override
     public boolean hasUserSocialAccount(Long userId, SocialProvider provider) {
         try {
-            User user = userService.getUserById(userId)
+            Utilisateur utilisateur = userService.getUserById(userId)
                 .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
-            return socialAccountRepository.existsByUserAndProvider(user, provider);
+            return socialAccountRepository.existsByUtilisateurAndProvider(utilisateur, provider);
         } catch (Exception e) {
             return false;
         }
@@ -337,13 +337,13 @@ public class SocialAuthServiceImpl implements SocialAuthService {
     }
 
     @Override
-    public User createUserFromSocialProvider(SocialProvider provider, Map<String, Object> providerData) {
+    public Utilisateur createUserFromSocialProvider(SocialProvider provider, Map<String, Object> providerData) {
         try {
             String email = (String) providerData.get("email");
             String firstName = extractFirstName(provider, providerData);
             String lastName = extractLastName(provider, providerData);
             
-            User user = User.builder()
+            Utilisateur utilisateur = Utilisateur.builder()
                 .email(email)
                 .firstName(firstName)
                 .lastName(lastName)
@@ -354,7 +354,7 @@ public class SocialAuthServiceImpl implements SocialAuthService {
                 .passwordChangedAt(LocalDateTime.now())
                 .build();
             
-            return userService.createUser(user);
+            return userService.createUser(utilisateur);
             
         } catch (Exception e) {
             log.error("Erreur création utilisateur depuis provider social - {}", e.getMessage());
@@ -363,24 +363,24 @@ public class SocialAuthServiceImpl implements SocialAuthService {
     }
 
     @Override
-    public User updateUserFromSocialProvider(User user, SocialProvider provider, Map<String, Object> providerData) {
+    public Utilisateur updateUserFromSocialProvider(Utilisateur utilisateur, SocialProvider provider, Map<String, Object> providerData) {
         try {
             String firstName = extractFirstName(provider, providerData);
             String lastName = extractLastName(provider, providerData);
             
-            if (firstName != null && !firstName.equals(user.getFirstName())) {
-                user.setFirstName(firstName);
+            if (firstName != null && !firstName.equals(utilisateur.getFirstName())) {
+                utilisateur.setFirstName(firstName);
             }
             
-            if (lastName != null && !lastName.equals(user.getLastName())) {
-                user.setLastName(lastName);
+            if (lastName != null && !lastName.equals(utilisateur.getLastName())) {
+                utilisateur.setLastName(lastName);
             }
             
-            return userService.updateUser(user.getId(), user);
+            return userService.updateUser(utilisateur.getId(), utilisateur);
             
         } catch (Exception e) {
             log.error("Erreur mise à jour utilisateur depuis provider - {}", e.getMessage());
-            return user;
+            return utilisateur;
         }
     }
 
@@ -508,15 +508,15 @@ public class SocialAuthServiceImpl implements SocialAuthService {
         return "127.0.0.1"; // TODO: Récupérer la vraie IP client
     }
 
-    private Object mapUserToDto(User user) {
+    private Object mapUserToDto(Utilisateur utilisateur) {
         return Map.of(
-            "id", user.getId(),
-            "email", user.getEmail(),
-            "firstName", user.getFirstName(),
-            "lastName", user.getLastName(),
-            "role", user.getRole(),
-            "status", user.getStatus(),
-            "emailVerified", user.getEmailVerified()
+            "id", utilisateur.getId(),
+            "email", utilisateur.getEmail(),
+            "firstName", utilisateur.getFirstName(),
+            "lastName", utilisateur.getLastName(),
+            "role", utilisateur.getRole(),
+            "status", utilisateur.getStatus(),
+            "emailVerified", utilisateur.getEmailVerified()
         );
     }
 }

@@ -41,7 +41,7 @@ public interface ModerationReportRepository extends JpaRepository<ModerationRepo
     /**
      * Trouve tous les signalements concernant un utilisateur
      */
-    List<ModerationReport> findByReportedUserId(Long reportedUserId);
+    List<ModerationReport> findByReportedUtilisateurId(Long reportedUtilisateurId);
 
     /**
      * Trouve les signalements créés par un utilisateur
@@ -85,7 +85,7 @@ public interface ModerationReportRepository extends JpaRepository<ModerationRepo
            "FROM ModerationReport mr " +
            "WHERE mr.reportedAt >= :startDate " +
            "GROUP BY YEAR(mr.reportedAt), MONTH(mr.reportedAt) " +
-           "ORDER BY year DESC, month DESC")
+           "ORDER BY YEAR(mr.reportedAt) DESC, MONTH(mr.reportedAt) DESC")
     List<Object[]> getReportStatsByMonth(@Param("startDate") LocalDateTime startDate);
 
     /**
@@ -95,7 +95,7 @@ public interface ModerationReportRepository extends JpaRepository<ModerationRepo
            "(:status IS NULL OR mr.status = :status) AND " +
            "(:type IS NULL OR mr.type = :type) AND " +
            "(:priorityLevel IS NULL OR mr.priorityLevel = :priorityLevel) AND " +
-           "(:reportedUserId IS NULL OR mr.reportedUser.id = :reportedUserId) AND " +
+           "(:reportedUtilisateurId IS NULL OR mr.reportedUtilisateur.id = :reportedUtilisateurId) AND " +
            "(:reporterId IS NULL OR mr.reporter.id = :reporterId) AND " +
            "(:startDate IS NULL OR mr.reportedAt >= :startDate) AND " +
            "(:endDate IS NULL OR mr.reportedAt <= :endDate)")
@@ -103,7 +103,7 @@ public interface ModerationReportRepository extends JpaRepository<ModerationRepo
         @Param("status") ReportStatus status,
         @Param("type") ReportType type,
         @Param("priorityLevel") Integer priorityLevel,
-        @Param("reportedUserId") Long reportedUserId,
+        @Param("reportedUtilisateurId") Long reportedUtilisateurId,
         @Param("reporterId") Long reporterId,
         @Param("startDate") LocalDateTime startDate,
         @Param("endDate") LocalDateTime endDate,
@@ -131,10 +131,10 @@ public interface ModerationReportRepository extends JpaRepository<ModerationRepo
     /**
      * Trouve les utilisateurs les plus signalés
      */
-    @Query("SELECT mr.reportedUser.id, mr.reportedUser.email, COUNT(mr) as reportCount " +
+    @Query("SELECT mr.reportedUtilisateur.id, mr.reportedUtilisateur.email, COUNT(mr) as reportCount " +
            "FROM ModerationReport mr " +
            "WHERE mr.reportedAt >= :startDate " +
-           "GROUP BY mr.reportedUser.id, mr.reportedUser.email " +
+           "GROUP BY mr.reportedUtilisateur.id, mr.reportedUtilisateur.email " +
            "ORDER BY reportCount DESC")
     List<Object[]> findMostReportedUsers(@Param("startDate") LocalDateTime startDate, Pageable pageable);
 
@@ -157,7 +157,7 @@ public interface ModerationReportRepository extends JpaRepository<ModerationRepo
            "LOWER(mr.reason) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
            "LOWER(mr.description) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
            "LOWER(mr.adminComment) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
-           "LOWER(mr.reportedUser.email) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+           "LOWER(mr.reportedUtilisateur.email) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
            "LOWER(mr.reporter.email) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
     Page<ModerationReport> searchReports(@Param("searchTerm") String searchTerm, Pageable pageable);
 
@@ -166,12 +166,12 @@ public interface ModerationReportRepository extends JpaRepository<ModerationRepo
      */
     @Query("SELECT mr FROM ModerationReport mr WHERE " +
            "mr.reporter.id = :reporterId AND " +
-           "mr.reportedUser.id = :reportedUserId AND " +
+           "mr.reportedUtilisateur.id = :reportedUtilisateurId AND " +
            "mr.type = :type AND " +
            "mr.reportedAt >= :recentCutoff")
     List<ModerationReport> findDuplicateReports(
         @Param("reporterId") Long reporterId,
-        @Param("reportedUserId") Long reportedUserId,
+        @Param("reportedUtilisateurId") Long reportedUtilisateurId,
         @Param("type") ReportType type,
         @Param("recentCutoff") LocalDateTime recentCutoff
     );

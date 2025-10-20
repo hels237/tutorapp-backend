@@ -6,8 +6,7 @@ import com.backend.tutor_app.dto.Auth.RegisterRequest;
 import com.backend.tutor_app.dto.Auth.ResetPasswordRequest;
 import com.backend.tutor_app.dto.Auth.UserDto;
 import com.backend.tutor_app.dto.user.UserProfileDto;
-import com.backend.tutor_app.model.User;
-import com.backend.tutor_app.model.enums.Role;
+import com.backend.tutor_app.model.Utilisateur;
 import com.backend.tutor_app.model.enums.SocialProvider;
 import com.backend.tutor_app.model.enums.UserStatus;
 import com.backend.tutor_app.repositories.UserRepository;
@@ -66,30 +65,30 @@ public class AuthServiceImpl implements AuthService {
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
             );
 
-            User user = (User) authentication.getPrincipal();
+            Utilisateur utilisateur = (Utilisateur) authentication.getPrincipal();
             
             // Vérifications supplémentaires
-            validateUserForLogin(user);
+            validateUserForLogin(utilisateur);
             
             // Génération des tokens (TokenService délègue maintenant à JwtServiceUtil)
-            String jwtToken = tokenService.generateJwtToken(user);  // ← Délègue à JwtServiceUtil.generateToken()
-            String refreshToken = tokenService.createRefreshToken(user, request.getDeviceInfo() != null ? request.getDeviceInfo() : "Unknown", clientIp).getToken();
+            String jwtToken = tokenService.generateJwtToken(utilisateur);  // ← Délègue à JwtServiceUtil.generateToken()
+            String refreshToken = tokenService.createRefreshToken(utilisateur, request.getDeviceInfo() != null ? request.getDeviceInfo() : "Unknown", clientIp).getToken();
             
             // Mise à jour des informations de connexion
-            userService.updateLastLogin(user.getId(), LocalDateTime.now());
-            userService.resetLoginAttempts(user.getId());
+            userService.updateLastLogin(utilisateur.getId(), LocalDateTime.now());
+            userService.resetLoginAttempts(utilisateur.getId());
             
             // Enregistrement de la connexion réussie
             rateLimitService.recordSuccessfulLogin(clientIp, request.getEmail());
             
-            log.info("Connexion réussie pour l'utilisateur: {}", user.getEmail());
+            log.info("Connexion réussie pour l'utilisateur: {}", utilisateur.getEmail());
             
             return AuthResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
                 .tokenType("Bearer")
                 .expiresIn(3600L) // 1 heure
-                .user(mapUserToDto(user))
+                .user(mapUserToDto(utilisateur))
                 .build();
                 
         } catch (AuthenticationException e) {
@@ -97,7 +96,7 @@ public class AuthServiceImpl implements AuthService {
             rateLimitService.recordFailedLogin(clientIp, request.getEmail());
             
             // Incrémenter les tentatives de connexion si l'utilisateur existe
-            Optional<User> userOpt = userRepository.findByEmail(request.getEmail());
+            Optional<Utilisateur> userOpt = userRepository.findByEmail(request.getEmail());
             if (userOpt.isPresent()) {
                 userService.incrementLoginAttempts(userOpt.get().getId());
                 
@@ -133,42 +132,44 @@ public class AuthServiceImpl implements AuthService {
 
         try {
             // Création de l'utilisateur
-            User user = User.builder()
+            Utilisateur utilisateur = Utilisateur.builder()
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .phoneNumber(request.getPhoneNumber())
-                .role(request.getUserType() != null ? request.getUserType() : Role.STUDENT)
+                .role(request.getUserTypeAsRole()) // Convertit "student" -> STUDENT
                 .status(UserStatus.PENDING_VERIFICATION)
                 .emailVerified(false)
                 .loginAttempts(0)
                 .passwordChangedAt(LocalDateTime.now())
+                .acceptTerms(request.getAcceptTerms() != null ? request.getAcceptTerms() : false)
+                .acceptMarketing(request.getAcceptMarketing() != null ? request.getAcceptMarketing() : false)
                 .build();
 
-            User savedUser = userService.createUser(user);
+            Utilisateur savedUtilisateur = userService.createUser(utilisateur);
             
             // Envoi de l'email de vérification
-            sendEmailVerification(savedUser.getEmail());
+            sendEmailVerification(savedUtilisateur.getEmail());
             
             // Génération des tokens pour connexion automatique après inscription (délégation JwtServiceUtil)
-            String jwtToken = tokenService.generateJwtToken(savedUser);  // ← Délègue à JwtServiceUtil.generateToken()
-            String refreshToken = tokenService.createRefreshToken(savedUser, request.getDeviceInfo() != null ? request.getDeviceInfo() : "Unknown", clientIp).getToken();
+            String jwtToken = tokenService.generateJwtToken(savedUtilisateur);  // ← Délègue à JwtServiceUtil.generateToken()
+            String refreshToken = tokenService.createRefreshToken(savedUtilisateur, request.getDeviceInfo() != null ? request.getDeviceInfo() : "Unknown", clientIp).getToken();
             
             // Enregistrement de la tentative d'inscription
             rateLimitService.recordRegistrationAttempt(clientIp);
             
             // Envoi de l'email de bienvenue
-            emailService.sendWelcomeEmail(savedUser);
+            emailService.sendWelcomeEmail(savedUtilisateur);
             
-            log.info("Inscription réussie pour l'utilisateur: {}", savedUser.getEmail());
+            log.info("Inscription réussie pour l'utilisateur: {}", savedUtilisateur.getEmail());
             
             return AuthResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
                 .tokenType("Bearer")
                 .expiresIn(3600L)
-                .user(mapUserToDto(savedUser))
+                .user(mapUserToDto(savedUtilisateur))
                 .build();
                 
         } catch (Exception e) {
@@ -215,25 +216,25 @@ public class AuthServiceImpl implements AuthService {
             var refreshTokenEntity = tokenService.findRefreshToken(refreshToken)
                 .orElseThrow(() -> new RuntimeException("Refresh token non trouvé"));
             
-            User user = refreshTokenEntity.getUser();
+            Utilisateur utilisateur = refreshTokenEntity.getUtilisateur();
             
             // Vérification de l'état de l'utilisateur
-            validateUserForLogin(user);
+            validateUserForLogin(utilisateur);
             
             // Génération d'un nouveau JWT
-            String newJwtToken = tokenService.generateJwtToken(user);
+            String newJwtToken = tokenService.generateJwtToken(utilisateur);
             
             // Mise à jour de la date de dernière utilisation du refresh token
             tokenService.updateRefreshTokenLastUsed(refreshToken);
             
-            log.info("Rafraîchissement de token réussi pour l'utilisateur: {}", user.getEmail());
+            log.info("Rafraîchissement de token réussi pour l'utilisateur: {}", utilisateur.getEmail());
             
             return AuthResponse.builder()
                 .accessToken(newJwtToken)
                 .refreshToken(refreshToken) // On garde le même refresh token
                 .tokenType("Bearer")
                 .expiresIn(3600L)
-                .user(mapUserToDto(user))
+                .user(mapUserToDto(utilisateur))
                 .build();
                 
         } catch (Exception e) {
@@ -253,19 +254,19 @@ public class AuthServiceImpl implements AuthService {
         }
         
         try {
-            User user = userRepository.findByEmail(email)
+            Utilisateur utilisateur = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
             
-            if (user.getEmailVerified()) {
+            if (utilisateur.getEmailVerified()) {
                 throw new RuntimeException("Email déjà vérifié");
             }
             
             // Création du token de vérification
             String clientIp = getCurrentClientIp();
-            var verificationToken = tokenService.createEmailVerificationToken(user, clientIp);
+            var verificationToken = tokenService.createEmailVerificationToken(utilisateur, clientIp);
             
             // Envoi de l'email
-            emailService.sendEmailVerification(user, verificationToken.getToken());
+            emailService.sendEmailVerification(utilisateur, verificationToken.getToken());
             
             // Enregistrement de l'envoi
             rateLimitService.recordEmailVerificationSent(email);
@@ -291,26 +292,26 @@ public class AuthServiceImpl implements AuthService {
             var verificationToken = tokenService.findEmailVerificationToken(token)
                 .orElseThrow(() -> new RuntimeException("Token de vérification non trouvé"));
             
-            User user = verificationToken.getUser();
+            Utilisateur utilisateur = verificationToken.getUtilisateur();
             
             // Marquer l'email comme vérifié
-            userService.markEmailAsVerified(user.getId());
+            userService.markEmailAsVerified(utilisateur.getId());
             
             // Activer l'utilisateur si il était en attente de vérification
-            if (user.getStatus() == UserStatus.PENDING_VERIFICATION) {
-                userService.activateUser(user.getId());
+            if (utilisateur.getStatus() == UserStatus.PENDING_VERIFICATION) {
+                userService.activateUser(utilisateur.getId());
             }
             
             // Marquer le token comme utilisé
             tokenService.markEmailVerificationTokenAsUsed(token);
             
             // Supprimer les autres tokens de vérification de cet utilisateur
-            tokenService.deleteUserEmailVerificationTokens(user.getId());
+            tokenService.deleteUserEmailVerificationTokens(utilisateur.getId());
             
             // Envoi de l'email de confirmation
-            emailService.sendEmailVerificationConfirmation(user);
+            emailService.sendEmailVerificationConfirmation(utilisateur);
             
-            log.info("Email vérifié avec succès pour l'utilisateur: {}", user.getEmail());
+            log.info("Email vérifié avec succès pour l'utilisateur: {}", utilisateur.getEmail());
             
         } catch (Exception e) {
             log.error("Erreur lors de la vérification d'email: {}", e.getMessage());
@@ -330,17 +331,17 @@ public class AuthServiceImpl implements AuthService {
         }
         
         try {
-            User user = userRepository.findByEmail(email)
+            Utilisateur utilisateur = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
             
             // Révocation des anciens tokens de réinitialisation
-            tokenService.revokeAllUserPasswordResetTokens(user.getId());
+            tokenService.revokeAllUserPasswordResetTokens(utilisateur.getId());
             
             // Création du nouveau token
-            var resetToken = tokenService.createPasswordResetToken(user);
+            var resetToken = tokenService.createPasswordResetToken(utilisateur);
             
             // Envoi de l'email
-            emailService.sendPasswordResetEmail(user, resetToken.getToken());
+            emailService.sendPasswordResetEmail(utilisateur, resetToken.getToken());
             
             // Enregistrement de la tentative
             rateLimitService.recordPasswordResetAttempt(clientIp, email);
@@ -366,33 +367,33 @@ public class AuthServiceImpl implements AuthService {
             var resetToken = tokenService.findPasswordResetToken(request.getToken())
                 .orElseThrow(() -> new RuntimeException("Token de réinitialisation non trouvé"));
             
-            User user = resetToken.getUser();
+            Utilisateur utilisateur = resetToken.getUtilisateur();
             
             // Mise à jour du mot de passe
             String encodedPassword = passwordEncoder.encode(request.getNewPassword());
-            user.setPassword(encodedPassword);
-            user.setPasswordChangedAt(LocalDateTime.now());
+            utilisateur.setPassword(encodedPassword);
+            utilisateur.setPasswordChangedAt(LocalDateTime.now());
             
-            userRepository.save(user);
+            userRepository.save(utilisateur);
             
             // Marquer le token comme utilisé
             tokenService.markPasswordResetTokenAsUsed(request.getToken());
             
             // Révocation de tous les tokens de l'utilisateur pour forcer une nouvelle connexion
-            revokeAllUserTokens(user.getId());
+            revokeAllUserTokens(utilisateur.getId());
             
             // Remise à zéro des tentatives de connexion
-            userService.resetLoginAttempts(user.getId());
+            userService.resetLoginAttempts(utilisateur.getId());
             
             // Déverrouillage du compte si nécessaire
-            if (user.getLockedUntil() != null && user.getLockedUntil().isAfter(LocalDateTime.now())) {
-                userService.unlockUser(user.getId());
+            if (utilisateur.getLockedUntil() != null && utilisateur.getLockedUntil().isAfter(LocalDateTime.now())) {
+                userService.unlockUser(utilisateur.getId());
             }
             
             // Envoi de l'email de confirmation
-            emailService.sendPasswordChangeConfirmation(user);
+            emailService.sendPasswordChangeConfirmation(utilisateur);
             
-            log.info("Mot de passe réinitialisé avec succès pour l'utilisateur: {}", user.getEmail());
+            log.info("Mot de passe réinitialisé avec succès pour l'utilisateur: {}", utilisateur.getEmail());
             
         } catch (Exception e) {
             log.error("Erreur lors de la réinitialisation de mot de passe: {}", e.getMessage());
@@ -444,10 +445,10 @@ public class AuthServiceImpl implements AuthService {
             }
             
             Long userId = tokenService.getUserIdFromJwtToken(token);
-            User user = userService.getUserById(userId)
+            Utilisateur utilisateur = userService.getUserById(userId)
                 .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
             
-            return UserDto.fromEntity(user);
+            return UserDto.fromEntity(utilisateur);
                 
         } catch (Exception e) {
             log.error("Erreur lors de la récupération de l'utilisateur actuel: {}", e.getMessage());
@@ -471,26 +472,26 @@ public class AuthServiceImpl implements AuthService {
         log.info("Changement de mot de passe pour l'utilisateur ID: {}", userId);
         
         try {
-            User user = userService.getUserById(userId)
+            Utilisateur utilisateur = userService.getUserById(userId)
                 .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
             
             // Vérification du mot de passe actuel
-            if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
+            if (!passwordEncoder.matches(currentPassword, utilisateur.getPassword())) {
                 throw new RuntimeException("Mot de passe actuel incorrect");
             }
             
             // Mise à jour du mot de passe
             String encodedPassword = passwordEncoder.encode(newPassword);
-            user.setPassword(encodedPassword);
-            user.setPasswordChangedAt(LocalDateTime.now());
+            utilisateur.setPassword(encodedPassword);
+            utilisateur.setPasswordChangedAt(LocalDateTime.now());
             
-            userRepository.save(user);
+            userRepository.save(utilisateur);
             
             // Révocation de tous les tokens pour forcer une nouvelle connexion
             revokeAllUserTokens(userId);
             
             // Envoi de l'email de confirmation
-            emailService.sendPasswordChangeConfirmation(user);
+            emailService.sendPasswordChangeConfirmation(utilisateur);
             
             log.info("Mot de passe changé avec succès pour l'utilisateur ID: {}", userId);
             
@@ -502,16 +503,16 @@ public class AuthServiceImpl implements AuthService {
 
     // ==================== MÉTHODES UTILITAIRES ====================
 
-    private void validateUserForLogin(User user) {
-        if (user.getStatus() == UserStatus.SUSPENDED) {
+    private void validateUserForLogin(Utilisateur utilisateur) {
+        if (utilisateur.getStatus() == UserStatus.SUSPENDED) {
             throw new RuntimeException("Compte suspendu. Contactez l'administration.");
         }
         
-        if (user.getStatus() == UserStatus.DELETED) {
+        if (utilisateur.getStatus() == UserStatus.DELETED) {
             throw new RuntimeException("Compte supprimé.");
         }
         
-        if (user.getLockedUntil() != null && user.getLockedUntil().isAfter(LocalDateTime.now())) {
+        if (utilisateur.getLockedUntil() != null && utilisateur.getLockedUntil().isAfter(LocalDateTime.now())) {
             throw new RuntimeException("Compte temporairement verrouillé. Réessayez plus tard.");
         }
     }
@@ -525,7 +526,7 @@ public class AuthServiceImpl implements AuthService {
     /**
      * Convertit une entité User en UserProfileDto pour l'API
      */
-    private UserProfileDto mapUserToDto(User user) {
-        return UserProfileDto.fromEntity(user);
+    private UserProfileDto mapUserToDto(Utilisateur utilisateur) {
+        return UserProfileDto.fromEntity(utilisateur);
     }
 }
