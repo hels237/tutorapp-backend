@@ -80,12 +80,17 @@ public class AuthController {
     public ResponseEntity<?> register(
             @Valid @RequestBody RegisterRequest request,
             HttpServletRequest httpRequest) {
-        
+
         try {
+
+            // Objectif : empêcher qu’un même utilisateur (ou une même IP) spamme l’inscription.
             String clientIp = getClientIpAddress(httpRequest);
             log.info("Tentative d'inscription pour: {} depuis IP: {}", request.getEmail(), clientIp);
+            /*
+            * Vérification rate limiting : vérifie si cette IP n’a pas dépassé la limite autorisée d’inscriptions récentes.
+            * Si c’est le cas → on bloque l’opération avec une exception.
+            * */
 
-            // Vérification rate limiting
             if (!rateLimitService.isRegistrationAllowed(clientIp)) {
                 return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS)
                     .body(ApiResponseDto.error("Trop de tentatives d'inscription. Veuillez réessayer plus tard."));
@@ -93,7 +98,7 @@ public class AuthController {
 
             // Inscription
             AuthResponse authResponse = authService.register(request);
-            
+
             return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ApiResponseDto.success(authResponse, "Inscription réussie. Vérifiez votre email."));
 
