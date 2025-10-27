@@ -6,6 +6,7 @@
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/controller/UserController.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/dto/Auth/AuthRequest.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/dto/Auth/AuthResponse.java
+/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/dto/Auth/DeviceInfoDto.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/dto/Auth/ForgotPasswordRequest.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/dto/Auth/RefreshTokenRequest.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/dto/Auth/RegisterRequest.java
@@ -115,4 +116,5 @@
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/servicesImpl/SocialAuthServiceImpl.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/servicesImpl/TokenServiceImpl.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/servicesImpl/UserServiceImpl.java
+/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/utils/UserAgentParser.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/validator/ObjectValidator.java

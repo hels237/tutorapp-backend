@@ -1,6 +1,8 @@
 package com.backend.tutor_app.servicesImpl;
 
 import com.backend.tutor_app.dto.Auth.AuthRequest;
+import com.backend.tutor_app.dto.Auth.DeviceInfoDto; // (Q) PHASE 1 - Import DeviceInfoDto
+import com.backend.tutor_app.utils.UserAgentParser; // (Q) PHASE 1 - Import UserAgentParser
 import com.backend.tutor_app.dto.Auth.AuthResponse;
 import com.backend.tutor_app.dto.Auth.RegisterRequest;
 import com.backend.tutor_app.dto.Auth.ResetPasswordRequest;
@@ -47,6 +49,9 @@ public class AuthServiceImpl implements AuthService {
     private final SocialAuthService socialAuthService;
     private final RateLimitService rateLimitService;
     private final UserService userService;
+    
+    // (Q) PHASE 1 - ÉTAPE 1.2 : Parser User Agent pour métadonnées enrichies
+    private final UserAgentParser userAgentParser;
 
     @Override
     public AuthResponse login(AuthRequest request) {
@@ -70,9 +75,24 @@ public class AuthServiceImpl implements AuthService {
             // Vérifications supplémentaires
             validateUserForLogin(utilisateur);
             
+            // (Q) PHASE 1 - ÉTAPE 1.2 : Collecte et parsing des métadonnées enrichies
+            DeviceInfoDto deviceInfo = userAgentParser.parseUserAgent(
+                request.getDeviceInfo() != null ? request.getDeviceInfo() : "Unknown",
+                clientIp,
+                request.getTimezone(),
+                request.getBrowserLanguage()
+            );
+            
+            log.debug("(Q) PHASE 1 - Device détecté: {} depuis {} ({})", 
+                deviceInfo.getDeviceSummary(), 
+                deviceInfo.getIpAddress(),
+                deviceInfo.getTimezone());
+            
             // Génération des tokens (TokenService délègue maintenant à JwtServiceUtil)
             String jwtToken = tokenService.generateJwtToken(utilisateur);  // ← Délègue à JwtServiceUtil.generateToken()
-            String refreshToken = tokenService.createRefreshToken(utilisateur, request.getDeviceInfo() != null ? request.getDeviceInfo() : "Unknown", clientIp).getToken();
+            
+            // (Q) PHASE 1 - ÉTAPE 1.2 : Création du Refresh Token avec métadonnées enrichies
+            String refreshToken = tokenService.createRefreshTokenWithEnrichedMetadata(utilisateur, deviceInfo).getToken();
             
             // Mise à jour des informations de connexion
             userService.updateLastLogin(utilisateur.getId(), LocalDateTime.now());
@@ -152,9 +172,23 @@ public class AuthServiceImpl implements AuthService {
             // Envoi de l'email de vérification
             sendEmailVerification(savedUtilisateur.getEmail());
             
+            // (Q) PHASE 1 - ÉTAPE 1.2 : Collecte et parsing des métadonnées enrichies pour l'inscription
+            DeviceInfoDto deviceInfo = userAgentParser.parseUserAgent(
+                request.getDeviceInfo() != null ? request.getDeviceInfo() : "Unknown",
+                clientIp,
+                request.getTimezone(),
+                request.getBrowserLanguage()
+            );
+            
+            log.debug("(Q) PHASE 1 - Inscription depuis: {} ({})", 
+                deviceInfo.getDeviceSummary(), 
+                deviceInfo.getIpAddress());
+            
             // Génération des tokens pour connexion automatique après inscription (délégation JwtServiceUtil)
             String jwtToken = tokenService.generateJwtToken(savedUtilisateur);  // ← Délègue à JwtServiceUtil.generateToken()
-            String refreshToken = tokenService.createRefreshToken(savedUtilisateur, request.getDeviceInfo() != null ? request.getDeviceInfo() : "Unknown", clientIp).getToken();
+            
+            // (Q) PHASE 1 - ÉTAPE 1.2 : Création du Refresh Token avec métadonnées enrichies
+            String refreshToken = tokenService.createRefreshTokenWithEnrichedMetadata(savedUtilisateur, deviceInfo).getToken();
             
             // Enregistrement de la tentative d'inscription
             rateLimitService.recordRegistrationAttempt(clientIp);

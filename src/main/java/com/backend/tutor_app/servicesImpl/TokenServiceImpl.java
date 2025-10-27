@@ -1,5 +1,6 @@
 package com.backend.tutor_app.servicesImpl;
 
+import com.backend.tutor_app.dto.Auth.DeviceInfoDto; // (Q) PHASE 1 - Import du DTO DeviceInfo
 import com.backend.tutor_app.model.Utilisateur;
 import com.backend.tutor_app.model.support.EmailVerificationToken;
 import com.backend.tutor_app.model.support.PasswordResetToken;
@@ -10,6 +11,7 @@ import com.backend.tutor_app.repositories.RefreshTokenRepository;
 import com.backend.tutor_app.security.JwtServiceUtil;
 import com.backend.tutor_app.security.CustomUserService;
 import com.backend.tutor_app.services.TokenService;
+import com.backend.tutor_app.utils.UserAgentParser; // (Q) PHASE 1 - Import du parser User Agent
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,9 +42,13 @@ public class TokenServiceImpl implements TokenService {
     private final RefreshTokenRepository refreshTokenRepository;
     private final EmailVerificationTokenRepository emailVerificationTokenRepository;
     private final PasswordResetTokenRepository passwordResetTokenRepository;
+    
+    // (Q) PHASE 1 - ÉTAPE 1.2 : Parser User Agent pour métadonnées enrichies
+    private final UserAgentParser userAgentParser;
 
-    @Value("${app.refresh-token.expiration:2592000}")
-    private int refreshTokenExpirationInSeconds; // 30 jours
+    // (Q) PHASE 1 - ÉTAPE 1.2 : Réduction de la durée du Refresh Token de 30 à 7 jours pour sécurité
+    @Value("${app.refresh-token.expiration:604800}")
+    private int refreshTokenExpirationInSeconds; // 7 jours (604800 secondes) au lieu de 30 jours
 
     @Value("${app.email-verification-token.expiration:86400}")
     private int emailVerificationTokenExpirationInSeconds; // 24 heures
@@ -115,28 +121,106 @@ public class TokenServiceImpl implements TokenService {
 
     // ==================== REFRESH TOKENS ====================
 
+    // (Q) PHASE 1 - ÉTAPE 1.2 : Méthode améliorée avec métadonnées enrichies
     @Override
     public RefreshToken createRefreshToken(Utilisateur utilisateur, String deviceInfo, String ipAddress) {
-        log.debug("Création d'un refresh token pour l'utilisateur: {}", utilisateur.getEmail());
+        log.debug("(Q) PHASE 1 - Création d'un refresh token avec métadonnées enrichies pour: {}", utilisateur.getEmail());
         
         try {
             // Suppression des anciens refresh tokens expirés pour cet utilisateur
             cleanupExpiredRefreshTokensForUser(utilisateur.getId());
             
+            // (Q) PHASE 1 - Parse le User Agent pour extraire les métadonnées détaillées
+            // deviceInfo contient maintenant le User Agent complet
+            DeviceInfoDto parsedDevice = userAgentParser.parseUserAgent(
+                deviceInfo != null ? deviceInfo : "Unknown",
+                ipAddress,
+                null, // timezone sera ajouté depuis le frontend
+                null  // language sera ajouté depuis le frontend
+            );
+            
+            // (Q) PHASE 1 - Création du token avec TOUTES les métadonnées enrichies
             RefreshToken refreshToken = RefreshToken.builder()
                 .utilisateur(utilisateur)
                 .token(generateUuidToken())
                 .expiresAt(LocalDateTime.now().plusSeconds(refreshTokenExpirationInSeconds))
                 .isRevoked(false)
-                .deviceInfo(deviceInfo)
+                // (Q) Métadonnées de base (compatibilité)
+                .deviceInfo(parsedDevice.getFullDescription())
                 .ipAddress(ipAddress)
                 .lastUsed(LocalDateTime.now())
+                // (Q) PHASE 1 - Nouvelles métadonnées enrichies
+                .usageCount(0)
+                .parentTokenId(null) // Pas de parent pour un token initial
+                .browserName(parsedDevice.getBrowserName())
+                .browserVersion(parsedDevice.getBrowserVersion())
+                .osName(parsedDevice.getOsName())
+                .osVersion(parsedDevice.getOsVersion())
+                .timezone(parsedDevice.getTimezone())
+                .browserLanguage(parsedDevice.getBrowserLanguage())
+                .userAgent(parsedDevice.getUserAgent())
                 .build();
 
-            return refreshTokenRepository.save(refreshToken);
+            RefreshToken savedToken = refreshTokenRepository.save(refreshToken);
+            
+            log.info("(Q) PHASE 1 - Refresh token créé avec succès: {} sur {} depuis {}", 
+                parsedDevice.getDeviceSummary(), 
+                parsedDevice.getOsName(), 
+                ipAddress);
+            
+            return savedToken;
             
         } catch (Exception e) {
             log.error("Erreur lors de la création du refresh token pour l'utilisateur: {} - {}", utilisateur.getEmail(), e.getMessage());
+            throw new RuntimeException("Erreur lors de la création du refresh token");
+        }
+    }
+
+    /**
+     * (Q) PHASE 1 - ÉTAPE 1.2 : Nouvelle méthode pour créer un token avec DeviceInfoDto complet
+     * Cette méthode remplace progressivement createRefreshToken() pour plus de sécurité
+     */
+    @Override
+    public RefreshToken createRefreshTokenWithEnrichedMetadata(Utilisateur utilisateur, DeviceInfoDto deviceInfoDto) {
+        log.debug("(Q) PHASE 1 - Création d'un refresh token avec DeviceInfoDto enrichi pour: {}", utilisateur.getEmail());
+        
+        try {
+            // Suppression des anciens refresh tokens expirés pour cet utilisateur
+            cleanupExpiredRefreshTokensForUser(utilisateur.getId());
+            
+            // (Q) PHASE 1 - Création du token avec TOUTES les métadonnées enrichies depuis le DTO
+            RefreshToken refreshToken = RefreshToken.builder()
+                .utilisateur(utilisateur)
+                .token(generateUuidToken())
+                .expiresAt(LocalDateTime.now().plusSeconds(refreshTokenExpirationInSeconds))
+                .isRevoked(false)
+                // (Q) Métadonnées de base (compatibilité)
+                .deviceInfo(deviceInfoDto.getFullDescription())
+                .ipAddress(deviceInfoDto.getIpAddress())
+                .lastUsed(LocalDateTime.now())
+                // (Q) PHASE 1 - Métadonnées enrichies détaillées
+                .usageCount(0)
+                .parentTokenId(null) // Pas de parent pour un token initial
+                .browserName(deviceInfoDto.getBrowserName())
+                .browserVersion(deviceInfoDto.getBrowserVersion())
+                .osName(deviceInfoDto.getOsName())
+                .osVersion(deviceInfoDto.getOsVersion())
+                .timezone(deviceInfoDto.getTimezone())
+                .browserLanguage(deviceInfoDto.getBrowserLanguage())
+                .userAgent(deviceInfoDto.getUserAgent())
+                .build();
+
+            RefreshToken savedToken = refreshTokenRepository.save(refreshToken);
+            
+            log.info("(Q) PHASE 1 - Refresh token créé: {} depuis {} ({})", 
+                deviceInfoDto.getDeviceSummary(), 
+                deviceInfoDto.getIpAddress(),
+                deviceInfoDto.getTimezone());
+            
+            return savedToken;
+            
+        } catch (Exception e) {
+            log.error("Erreur lors de la création du refresh token enrichi pour: {} - {}", utilisateur.getEmail(), e.getMessage());
             throw new RuntimeException("Erreur lors de la création du refresh token");
         }
     }

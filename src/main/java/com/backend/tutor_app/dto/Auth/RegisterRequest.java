@@ -82,8 +82,12 @@ public class RegisterRequest {
     private String emergencyContact;
 
     // Champs techniques
-    private String deviceInfo;
+    private String deviceInfo; // (Q) Contiendra le User Agent complet
     private String ipAddress;
+    
+    // (Q) PHASE 1 - ÉTAPE 1.2 : Métadonnées enrichies envoyées par le frontend
+    private String timezone;          // Ex: "Europe/Paris"
+    private String browserLanguage;   // Ex: "fr-FR"
 
     // Validation personnalisée
     @AssertTrue(message = "Les mots de passe ne correspondent pas")

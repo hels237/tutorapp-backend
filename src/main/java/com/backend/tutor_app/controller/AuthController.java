@@ -10,7 +10,9 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.Cookie; // (Q) PHASE 1 - ÉTAPE 1.3 : Import Cookie
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse; // (Q) PHASE 1 - ÉTAPE 1.3 : Import HttpServletResponse
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,7 +49,8 @@ public class AuthController {
     })
     public ResponseEntity<?> login(
             @Valid @RequestBody AuthRequest request,
-            HttpServletRequest httpRequest) {
+            HttpServletRequest httpRequest,
+            HttpServletResponse httpResponse) { // (Q) PHASE 1 - ÉTAPE 1.3 : Ajout HttpServletResponse
         
         try {
             String clientIp = getClientIpAddress(httpRequest);
@@ -62,7 +65,19 @@ public class AuthController {
             // Authentification
             AuthResponse authResponse = authService.login(request);
             
-            return ResponseEntity.ok(ApiResponseDto.success(authResponse, "Connexion réussie"));
+            // (Q) PHASE 1 - ÉTAPE 1.3 : Stockage sécurisé du Refresh Token dans HttpOnly Cookie
+            setRefreshTokenCookie(httpResponse, authResponse.getRefreshToken());
+            
+            // (Q) PHASE 1 - ÉTAPE 1.3 : Retourner l'Access Token dans le body (sans le Refresh Token)
+            AuthResponse responseWithoutRefreshToken = AuthResponse.builder()
+                .accessToken(authResponse.getAccessToken())
+                .refreshToken(null) // (Q) Ne pas exposer le Refresh Token dans le body
+                .tokenType(authResponse.getTokenType())
+                .expiresIn(authResponse.getExpiresIn())
+                .user(authResponse.getUser())
+                .build();
+            
+            return ResponseEntity.ok(ApiResponseDto.success(responseWithoutRefreshToken, "Connexion réussie"));
 
         } catch (Exception e) {
             log.error("Erreur lors de la connexion: {}", e.getMessage());
@@ -79,7 +94,8 @@ public class AuthController {
     @Operation(summary = "Inscription utilisateur", description = "Crée un nouveau compte utilisateur")
     public ResponseEntity<?> register(
             @Valid @RequestBody RegisterRequest request,
-            HttpServletRequest httpRequest) {
+            HttpServletRequest httpRequest,
+            HttpServletResponse httpResponse) { // (Q) PHASE 1 - ÉTAPE 1.3 : Ajout HttpServletResponse
 
         try {
 
@@ -99,8 +115,20 @@ public class AuthController {
             // Inscription
             AuthResponse authResponse = authService.register(request);
 
+            // (Q) PHASE 1 - ÉTAPE 1.3 : Stockage sécurisé du Refresh Token dans HttpOnly Cookie
+            setRefreshTokenCookie(httpResponse, authResponse.getRefreshToken());
+            
+            // (Q) PHASE 1 - ÉTAPE 1.3 : Retourner l'Access Token dans le body (sans le Refresh Token)
+            AuthResponse responseWithoutRefreshToken = AuthResponse.builder()
+                .accessToken(authResponse.getAccessToken())
+                .refreshToken(null) // (Q) Ne pas exposer le Refresh Token dans le body
+                .tokenType(authResponse.getTokenType())
+                .expiresIn(authResponse.getExpiresIn())
+                .user(authResponse.getUser())
+                .build();
+
             return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ApiResponseDto.success(authResponse, "Inscription réussie. Vérifiez votre email."));
+                .body(ApiResponseDto.success(responseWithoutRefreshToken, "Inscription réussie. Vérifiez votre email."));
 
         } catch (Exception e) {
             log.error("Erreur lors de l'inscription: {}", e.getMessage());
@@ -115,10 +143,15 @@ public class AuthController {
      */
     @PostMapping("/logout")
     @Operation(summary = "Déconnexion utilisateur", description = "Déconnecte l'utilisateur et révoque les tokens")
-    public ResponseEntity<?> logout(@RequestHeader("Authorization") String authHeader) {
+    public ResponseEntity<?> logout(
+            @RequestHeader("Authorization") String authHeader,
+            HttpServletResponse httpResponse) { // (Q) PHASE 1 - ÉTAPE 1.3 : Ajout HttpServletResponse
         try {
             String token = extractTokenFromHeader(authHeader);
             authService.logout(token);
+            
+            // (Q) PHASE 1 - ÉTAPE 1.3 : Supprimer le Refresh Token cookie
+            clearRefreshTokenCookie(httpResponse);
             
             return ResponseEntity.ok(ApiResponseDto.success(null, "Déconnexion réussie"));
 
@@ -133,15 +166,40 @@ public class AuthController {
 
     /**
      * POST /api/v1/auth/refresh
-     * Renouvellement du token JWT avec refresh token
+     * (Q) PHASE 1 - ÉTAPE 1.3 : Renouvellement du token JWT avec refresh token depuis HttpOnly Cookie
      */
     @PostMapping("/refresh")
-    @Operation(summary = "Renouveler token", description = "Génère un nouveau JWT avec le refresh token")
-    public ResponseEntity<?> refreshToken(@Valid @RequestBody RefreshTokenRequest request) {
+    @Operation(summary = "Renouveler token", description = "Génère un nouveau JWT avec le refresh token depuis le cookie")
+    public ResponseEntity<?> refreshToken(
+            HttpServletRequest httpRequest,
+            HttpServletResponse httpResponse) { // (Q) PHASE 1 - ÉTAPE 1.3 : Lecture depuis cookie
         try {
-            AuthResponse authResponse = authService.refreshToken(request.getRefreshToken());
+            // (Q) PHASE 1 - ÉTAPE 1.3 : Extraire le Refresh Token depuis le HttpOnly Cookie
+            String refreshToken = extractRefreshTokenFromCookie(httpRequest);
             
-            return ResponseEntity.ok(ApiResponseDto.success(authResponse, "Token renouvelé"));
+            if (refreshToken == null || refreshToken.isBlank()) {
+                log.warn("(Q) PHASE 1 - Tentative de refresh sans cookie");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(ApiResponseDto.error("Refresh token manquant"));
+            }
+            
+            AuthResponse authResponse = authService.refreshToken(refreshToken);
+            
+            // (Q) PHASE 1 - ÉTAPE 1.3 : Mettre à jour le cookie avec le nouveau token (si rotation activée)
+            if (authResponse.getRefreshToken() != null) {
+                setRefreshTokenCookie(httpResponse, authResponse.getRefreshToken());
+            }
+            
+            // (Q) PHASE 1 - ÉTAPE 1.3 : Retourner uniquement l'Access Token
+            AuthResponse responseWithoutRefreshToken = AuthResponse.builder()
+                .accessToken(authResponse.getAccessToken())
+                .refreshToken(null) // (Q) Ne pas exposer le Refresh Token
+                .tokenType(authResponse.getTokenType())
+                .expiresIn(authResponse.getExpiresIn())
+                .user(authResponse.getUser())
+                .build();
+            
+            return ResponseEntity.ok(ApiResponseDto.success(responseWithoutRefreshToken, "Token renouvelé"));
 
         } catch (Exception e) {
             log.error("Erreur renouvellement token: {}", e.getMessage());
@@ -290,6 +348,76 @@ public class AuthController {
     }
 
     // ==================== MÉTHODES UTILITAIRES ====================
+
+    /**
+     * (Q) PHASE 1 - ÉTAPE 1.3 : Configure le Refresh Token dans un HttpOnly Cookie sécurisé
+     * Protection contre les attaques XSS : JavaScript ne peut pas accéder au cookie
+     * 
+     * @param response HttpServletResponse pour ajouter le cookie
+     * @param refreshToken Le refresh token à stocker
+     */
+    private void setRefreshTokenCookie(HttpServletResponse response, String refreshToken) {
+        if (refreshToken == null) {
+            log.warn("(Q) PHASE 1 - Tentative de création d'un cookie avec un refresh token null");
+            return;
+        }
+        
+        Cookie cookie = new Cookie("refreshToken", refreshToken);
+        
+        // (Q) PHASE 1 - ÉTAPE 1.3 : Configuration sécurisée du cookie
+        cookie.setHttpOnly(true);  // (Q) JavaScript ne peut PAS y accéder → Protection XSS
+        cookie.setSecure(true);    // (Q) Seulement HTTPS → Protection Man-in-the-Middle
+        cookie.setPath("/api/v1/auth/refresh"); // (Q) Limité à l'endpoint de refresh uniquement
+        cookie.setMaxAge(7 * 24 * 60 * 60); // (Q) 7 jours (même durée que le token)
+        cookie.setAttribute("SameSite", "Strict"); // (Q) Protection CSRF
+        
+        response.addCookie(cookie);
+        
+        log.debug("(Q) PHASE 1 - Refresh Token stocké dans HttpOnly Cookie sécurisé");
+    }
+    
+    /**
+     * (Q) PHASE 1 - ÉTAPE 1.3 : Supprime le Refresh Token cookie (pour logout)
+     * 
+     * @param response HttpServletResponse pour supprimer le cookie
+     */
+    private void clearRefreshTokenCookie(HttpServletResponse response) {
+        Cookie cookie = new Cookie("refreshToken", "");
+        cookie.setHttpOnly(true);
+        cookie.setSecure(true);
+        cookie.setPath("/api/v1/auth/refresh");
+        cookie.setMaxAge(0); // (Q) Expire immédiatement
+        cookie.setAttribute("SameSite", "Strict");
+        
+        response.addCookie(cookie);
+        
+        log.debug("(Q) PHASE 1 - Refresh Token cookie supprimé");
+    }
+    
+    /**
+     * (Q) PHASE 1 - ÉTAPE 1.3 : Extrait le Refresh Token depuis le HttpOnly Cookie
+     * 
+     * @param request HttpServletRequest pour lire les cookies
+     * @return Le refresh token ou null si absent
+     */
+    private String extractRefreshTokenFromCookie(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        
+        if (cookies == null) {
+            log.debug("(Q) PHASE 1 - Aucun cookie trouvé dans la requête");
+            return null;
+        }
+        
+        for (Cookie cookie : cookies) {
+            if ("refreshToken".equals(cookie.getName())) {
+                log.debug("(Q) PHASE 1 - Refresh Token trouvé dans le cookie");
+                return cookie.getValue();
+            }
+        }
+        
+        log.debug("(Q) PHASE 1 - Cookie refreshToken non trouvé");
+        return null;
+    }
 
     /**
      * Extrait l'adresse IP du client

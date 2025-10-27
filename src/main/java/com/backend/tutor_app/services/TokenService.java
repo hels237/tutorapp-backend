@@ -1,5 +1,6 @@
 package com.backend.tutor_app.services;
 
+import com.backend.tutor_app.dto.Auth.DeviceInfoDto;
 import com.backend.tutor_app.model.Utilisateur;
 import com.backend.tutor_app.model.support.EmailVerificationToken;
 import com.backend.tutor_app.model.support.PasswordResetToken;
@@ -61,6 +62,14 @@ public interface TokenService {
      * @return Refresh token créé
      */
     RefreshToken createRefreshToken(Utilisateur utilisateur, String deviceInfo, String ipAddress);
+    
+    /**
+     * (Q) PHASE 1 - ÉTAPE 1.2 : Crée un refresh token avec métadonnées enrichies
+     * @param utilisateur Utilisateur
+     * @param deviceInfoDto Métadonnées enrichies du device (browser, OS, timezone, etc.)
+     * @return Refresh token créé avec toutes les métadonnées
+     */
+    RefreshToken createRefreshTokenWithEnrichedMetadata(Utilisateur utilisateur, DeviceInfoDto deviceInfoDto);
     
     /**
      * Trouve un refresh token par sa valeur

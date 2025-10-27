@@ -21,7 +21,11 @@ public class AuthRequest {
 
     private Boolean rememberMe = false;
 
-    private String deviceInfo;
+    private String deviceInfo; // (Q) Contiendra le User Agent complet
 
     private String ipAddress;
+    
+    // (Q) PHASE 1 - ÉTAPE 1.2 : Métadonnées enrichies envoyées par le frontend
+    private String timezone;          // Ex: "Europe/Paris"
+    private String browserLanguage;   // Ex: "fr-FR"
 }
