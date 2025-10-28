@@ -280,6 +280,113 @@ public class TokenServiceImpl implements TokenService {
         }
     }
 
+    /**
+     * (Q) PHASE 2 - ÉTAPE 2.6 : Rotation du Refresh Token
+     * Révoque l'ancien et crée un nouveau avec traçabilité complète
+     */
+    @Override
+    public RefreshToken rotateRefreshToken(RefreshToken oldToken, DeviceInfoDto deviceInfo) {
+        log.info("(Q) PHASE 2 - Rotation du Refresh Token pour l'utilisateur: {}", 
+            oldToken.getUtilisateur().getEmail());
+        
+        try {
+            // (Q) PHASE 2 - ÉTAPE 2.6.3 : Révoquer l'ancien token
+            oldToken.revokeWithReason("ROTATED");
+            refreshTokenRepository.save(oldToken);
+            
+            log.debug("(Q) PHASE 2 - Ancien token révoqué: {}", oldToken.getToken());
+            
+            // (Q) PHASE 2 - ÉTAPE 2.6.1/2 : Créer le nouveau token
+            RefreshToken newToken = RefreshToken.builder()
+                .utilisateur(oldToken.getUtilisateur())
+                .token(generateUuidToken())
+                .expiresAt(LocalDateTime.now().plusSeconds(refreshTokenExpirationInSeconds))
+                .isRevoked(false)
+                // (Q) Métadonnées de base
+                .deviceInfo(deviceInfo.getFullDescription())
+                .ipAddress(deviceInfo.getIpAddress())
+                .lastUsed(LocalDateTime.now())
+                // (Q) PHASE 2 - Métadonnées enrichies
+                .usageCount(0)
+                .parentTokenId(oldToken.getId()) // (Q) Traçabilité de la chaîne
+                .browserName(deviceInfo.getBrowserName())
+                .browserVersion(deviceInfo.getBrowserVersion())
+                .osName(deviceInfo.getOsName())
+                .osVersion(deviceInfo.getOsVersion())
+                .timezone(deviceInfo.getTimezone())
+                .browserLanguage(deviceInfo.getBrowserLanguage())
+                .userAgent(deviceInfo.getUserAgent())
+                .build();
+            
+            RefreshToken savedToken = refreshTokenRepository.save(newToken);
+            
+            log.info("(Q) PHASE 2 - Nouveau token créé avec parentTokenId: {} → {}", 
+                oldToken.getId(), 
+                savedToken.getId());
+            
+            return savedToken;
+            
+        } catch (Exception e) {
+            log.error("(Q) PHASE 2 - Erreur lors de la rotation du token: {}", e.getMessage());
+            throw new RuntimeException("Erreur lors de la rotation du refresh token");
+        }
+    }
+    
+    /**
+     * (Q) PHASE 2 - ÉTAPE 2.3 : Révocation en cascade de toute la famille de tokens
+     * Utilisé en cas de détection d'attaque (token révoqué réutilisé)
+     */
+    @Override
+    public void revokeTokenFamily(Long tokenId) {
+        log.warn("(Q) PHASE 2 - Révocation de la famille de tokens à partir de: {}", tokenId);
+        
+        try {
+            RefreshToken token = refreshTokenRepository.findById(tokenId)
+                .orElseThrow(() -> new RuntimeException("Token non trouvé"));
+            
+            // (Q) PHASE 2 - Révoquer le token actuel
+            if (!token.getIsRevoked()) {
+                token.revokeWithReason("SECURITY_BREACH");
+                refreshTokenRepository.save(token);
+            }
+            
+            // (Q) PHASE 2 - Révoquer tous les tokens enfants (créés à partir de celui-ci)
+            revokeChildTokens(tokenId);
+            
+            // (Q) PHASE 2 - Révoquer tous les tokens parents (chaîne complète)
+            if (token.getParentTokenId() != null) {
+                revokeTokenFamily(token.getParentTokenId());
+            }
+            
+            log.warn("(Q) PHASE 2 - Famille de tokens révoquée pour: {}", tokenId);
+            
+        } catch (Exception e) {
+            log.error("(Q) PHASE 2 - Erreur lors de la révocation de la famille: {}", e.getMessage());
+        }
+    }
+    
+    /**
+     * (Q) PHASE 2 - Révoque tous les tokens enfants (récursif)
+     */
+    private void revokeChildTokens(Long parentTokenId) {
+        try {
+            // (Q) PHASE 2 - Trouver tous les tokens ayant ce parent
+            var childTokens = refreshTokenRepository.findByParentTokenId(parentTokenId);
+            
+            for (RefreshToken childToken : childTokens) {
+                if (!childToken.getIsRevoked()) {
+                    childToken.revokeWithReason("SECURITY_BREACH");
+                    refreshTokenRepository.save(childToken);
+                    
+                    // (Q) PHASE 2 - Révoquer récursivement les enfants de cet enfant
+                    revokeChildTokens(childToken.getId());
+                }
+            }
+        } catch (Exception e) {
+            log.error("(Q) PHASE 2 - Erreur révocation tokens enfants: {}", e.getMessage());
+        }
+    }
+
     @Override
     public int cleanupExpiredRefreshTokens() {
         log.info("Nettoyage des refresh tokens expirés");

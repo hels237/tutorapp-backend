@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="com.backend.tutor_app.TutorAppApplicationTests" time="13.735" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="com.backend.tutor_app.TutorAppApplicationTests" time="15.421" tests="1" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -15,7 +15,7 @@
     <property name="user.country" value="US"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.boot.library.path" value="/home/hels/.jdks/corretto-17.0.14/lib"/>
-    <property name="sun.java.command" value="/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/target/surefire/surefirebooter-20251027133641478_3.jar /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/target/surefire 2025-10-27T13-36-41_330-jvmRun1 surefire-20251027133641478_1tmp surefire_0-20251027133641478_2tmp"/>
+    <property name="sun.java.command" value="/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/target/surefire/surefirebooter-20251028184339671_3.jar /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/target/surefire 2025-10-28T18-43-39_540-jvmRun1 surefire-20251028184339671_1tmp surefire_0-20251028184339671_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/target/test-classes:/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/target/classes:/home/hels/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/3.5.6/spring-boot-starter-data-jpa-3.5.6.jar:/home/hels/.m2/repository/org/springframework/boot/spring-boot-starter/3.5.6/spring-boot-starter-3.5.6.jar:/home/hels/.m2/repository/org/springframework/boot/spring-boot/3.5.6/spring-boot-3.5.6.jar:/home/hels/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/3.5.6/spring-boot-autoconfigure-3.5.6.jar:/home/hels/.m2/repository/org/springframework/boot/spring-boot-starter-logging/3.5.6/spring-boot-starter-logging-3.5.6.jar:/home/hels/.m2/repository/ch/qos/logback/logback-classic/1.5.18/logback-classic-1.5.18.jar:/home/hels/.m2/repository/ch/qos/logback/logback-core/1.5.18/logback-core-1.5.18.jar:/home/hels/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.24.3/log4j-to-slf4j-2.24.3.jar:/home/hels/.m2/repository/org/apache/logging/log4j/log4j-api/2.24.3/log4j-api-2.24.3.jar:/home/hels/.m2/repository/org/slf4j/jul-to-slf4j/2.0.17/jul-to-slf4j-2.0.17.jar:/home/hels/.m2/repository/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar:/home/hels/.m2/repository/org/yaml/snakeyaml/2.4/snakeyaml-2.4.jar:/home/hels/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/3.5.6/spring-boot-starter-jdbc-3.5.6.jar:/home/hels/.m2/repository/com/zaxxer/HikariCP/6.3.3/HikariCP-6.3.3.jar:/home/hels/.m2/repository/org/springframework/spring-jdbc/6.2.11/spring-jdbc-6.2.11.jar:/home/hels/.m2/repository/org/hibernate/orm/hibernate-core/6.6.29.Final/hibernate-core-6.6.29.Final.jar:/home/hels/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.1.0/jakarta.persistence-api-3.1.0.jar:/home/hels/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.1/jakarta.transaction-api-2.0.1.jar:/home/hels/.m2/repository/org/jboss/logging/jboss-logging/3.6.1.Final/jboss-logging-3.6.1.Final.jar:/home/hels/.m2/repository/org/hibernate/common/hibernate-commons-annotations/7.0.3.Final/hibernate-commons-annotations-7.0.3.Final.jar:/home/hels/.m2/repository/io/smallrye/jandex/3.2.0/jandex-3.2.0.jar:/home/hels/.m2/repository/com/fasterxml/classmate/1.7.0/classmate-1.7.0.jar:/home/hels/.m2/repository/net/bytebuddy/byte-buddy/1.17.7/byte-buddy-1.17.7.jar:/home/hels/.m2/repository/org/glassfish/jaxb/jaxb-runtime/4.0.5/jaxb-runtime-4.0.5.jar:/home/hels/.m2/repository/org/glassfish/jaxb/jaxb-core/4.0.5/jaxb-core-4.0.5.jar:/home/hels/.m2/repository/org/glassfish/jaxb/txw2/4.0.5/txw2-4.0.5.jar:/home/hels/.m2/repository/com/sun/istack/istack-commons-runtime/4.1.2/istack-commons-runtime-4.1.2.jar:/home/hels/.m2/repository/jakarta/inject/jakarta.inject-api/2.0.1/jakarta.inject-api-2.0.1.jar:/home/hels/.m2/repository/org/antlr/antlr4-runtime/4.13.0/antlr4-runtime-4.13.0.jar:/home/hels/.m2/repository/org/springframework/data/spring-data-jpa/3.5.4/spring-data-jpa-3.5.4.jar:/home/hels/.m2/repository/org/springframework/data/spring-data-commons/3.5.4/spring-data-commons-3.5.4.jar:/home/hels/.m2/repository/org/springframework/spring-orm/6.2.11/spring-orm-6.2.11.jar:/home/hels/.m2/repository/org/springframework/spring-context/6.2.11/spring-context-6.2.11.jar:/home/hels/.m2/repository/org/springframework/spring-tx/6.2.11/spring-tx-6.2.11.jar:/home/hels/.m2/repository/org/springframework/spring-beans/6.2.11/spring-beans-6.2.11.jar:/home/hels/.m2/repository/org/slf4j/slf4j-api/2.0.17/slf4j-api-2.0.17.jar:/home/hels/.m2/repository/org/springframework/spring-aspects/6.2.11/spring-aspects-6.2.11.jar:/home/hels/.m2/repository/org/aspectj/aspectjweaver/1.9.24/aspectjweaver-1.9.24.jar:/home/hels/.m2/repository/org/springframework/boot/spring-boot-starter-mail/3.5.6/spring-boot-starter-mail-3.5.6.jar:/home/hels/.m2/repository/org/springframework/spring-context-support/6.2.11/spring-context-support-6.2.11.jar:/home/hels/.m2/repository/org/eclipse/angus/jakarta.mail/2.0.4/jakarta.mail-2.0.4.jar:/home/hels/.m2/repository/jakarta/activation/jakarta.activation-api/2.1.4/jakarta.activation-api-2.1.4.jar:/home/hels/.m2/repository/org/eclipse/angus/angus-activation/2.0.2/angus-activation-2.0.2.jar:/home/hels/.m2/repository/org/springframework/boot/spring-boot-starter-validation/3.5.6/spring-boot-starter-validation-3.5.6.jar:/home/hels/.m2/repository/org/apache/tomcat/embed/tomcat-embed-el/10.1.46/tomcat-embed-el-10.1.46.jar:/home/hels/.m2/repository/org/hibernate/validator/hibernate-validator/8.0.3.Final/hibernate-validator-8.0.3.Final.jar:/home/hels/.m2/repository/jakarta/validation/jakarta.validation-api/3.0.2/jakarta.validation-api-3.0.2.jar:/home/hels/.m2/repository/org/springframework/boot/spring-boot-starter-security/3.5.6/spring-boot-starter-security-3.5.6.jar:/home/hels/.m2/repository/org/springframework/spring-aop/6.2.11/spring-aop-6.2.11.jar:/home/hels/.m2/repository/org/springframework/security/spring-security-config/6.5.5/spring-security-config-6.5.5.jar:/home/hels/.m2/repository/org/springframework/security/spring-security-web/6.5.5/spring-security-web-6.5.5.jar:/home/hels/.m2/repository/org/springframework/spring-expression/6.2.11/spring-expression-6.2.11.jar:/home/hels/.m2/repository/org/springframework/boot/spring-boot-starter-oauth2-client/3.5.6/spring-boot-starter-oauth2-client-3.5.6.jar:/home/hels/.m2/repository/org/springframework/security/spring-security-core/6.5.5/spring-security-core-6.5.5.jar:/home/hels/.m2/repository/org/springframework/security/spring-security-crypto/6.5.5/spring-security-crypto-6.5.5.jar:/home/hels/.m2/repository/io/micrometer/micrometer-observation/1.15.4/micrometer-observation-1.15.4.jar:/home/hels/.m2/repository/io/micrometer/micrometer-commons/1.15.4/micrometer-commons-1.15.4.jar:/home/hels/.m2/repository/org/springframework/security/spring-security-oauth2-client/6.5.5/spring-security-oauth2-client-6.5.5.jar:/home/hels/.m2/repository/org/springframework/security/spring-security-oauth2-core/6.5.5/spring-security-oauth2-core-6.5.5.jar:/home/hels/.m2/repository/com/nimbusds/oauth2-oidc-sdk/9.43.6/oauth2-oidc-sdk-9.43.6.jar:/home/hels/.m2/repository/com/github/stephenc/jcip/jcip-annotations/1.0-1/jcip-annotations-1.0-1.jar:/home/hels/.m2/repository/com/nimbusds/content-type/2.2/content-type-2.2.jar:/home/hels/.m2/repository/com/nimbusds/lang-tag/1.7/lang-tag-1.7.jar:/home/hels/.m2/repository/org/springframework/security/spring-security-oauth2-jose/6.5.5/spring-security-oauth2-jose-6.5.5.jar:/home/hels/.m2/repository/com/nimbusds/nimbus-jose-jwt/9.37.4/nimbus-jose-jwt-9.37.4.jar:/home/hels/.m2/repository/org/springframework/boot/spring-boot-starter-data-redis/3.5.6/spring-boot-starter-data-redis-3.5.6.jar:/home/hels/.m2/repository/io/lettuce/lettuce-core/6.6.0.RELEASE/lettuce-core-6.6.0.RELEASE.jar:/home/hels/.m2/repository/redis/clients/authentication/redis-authx-core/0.1.1-beta2/redis-authx-core-0.1.1-beta2.jar:/home/hels/.m2/repository/io/netty/netty-common/4.1.127.Final/netty-common-4.1.127.Final.jar:/home/hels/.m2/repository/io/netty/netty-handler/4.1.127.Final/netty-handler-4.1.127.Final.jar:/home/hels/.m2/repository/io/netty/netty-resolver/4.1.127.Final/netty-resolver-4.1.127.Final.jar:/home/hels/.m2/repository/io/netty/netty-buffer/4.1.127.Final/netty-buffer-4.1.127.Final.jar:/home/hels/.m2/repository/io/netty/netty-transport-native-unix-common/4.1.127.Final/netty-transport-native-unix-common-4.1.127.Final.jar:/home/hels/.m2/repository/io/netty/netty-codec/4.1.127.Final/netty-codec-4.1.127.Final.jar:/home/hels/.m2/repository/io/netty/netty-transport/4.1.127.Final/netty-transport-4.1.127.Final.jar:/home/hels/.m2/repository/io/projectreactor/reactor-core/3.7.11/reactor-core-3.7.11.jar:/home/hels/.m2/repository/org/reactivestreams/reactive-streams/1.0.4/reactive-streams-1.0.4.jar:/home/hels/.m2/repository/org/springframework/data/spring-data-redis/3.5.4/spring-data-redis-3.5.4.jar:/home/hels/.m2/repository/org/springframework/data/spring-data-keyvalue/3.5.4/spring-data-keyvalue-3.5.4.jar:/home/hels/.m2/repository/org/springframework/spring-oxm/6.2.11/spring-oxm-6.2.11.jar:/home/hels/.m2/repository/io/jsonwebtoken/jjwt-api/0.11.5/jjwt-api-0.11.5.jar:/home/hels/.m2/repository/io/jsonwebtoken/jjwt-impl/0.11.5/jjwt-impl-0.11.5.jar:/home/hels/.m2/repository/io/jsonwebtoken/jjwt-jackson/0.11.5/jjwt-jackson-0.11.5.jar:/home/hels/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.19.2/jackson-databind-2.19.2.jar:/home/hels/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.19.2/jackson-annotations-2.19.2.jar:/home/hels/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.19.2/jackson-core-2.19.2.jar:/home/hels/.m2/repository/me/paulschwarz/spring-dotenv/3.0.0/spring-dotenv-3.0.0.jar:/home/hels/.m2/repository/io/github/cdimascio/dotenv-java/2.2.4/dotenv-java-2.2.4.jar:/home/hels/.m2/repository/org/springframework/boot/spring-boot-starter-thymeleaf/3.5.6/spring-boot-starter-thymeleaf-3.5.6.jar:/home/hels/.m2/repository/org/thymeleaf/thymeleaf-spring6/3.1.3.RELEASE/thymeleaf-spring6-3.1.3.RELEASE.jar:/home/hels/.m2/repository/org/thymeleaf/thymeleaf/3.1.3.RELEASE/thymeleaf-3.1.3.RELEASE.jar:/home/hels/.m2/repository/org/attoparser/attoparser/2.0.7.RELEASE/attoparser-2.0.7.RELEASE.jar:/home/hels/.m2/repository/org/unbescape/unbescape/1.1.6.RELEASE/unbescape-1.1.6.RELEASE.jar:/home/hels/.m2/repository/org/springdoc/springdoc-openapi-starter-webmvc-ui/2.8.9/springdoc-openapi-starter-webmvc-ui-2.8.9.jar:/home/hels/.m2/repository/org/springdoc/springdoc-openapi-starter-webmvc-api/2.8.9/springdoc-openapi-starter-webmvc-api-2.8.9.jar:/home/hels/.m2/repository/org/springdoc/springdoc-openapi-starter-common/2.8.9/springdoc-openapi-starter-common-2.8.9.jar:/home/hels/.m2/repository/io/swagger/core/v3/swagger-core-jakarta/2.2.30/swagger-core-jakarta-2.2.30.jar:/home/hels/.m2/repository/org/apache/commons/commons-lang3/3.17.0/commons-lang3-3.17.0.jar:/home/hels/.m2/repository/io/swagger/core/v3/swagger-annotations-jakarta/2.2.30/swagger-annotations-jakarta-2.2.30.jar:/home/hels/.m2/repository/io/swagger/core/v3/swagger-models-jakarta/2.2.30/swagger-models-jakarta-2.2.30.jar:/home/hels/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/2.19.2/jackson-dataformat-yaml-2.19.2.jar:/home/hels/.m2/repository/org/webjars/swagger-ui/5.21.0/swagger-ui-5.21.0.jar:/home/hels/.m2/repository/org/webjars/webjars-locator-lite/1.1.0/webjars-locator-lite-1.1.0.jar:/home/hels/.m2/repository/org/jspecify/jspecify/1.0.0/jspecify-1.0.0.jar:/home/hels/.m2/repository/org/springframework/boot/spring-boot-starter-web/3.5.6/spring-boot-starter-web-3.5.6.jar:/home/hels/.m2/repository/org/springframework/boot/spring-boot-starter-json/3.5.6/spring-boot-starter-json-3.5.6.jar:/home/hels/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.19.2/jackson-datatype-jdk8-2.19.2.jar:/home/hels/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.19.2/jackson-datatype-jsr310-2.19.2.jar:/home/hels/.m2/repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.19.2/jackson-module-parameter-names-2.19.2.jar:/home/hels/.m2/repository/org/springframework/boot/spring-boot-starter-tomcat/3.5.6/spring-boot-starter-tomcat-3.5.6.jar:/home/hels/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.46/tomcat-embed-core-10.1.46.jar:/home/hels/.m2/repository/org/apache/tomcat/embed/tomcat-embed-websocket/10.1.46/tomcat-embed-websocket-10.1.46.jar:/home/hels/.m2/repository/org/springframework/spring-web/6.2.11/spring-web-6.2.11.jar:/home/hels/.m2/repository/org/springframework/spring-webmvc/6.2.11/spring-webmvc-6.2.11.jar:/home/hels/.m2/repository/org/postgresql/postgresql/42.7.7/postgresql-42.7.7.jar:/home/hels/.m2/repository/org/checkerframework/checker-qual/3.49.3/checker-qual-3.49.3.jar:/home/hels/.m2/repository/org/projectlombok/lombok/1.18.40/lombok-1.18.40.jar:/home/hels/.m2/repository/org/springframework/boot/spring-boot-starter-test/3.5.6/spring-boot-starter-test-3.5.6.jar:/home/hels/.m2/repository/org/springframework/boot/spring-boot-test/3.5.6/spring-boot-test-3.5.6.jar:/home/hels/.m2/repository/org/springframework/boot/spring-boot-test-autoconfigure/3.5.6/spring-boot-test-autoconfigure-3.5.6.jar:/home/hels/.m2/repository/com/jayway/jsonpath/json-path/2.9.0/json-path-2.9.0.jar:/home/hels/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/4.0.2/jakarta.xml.bind-api-4.0.2.jar:/home/hels/.m2/repository/net/minidev/json-smart/2.5.2/json-smart-2.5.2.jar:/home/hels/.m2/repository/net/minidev/accessors-smart/2.5.2/accessors-smart-2.5.2.jar:/home/hels/.m2/repository/org/ow2/asm/asm/9.7.1/asm-9.7.1.jar:/home/hels/.m2/repository/org/assertj/assertj-core/3.27.4/assertj-core-3.27.4.jar:/home/hels/.m2/repository/org/awaitility/awaitility/4.2.2/awaitility-4.2.2.jar:/home/hels/.m2/repository/org/hamcrest/hamcrest/3.0/hamcrest-3.0.jar:/home/hels/.m2/repository/org/junit/jupiter/junit-jupiter/5.12.2/junit-jupiter-5.12.2.jar:/home/hels/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.12.2/junit-jupiter-api-5.12.2.jar:/home/hels/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/home/hels/.m2/repository/org/junit/platform/junit-platform-commons/1.12.2/junit-platform-commons-1.12.2.jar:/home/hels/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/home/hels/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.12.2/junit-jupiter-params-5.12.2.jar:/home/hels/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.12.2/junit-jupiter-engine-5.12.2.jar:/home/hels/.m2/repository/org/junit/platform/junit-platform-engine/1.12.2/junit-platform-engine-1.12.2.jar:/home/hels/.m2/repository/org/mockito/mockito-core/5.17.0/mockito-core-5.17.0.jar:/home/hels/.m2/repository/net/bytebuddy/byte-buddy-agent/1.17.7/byte-buddy-agent-1.17.7.jar:/home/hels/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/home/hels/.m2/repository/org/mockito/mockito-junit-jupiter/5.17.0/mockito-junit-jupiter-5.17.0.jar:/home/hels/.m2/repository/org/skyscreamer/jsonassert/1.5.3/jsonassert-1.5.3.jar:/home/hels/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar:/home/hels/.m2/repository/org/springframework/spring-core/6.2.11/spring-core-6.2.11.jar:/home/hels/.m2/repository/org/springframework/spring-jcl/6.2.11/spring-jcl-6.2.11.jar:/home/hels/.m2/repository/org/springframework/spring-test/6.2.11/spring-test-6.2.11.jar:/home/hels/.m2/repository/org/xmlunit/xmlunit-core/2.10.4/xmlunit-core-2.10.4.jar:"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -33,12 +33,12 @@
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="FILE_LOG_CHARSET" value="UTF-8"/>
     <property name="java.awt.headless" value="true"/>
-    <property name="surefire.real.class.path" value="/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/target/surefire/surefirebooter-20251027133641478_3.jar"/>
+    <property name="surefire.real.class.path" value="/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/target/surefire/surefirebooter-20251028184339671_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="17.0.14+7-LTS"/>
     <property name="user.name" value="hels"/>
     <property name="path.separator" value=":"/>
-    <property name="os.version" value="6.8.0-85-generic"/>
+    <property name="os.version" value="6.8.0-86-generic"/>
     <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
     <property name="file.encoding" value="UTF-8"/>
     <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
@@ -54,7 +54,7 @@
     <property name="os.arch" value="amd64"/>
     <property name="jansi.passthrough" value="true"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
-    <property name="PID" value="52150"/>
+    <property name="PID" value="18774"/>
     <property name="CONSOLE_LOG_CHARSET" value="UTF-8"/>
     <property name="native.encoding" value="UTF-8"/>
     <property name="java.library.path" value="/usr/java/packages/lib:/usr/lib64:/lib64:/lib:/usr/lib"/>
@@ -67,9 +67,9 @@
     <property name="java.class.version" value="61.0"/>
     <property name="LOGGED_APPLICATION_NAME" value="[tutorapp-backend] "/>
   </properties>
-  <testcase name="contextLoads" classname="com.backend.tutor_app.TutorAppApplicationTests" time="0.475">
-    <system-out><![CDATA[13:36:42.416 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.backend.tutor_app.TutorAppApplicationTests]: TutorAppApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-13:36:42.571 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.backend.tutor_app.TutorAppApplication for test class com.backend.tutor_app.TutorAppApplicationTests
+  <testcase name="contextLoads" classname="com.backend.tutor_app.TutorAppApplicationTests" time="0.548">
+    <system-out><![CDATA[18:43:40.649 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.backend.tutor_app.TutorAppApplicationTests]: TutorAppApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+18:43:40.855 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.backend.tutor_app.TutorAppApplication for test class com.backend.tutor_app.TutorAppApplicationTests
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -80,36 +80,36 @@
 
  :: Spring Boot ::                (v3.5.6)
 
-2025-10-27T13:36:43.164+01:00  INFO 52150 --- [tutorapp-backend] [           main] c.b.tutor_app.TutorAppApplicationTests   : Starting TutorAppApplicationTests using Java 17.0.14 with PID 52150 (started by hels in /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend)
-2025-10-27T13:36:43.165+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] c.b.tutor_app.TutorAppApplicationTests   : Running with Spring Boot v3.5.6, Spring v6.2.11
-2025-10-27T13:36:43.166+01:00  INFO 52150 --- [tutorapp-backend] [           main] c.b.tutor_app.TutorAppApplicationTests   : The following 1 profile is active: "dev"
-2025-10-27T13:36:44.589+01:00  INFO 52150 --- [tutorapp-backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
-2025-10-27T13:36:44.591+01:00  INFO 52150 --- [tutorapp-backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-10-27T13:36:44.810+01:00  INFO 52150 --- [tutorapp-backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 208 ms. Found 12 JPA repository interfaces.
-2025-10-27T13:36:44.836+01:00  INFO 52150 --- [tutorapp-backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
-2025-10-27T13:36:44.838+01:00  INFO 52150 --- [tutorapp-backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
-2025-10-27T13:36:44.874+01:00  INFO 52150 --- [tutorapp-backend] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.backend.tutor_app.repositories.AdminRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-2025-10-27T13:36:44.876+01:00  INFO 52150 --- [tutorapp-backend] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.backend.tutor_app.repositories.AuditLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-2025-10-27T13:36:44.877+01:00  INFO 52150 --- [tutorapp-backend] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.backend.tutor_app.repositories.EmailVerificationTokenRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-2025-10-27T13:36:44.878+01:00  INFO 52150 --- [tutorapp-backend] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.backend.tutor_app.repositories.ModerationReportRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-2025-10-27T13:36:44.879+01:00  INFO 52150 --- [tutorapp-backend] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.backend.tutor_app.repositories.ParentRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-2025-10-27T13:36:44.880+01:00  INFO 52150 --- [tutorapp-backend] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.backend.tutor_app.repositories.PasswordResetTokenRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-2025-10-27T13:36:44.880+01:00  INFO 52150 --- [tutorapp-backend] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.backend.tutor_app.repositories.RefreshTokenRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-2025-10-27T13:36:44.881+01:00  INFO 52150 --- [tutorapp-backend] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.backend.tutor_app.repositories.SocialAccountRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-2025-10-27T13:36:44.882+01:00  INFO 52150 --- [tutorapp-backend] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.backend.tutor_app.repositories.StudentRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-2025-10-27T13:36:44.883+01:00  INFO 52150 --- [tutorapp-backend] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.backend.tutor_app.repositories.TutorApplicationRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-2025-10-27T13:36:44.883+01:00  INFO 52150 --- [tutorapp-backend] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.backend.tutor_app.repositories.TutorRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-2025-10-27T13:36:44.884+01:00  INFO 52150 --- [tutorapp-backend] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.backend.tutor_app.repositories.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-2025-10-27T13:36:44.884+01:00  INFO 52150 --- [tutorapp-backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 29 ms. Found 0 Redis repository interfaces.
-2025-10-27T13:36:45.760+01:00  INFO 52150 --- [tutorapp-backend] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-10-27T13:36:45.808+01:00  INFO 52150 --- [tutorapp-backend] [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.29.Final
-2025-10-27T13:36:45.843+01:00  INFO 52150 --- [tutorapp-backend] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2025-10-27T13:36:46.156+01:00  INFO 52150 --- [tutorapp-backend] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-10-27T13:36:46.185+01:00  INFO 52150 --- [tutorapp-backend] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2025-10-27T13:36:46.539+01:00  INFO 52150 --- [tutorapp-backend] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@40edc64e
-2025-10-27T13:36:46.541+01:00  INFO 52150 --- [tutorapp-backend] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2025-10-27T13:36:46.576+01:00  WARN 52150 --- [tutorapp-backend] [           main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-10-27T13:36:46.600+01:00  INFO 52150 --- [tutorapp-backend] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+2025-10-28T18:43:41.579+01:00  INFO 18774 --- [tutorapp-backend] [           main] c.b.tutor_app.TutorAppApplicationTests   : Starting TutorAppApplicationTests using Java 17.0.14 with PID 18774 (started by hels in /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend)
+2025-10-28T18:43:41.581+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] c.b.tutor_app.TutorAppApplicationTests   : Running with Spring Boot v3.5.6, Spring v6.2.11
+2025-10-28T18:43:41.582+01:00  INFO 18774 --- [tutorapp-backend] [           main] c.b.tutor_app.TutorAppApplicationTests   : The following 1 profile is active: "dev"
+2025-10-28T18:43:43.233+01:00  INFO 18774 --- [tutorapp-backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-10-28T18:43:43.236+01:00  INFO 18774 --- [tutorapp-backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-10-28T18:43:43.511+01:00  INFO 18774 --- [tutorapp-backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 263 ms. Found 12 JPA repository interfaces.
+2025-10-28T18:43:43.542+01:00  INFO 18774 --- [tutorapp-backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-10-28T18:43:43.544+01:00  INFO 18774 --- [tutorapp-backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-10-28T18:43:43.575+01:00  INFO 18774 --- [tutorapp-backend] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.backend.tutor_app.repositories.AdminRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-10-28T18:43:43.579+01:00  INFO 18774 --- [tutorapp-backend] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.backend.tutor_app.repositories.AuditLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-10-28T18:43:43.580+01:00  INFO 18774 --- [tutorapp-backend] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.backend.tutor_app.repositories.EmailVerificationTokenRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-10-28T18:43:43.581+01:00  INFO 18774 --- [tutorapp-backend] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.backend.tutor_app.repositories.ModerationReportRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-10-28T18:43:43.582+01:00  INFO 18774 --- [tutorapp-backend] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.backend.tutor_app.repositories.ParentRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-10-28T18:43:43.583+01:00  INFO 18774 --- [tutorapp-backend] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.backend.tutor_app.repositories.PasswordResetTokenRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-10-28T18:43:43.584+01:00  INFO 18774 --- [tutorapp-backend] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.backend.tutor_app.repositories.RefreshTokenRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-10-28T18:43:43.584+01:00  INFO 18774 --- [tutorapp-backend] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.backend.tutor_app.repositories.SocialAccountRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-10-28T18:43:43.585+01:00  INFO 18774 --- [tutorapp-backend] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.backend.tutor_app.repositories.StudentRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-10-28T18:43:43.586+01:00  INFO 18774 --- [tutorapp-backend] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.backend.tutor_app.repositories.TutorApplicationRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-10-28T18:43:43.587+01:00  INFO 18774 --- [tutorapp-backend] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.backend.tutor_app.repositories.TutorRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-10-28T18:43:43.588+01:00  INFO 18774 --- [tutorapp-backend] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.backend.tutor_app.repositories.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-10-28T18:43:43.588+01:00  INFO 18774 --- [tutorapp-backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 30 ms. Found 0 Redis repository interfaces.
+2025-10-28T18:43:44.661+01:00  INFO 18774 --- [tutorapp-backend] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-10-28T18:43:44.745+01:00  INFO 18774 --- [tutorapp-backend] [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.29.Final
+2025-10-28T18:43:44.793+01:00  INFO 18774 --- [tutorapp-backend] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-10-28T18:43:45.172+01:00  INFO 18774 --- [tutorapp-backend] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-10-28T18:43:45.212+01:00  INFO 18774 --- [tutorapp-backend] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-10-28T18:43:45.629+01:00  INFO 18774 --- [tutorapp-backend] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@3987a1e8
+2025-10-28T18:43:45.631+01:00  INFO 18774 --- [tutorapp-backend] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-10-28T18:43:45.671+01:00  WARN 18774 --- [tutorapp-backend] [           main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-10-28T18:43:45.699+01:00  INFO 18774 --- [tutorapp-backend] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
 	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
 	Database driver: undefined/unknown
 	Database version: 14.19
@@ -117,370 +117,370 @@
 	Isolation level: undefined/unknown
 	Minimum pool size: undefined/unknown
 	Maximum pool size: undefined/unknown
-2025-10-27T13:36:48.705+01:00  INFO 52150 --- [tutorapp-backend] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-10-27T13:36:48.726+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.226+01:00  INFO 18774 --- [tutorapp-backend] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-10-28T18:43:48.244+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     set client_min_messages = WARNING
 Hibernate: 
     set client_min_messages = WARNING
-2025-10-27T13:36:48.730+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.247+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists admin 
        drop constraint if exists FKgodqjbbtwk30kf3s0xuxklkr3
 Hibernate: 
     alter table if exists admin 
        drop constraint if exists FKgodqjbbtwk30kf3s0xuxklkr3
-2025-10-27T13:36:48.743+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.255+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists application_languages 
        drop constraint if exists FKoc1jgi0gxg3jabhf5xlopxxwf
 Hibernate: 
     alter table if exists application_languages 
        drop constraint if exists FKoc1jgi0gxg3jabhf5xlopxxwf
-2025-10-27T13:36:48.747+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.258+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists application_levels 
        drop constraint if exists FK6540rmx5tmtf5q4x7vlkg02ge
 Hibernate: 
     alter table if exists application_levels 
        drop constraint if exists FK6540rmx5tmtf5q4x7vlkg02ge
-2025-10-27T13:36:48.750+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.261+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists application_qualifications 
        drop constraint if exists FKdfnojd090j2yehd358meq3tq6
 Hibernate: 
     alter table if exists application_qualifications 
        drop constraint if exists FKdfnojd090j2yehd358meq3tq6
-2025-10-27T13:36:48.753+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.263+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists application_subjects 
        drop constraint if exists FK48irl4f5w36skakefb67e7uir
 Hibernate: 
     alter table if exists application_subjects 
        drop constraint if exists FK48irl4f5w36skakefb67e7uir
-2025-10-27T13:36:48.756+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.266+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists availability_subjects 
        drop constraint if exists FKlus3p4uqjmtn123fwyuqbl7a0
 Hibernate: 
     alter table if exists availability_subjects 
        drop constraint if exists FKlus3p4uqjmtn123fwyuqbl7a0
-2025-10-27T13:36:48.758+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.269+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists email_verification_tokens 
        drop constraint if exists FKkyrs2tv7xn3fnys5xcvlv3wqf
 Hibernate: 
     alter table if exists email_verification_tokens 
        drop constraint if exists FKkyrs2tv7xn3fnys5xcvlv3wqf
-2025-10-27T13:36:48.761+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.271+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists lesson 
        drop constraint if exists FKs645vnxkeoaux8oddw8ppc9fa
 Hibernate: 
     alter table if exists lesson 
        drop constraint if exists FKs645vnxkeoaux8oddw8ppc9fa
-2025-10-27T13:36:48.765+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.275+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists moderation_reports 
        drop constraint if exists FKpva4c3fyq4prrmlfpyefb0f7i
 Hibernate: 
     alter table if exists moderation_reports 
        drop constraint if exists FKpva4c3fyq4prrmlfpyefb0f7i
-2025-10-27T13:36:48.768+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.277+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists moderation_reports 
        drop constraint if exists FK7fm70778vci1vgbo3jfm2r9ch
 Hibernate: 
     alter table if exists moderation_reports 
        drop constraint if exists FK7fm70778vci1vgbo3jfm2r9ch
-2025-10-27T13:36:48.771+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.281+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists parent 
        drop constraint if exists FKo31g185knxkcy425ddamct4o9
 Hibernate: 
     alter table if exists parent 
        drop constraint if exists FKo31g185knxkcy425ddamct4o9
-2025-10-27T13:36:48.774+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.283+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists password_reset_tokens 
        drop constraint if exists FK8gsyvsi8r4jhmtir2upl4tc3h
 Hibernate: 
     alter table if exists password_reset_tokens 
        drop constraint if exists FK8gsyvsi8r4jhmtir2upl4tc3h
-2025-10-27T13:36:48.777+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.286+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists qualification 
        drop constraint if exists FKgys8shqf43ev1m7mq14kcb7ul
 Hibernate: 
     alter table if exists qualification 
        drop constraint if exists FKgys8shqf43ev1m7mq14kcb7ul
-2025-10-27T13:36:48.780+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.289+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists refresh_tokens 
        drop constraint if exists FKheuwts6j2dy6h6g2hjvs89pcn
 Hibernate: 
     alter table if exists refresh_tokens 
        drop constraint if exists FKheuwts6j2dy6h6g2hjvs89pcn
-2025-10-27T13:36:48.783+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.292+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists social_accounts 
        drop constraint if exists FKmyf6rykkkxtpotmhtyx6j1u83
 Hibernate: 
     alter table if exists social_accounts 
        drop constraint if exists FKmyf6rykkkxtpotmhtyx6j1u83
-2025-10-27T13:36:48.785+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.294+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists student 
        drop constraint if exists FKqqq09m02bgrk47qoe6fs3ht4w
 Hibernate: 
     alter table if exists student 
        drop constraint if exists FKqqq09m02bgrk47qoe6fs3ht4w
-2025-10-27T13:36:48.789+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.297+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists student 
        drop constraint if exists FKom57wtsticj6udoupbyx22vlv
 Hibernate: 
     alter table if exists student 
        drop constraint if exists FKom57wtsticj6udoupbyx22vlv
-2025-10-27T13:36:48.791+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.300+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists student_availability 
        drop constraint if exists FKe9dvu6t57c3ovsnp9ggtppqiu
 Hibernate: 
     alter table if exists student_availability 
        drop constraint if exists FKe9dvu6t57c3ovsnp9ggtppqiu
-2025-10-27T13:36:48.794+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.303+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists student_favorite_tutors 
        drop constraint if exists FKqf9p637ufj48r7a60kd1e3jxt
 Hibernate: 
     alter table if exists student_favorite_tutors 
        drop constraint if exists FKqf9p637ufj48r7a60kd1e3jxt
-2025-10-27T13:36:48.797+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.305+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists student_favorite_tutors 
        drop constraint if exists FKbt5bfkf7tx20d3cqwjxy8t0i4
 Hibernate: 
     alter table if exists student_favorite_tutors 
        drop constraint if exists FKbt5bfkf7tx20d3cqwjxy8t0i4
-2025-10-27T13:36:48.799+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.308+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists student_preferred_subjects 
        drop constraint if exists FK1uib99eyswku30jnbpnv3fxjl
 Hibernate: 
     alter table if exists student_preferred_subjects 
        drop constraint if exists FK1uib99eyswku30jnbpnv3fxjl
-2025-10-27T13:36:48.802+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.310+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists tutor 
        drop constraint if exists FKevbhv6fi1jn88d46tyi8pkawe
 Hibernate: 
     alter table if exists tutor 
        drop constraint if exists FKevbhv6fi1jn88d46tyi8pkawe
-2025-10-27T13:36:48.805+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.313+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists tutor_applications 
        drop constraint if exists FKqrqdvbu157duv6o2ylgsh70s9
 Hibernate: 
     alter table if exists tutor_applications 
        drop constraint if exists FKqrqdvbu157duv6o2ylgsh70s9
-2025-10-27T13:36:48.808+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.316+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists tutor_languages 
        drop constraint if exists FKjjkgbu14yxqk1b3e56iq00bwe
 Hibernate: 
     alter table if exists tutor_languages 
        drop constraint if exists FKjjkgbu14yxqk1b3e56iq00bwe
-2025-10-27T13:36:48.811+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.319+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists tutor_levels 
        drop constraint if exists FKo79hvbleyi5vmy5gkgkd01q5b
 Hibernate: 
     alter table if exists tutor_levels 
        drop constraint if exists FKo79hvbleyi5vmy5gkgkd01q5b
-2025-10-27T13:36:48.813+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.324+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists tutor_subject_levels 
        drop constraint if exists FKa7r9om160qmfptkopvx7pba3w
 Hibernate: 
     alter table if exists tutor_subject_levels 
        drop constraint if exists FKa7r9om160qmfptkopvx7pba3w
-2025-10-27T13:36:48.816+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.329+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists tutor_subjects 
        drop constraint if exists FK2rgvjsbsp6aqto0jj07peljlc
 Hibernate: 
     alter table if exists tutor_subjects 
        drop constraint if exists FK2rgvjsbsp6aqto0jj07peljlc
-2025-10-27T13:36:48.819+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.335+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists tutor_subjects 
        drop constraint if exists FKrbwej4ik99xyo11357qqwucco
 Hibernate: 
     alter table if exists tutor_subjects 
        drop constraint if exists FKrbwej4ik99xyo11357qqwucco
-2025-10-27T13:36:48.821+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.339+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists tutor_availability 
        drop constraint if exists FK7gm22v6vpadn2s8xq8t35kc5j
 Hibernate: 
     alter table if exists tutor_availability 
        drop constraint if exists FK7gm22v6vpadn2s8xq8t35kc5j
-2025-10-27T13:36:48.824+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.342+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists tutor_document 
        drop constraint if exists FKgvajshkapp9eu4fcmvwn7hgrt
 Hibernate: 
     alter table if exists tutor_document 
        drop constraint if exists FKgvajshkapp9eu4fcmvwn7hgrt
-2025-10-27T13:36:48.826+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.345+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists tutor_language 
        drop constraint if exists FK6scg7ml282sgm26m4hpqecnxl
 Hibernate: 
     alter table if exists tutor_language 
        drop constraint if exists FK6scg7ml282sgm26m4hpqecnxl
-2025-10-27T13:36:48.829+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.348+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists tutor_preferences 
        drop constraint if exists FKr8gvr6et561c99jl5jsv43qt4
 Hibernate: 
     alter table if exists tutor_preferences 
        drop constraint if exists FKr8gvr6et561c99jl5jsv43qt4
-2025-10-27T13:36:48.831+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.350+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists tutor_profile 
        drop constraint if exists FK7q1hdtjfk2c7kmlnlbu7gkl8o
 Hibernate: 
     alter table if exists tutor_profile 
        drop constraint if exists FK7q1hdtjfk2c7kmlnlbu7gkl8o
-2025-10-27T13:36:48.839+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.353+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists tutor_review 
        drop constraint if exists FKn1grl881osn7u0qtqi9epb4t3
 Hibernate: 
     alter table if exists tutor_review 
        drop constraint if exists FKn1grl881osn7u0qtqi9epb4t3
-2025-10-27T13:36:48.843+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.355+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists tutor_review 
        drop constraint if exists FK5gue1hsi9b3rjrj7qum03pspg
 Hibernate: 
     alter table if exists tutor_review 
        drop constraint if exists FK5gue1hsi9b3rjrj7qum03pspg
-2025-10-27T13:36:48.848+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.358+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists tutor_subject 
        drop constraint if exists FKc8um4d7iopbq72enywi84a1f7
 Hibernate: 
     alter table if exists tutor_subject 
        drop constraint if exists FKc8um4d7iopbq72enywi84a1f7
-2025-10-27T13:36:48.850+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.360+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists tutor_subject 
        drop constraint if exists FKrms2hp61pr8yiu7j7wenb2kx6
 Hibernate: 
     alter table if exists tutor_subject 
        drop constraint if exists FKrms2hp61pr8yiu7j7wenb2kx6
-2025-10-27T13:36:48.853+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.362+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     drop table if exists admin cascade
 Hibernate: 
     drop table if exists admin cascade
-2025-10-27T13:36:48.861+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.367+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     drop table if exists application_languages cascade
 Hibernate: 
     drop table if exists application_languages cascade
-2025-10-27T13:36:48.864+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.369+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     drop table if exists application_levels cascade
 Hibernate: 
     drop table if exists application_levels cascade
-2025-10-27T13:36:48.866+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.372+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     drop table if exists application_qualifications cascade
 Hibernate: 
     drop table if exists application_qualifications cascade
-2025-10-27T13:36:48.870+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.375+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     drop table if exists application_subjects cascade
 Hibernate: 
     drop table if exists application_subjects cascade
-2025-10-27T13:36:48.873+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.378+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     drop table if exists audit_logs cascade
 Hibernate: 
     drop table if exists audit_logs cascade
-2025-10-27T13:36:48.879+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.384+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     drop table if exists availability_subjects cascade
 Hibernate: 
     drop table if exists availability_subjects cascade
-2025-10-27T13:36:48.881+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.387+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     drop table if exists email_verification_tokens cascade
 Hibernate: 
     drop table if exists email_verification_tokens cascade
-2025-10-27T13:36:48.885+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.391+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     drop table if exists lesson cascade
 Hibernate: 
     drop table if exists lesson cascade
-2025-10-27T13:36:48.887+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.395+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     drop table if exists moderation_reports cascade
 Hibernate: 
     drop table if exists moderation_reports cascade
-2025-10-27T13:36:48.891+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.399+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     drop table if exists parent cascade
 Hibernate: 
     drop table if exists parent cascade
-2025-10-27T13:36:48.894+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.403+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     drop table if exists password_reset_tokens cascade
 Hibernate: 
     drop table if exists password_reset_tokens cascade
-2025-10-27T13:36:48.897+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.406+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     drop table if exists qualification cascade
 Hibernate: 
     drop table if exists qualification cascade
-2025-10-27T13:36:48.901+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.414+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     drop table if exists refresh_tokens cascade
 Hibernate: 
     drop table if exists refresh_tokens cascade
-2025-10-27T13:36:48.905+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.417+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     drop table if exists social_accounts cascade
 Hibernate: 
     drop table if exists social_accounts cascade
-2025-10-27T13:36:48.908+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.421+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     drop table if exists student cascade
 Hibernate: 
     drop table if exists student cascade
-2025-10-27T13:36:48.911+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.427+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     drop table if exists student_availability cascade
 Hibernate: 
     drop table if exists student_availability cascade
-2025-10-27T13:36:48.914+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.433+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     drop table if exists student_favorite_tutors cascade
 Hibernate: 
     drop table if exists student_favorite_tutors cascade
-2025-10-27T13:36:48.917+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.436+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     drop table if exists student_preferred_subjects cascade
 Hibernate: 
     drop table if exists student_preferred_subjects cascade
-2025-10-27T13:36:48.924+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.438+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     drop table if exists subject cascade
 Hibernate: 
     drop table if exists subject cascade
-2025-10-27T13:36:48.928+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.441+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     drop table if exists tutor cascade
 Hibernate: 
     drop table if exists tutor cascade
-2025-10-27T13:36:48.933+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.445+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     drop table if exists tutor_applications cascade
 Hibernate: 
     drop table if exists tutor_applications cascade
-2025-10-27T13:36:48.938+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.451+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     drop table if exists tutor_languages cascade
 Hibernate: 
     drop table if exists tutor_languages cascade
-2025-10-27T13:36:48.942+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.453+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     drop table if exists tutor_levels cascade
 Hibernate: 
     drop table if exists tutor_levels cascade
-2025-10-27T13:36:48.945+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.456+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     drop table if exists tutor_subject_levels cascade
 Hibernate: 
     drop table if exists tutor_subject_levels cascade
-2025-10-27T13:36:48.948+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.458+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     drop table if exists tutor_subjects cascade
 Hibernate: 
     drop table if exists tutor_subjects cascade
-2025-10-27T13:36:48.955+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.460+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     drop table if exists tutor_availability cascade
 Hibernate: 
     drop table if exists tutor_availability cascade
-2025-10-27T13:36:48.961+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.464+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     drop table if exists tutor_document cascade
 Hibernate: 
     drop table if exists tutor_document cascade
-2025-10-27T13:36:48.965+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.466+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     drop table if exists tutor_language cascade
 Hibernate: 
     drop table if exists tutor_language cascade
-2025-10-27T13:36:48.970+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.469+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     drop table if exists tutor_preferences cascade
 Hibernate: 
     drop table if exists tutor_preferences cascade
-2025-10-27T13:36:48.973+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.472+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     drop table if exists tutor_profile cascade
 Hibernate: 
     drop table if exists tutor_profile cascade
-2025-10-27T13:36:48.977+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.475+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     drop table if exists tutor_review cascade
 Hibernate: 
     drop table if exists tutor_review cascade
-2025-10-27T13:36:48.982+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.478+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     drop table if exists tutor_subject cascade
 Hibernate: 
     drop table if exists tutor_subject cascade
-2025-10-27T13:36:48.985+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.484+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     drop table if exists utilisateur cascade
 Hibernate: 
     drop table if exists utilisateur cascade
-2025-10-27T13:36:48.998+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.492+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     create table admin (
         can_manage_content boolean not null,
         can_manage_tutors boolean not null,
@@ -508,7 +508,7 @@ Hibernate:
         permissions TEXT,
         primary key (id)
     )
-2025-10-27T13:36:49.024+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.505+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     create table application_languages (
         application_id bigint not null,
         language varchar(255)
@@ -518,7 +518,7 @@ Hibernate:
         application_id bigint not null,
         language varchar(255)
     )
-2025-10-27T13:36:49.027+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.509+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     create table application_levels (
         application_id bigint not null,
         level varchar(255)
@@ -528,7 +528,7 @@ Hibernate:
         application_id bigint not null,
         level varchar(255)
     )
-2025-10-27T13:36:49.030+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.512+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     create table application_qualifications (
         application_id bigint not null,
         qualification varchar(255)
@@ -538,7 +538,7 @@ Hibernate:
         application_id bigint not null,
         qualification varchar(255)
     )
-2025-10-27T13:36:49.033+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.516+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     create table application_subjects (
         application_id bigint not null,
         subject varchar(255)
@@ -548,7 +548,7 @@ Hibernate:
         application_id bigint not null,
         subject varchar(255)
     )
-2025-10-27T13:36:49.037+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.520+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     create table audit_logs (
         severity_level integer,
         success boolean,
@@ -596,7 +596,7 @@ Hibernate:
         user_agent TEXT,
         primary key (id)
     )
-2025-10-27T13:36:49.054+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.537+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     create table availability_subjects (
         tutor_availability_id bigint not null,
         subject_codes varchar(255)
@@ -606,7 +606,7 @@ Hibernate:
         tutor_availability_id bigint not null,
         subject_codes varchar(255)
     )
-2025-10-27T13:36:49.059+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.541+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     create table email_verification_tokens (
         created_at timestamp(6) not null,
         expires_at timestamp(6) not null,
@@ -630,7 +630,7 @@ Hibernate:
         token varchar(255) not null unique,
         primary key (id)
     )
-2025-10-27T13:36:49.072+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.554+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     create table lesson (
         created_at timestamp(6) not null,
         id bigint generated by default as identity,
@@ -646,7 +646,7 @@ Hibernate:
         student_id bigint,
         primary key (id)
     )
-2025-10-27T13:36:49.079+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.563+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     create table moderation_reports (
         is_anonymous boolean,
         priority_level integer,
@@ -692,7 +692,7 @@ Hibernate:
         reporter_ip varchar(255),
         primary key (id)
     )
-2025-10-27T13:36:49.090+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.575+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     create table parent (
         id bigint not null,
         preferred_communication varchar(20),
@@ -710,7 +710,7 @@ Hibernate:
         occupation varchar(100),
         primary key (id)
     )
-2025-10-27T13:36:49.098+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.581+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     create table password_reset_tokens (
         created_at timestamp(6) not null,
         expires_at timestamp(6) not null,
@@ -732,7 +732,7 @@ Hibernate:
         token varchar(255) not null unique,
         primary key (id)
     )
-2025-10-27T13:36:49.108+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.591+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     create table qualification (
         graduation_year integer,
         created_at timestamp(6) not null,
@@ -768,7 +768,7 @@ Hibernate:
         verified_by varchar(255),
         primary key (id)
     )
-2025-10-27T13:36:49.121+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.603+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     create table refresh_tokens (
         is_revoked boolean not null,
         usage_count integer not null,
@@ -818,7 +818,7 @@ Hibernate:
         token varchar(255) not null unique,
         primary key (id)
     )
-2025-10-27T13:36:49.138+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.616+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     create table social_accounts (
         is_primary boolean not null,
         created_at timestamp(6) not null,
@@ -854,7 +854,7 @@ Hibernate:
         refresh_token TEXT,
         primary key (id)
     )
-2025-10-27T13:36:49.157+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.626+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     create table student (
         birth_date date,
         id bigint not null,
@@ -878,7 +878,7 @@ Hibernate:
         goals TEXT,
         primary key (id)
     )
-2025-10-27T13:36:49.166+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.635+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     create table student_availability (
         student_id bigint not null,
         time_slot varchar(255)
@@ -888,7 +888,7 @@ Hibernate:
         student_id bigint not null,
         time_slot varchar(255)
     )
-2025-10-27T13:36:49.169+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.638+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     create table student_favorite_tutors (
         student_id bigint not null,
         tutor_id bigint not null,
@@ -900,7 +900,7 @@ Hibernate:
         tutor_id bigint not null,
         primary key (student_id, tutor_id)
     )
-2025-10-27T13:36:49.178+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.644+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     create table student_preferred_subjects (
         student_id bigint not null,
         subject_code varchar(255)
@@ -910,7 +910,7 @@ Hibernate:
         student_id bigint not null,
         subject_code varchar(255)
     )
-2025-10-27T13:36:49.184+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.646+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     create table subject (
         is_active boolean not null,
         created_at timestamp(6) not null,
@@ -936,7 +936,7 @@ Hibernate:
         name varchar(255) not null,
         primary key (id)
     )
-2025-10-27T13:36:49.200+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.658+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     create table tutor (
         average_rating float(53),
         experience_years integer check (experience_years>=0),
@@ -972,7 +972,7 @@ Hibernate:
         video_intro_url varchar(255),
         primary key (id)
     )
-2025-10-27T13:36:49.213+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.669+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     create table tutor_applications (
         available_hours_per_week integer,
         has_certifications boolean,
@@ -1012,7 +1012,7 @@ Hibernate:
         admin_comment TEXT,
         primary key (id)
     )
-2025-10-27T13:36:49.226+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.681+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     create table tutor_languages (
         tutor_profile_id bigint not null,
         languages varchar(255)
@@ -1022,7 +1022,7 @@ Hibernate:
         tutor_profile_id bigint not null,
         languages varchar(255)
     )
-2025-10-27T13:36:49.230+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.684+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     create table tutor_levels (
         tutor_profile_id bigint not null,
         levels varchar(255)
@@ -1032,7 +1032,7 @@ Hibernate:
         tutor_profile_id bigint not null,
         levels varchar(255)
     )
-2025-10-27T13:36:49.233+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.687+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     create table tutor_subject_levels (
         tutor_subject_id bigint not null,
         levels varchar(255) check (levels in ('PRIMARY','MIDDLE','HIGH','UNIVERSITY','ADULT','PROFESSIONAL'))
@@ -1042,7 +1042,7 @@ Hibernate:
         tutor_subject_id bigint not null,
         levels varchar(255) check (levels in ('PRIMARY','MIDDLE','HIGH','UNIVERSITY','ADULT','PROFESSIONAL'))
     )
-2025-10-27T13:36:49.236+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.691+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     create table tutor_subjects (
         subject_id bigint not null,
         tutor_id bigint not null,
@@ -1054,7 +1054,7 @@ Hibernate:
         tutor_id bigint not null,
         primary key (subject_id, tutor_id)
     )
-2025-10-27T13:36:49.242+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.697+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     create table tutor_availability (
         end_time time(6) not null,
         is_available boolean not null,
@@ -1084,7 +1084,7 @@ Hibernate:
         timezone varchar(255),
         primary key (id)
     )
-2025-10-27T13:36:49.255+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.708+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     create table tutor_document (
         created_at timestamp(6) not null,
         file_size bigint,
@@ -1120,7 +1120,7 @@ Hibernate:
         verified_by varchar(255),
         primary key (id)
     )
-2025-10-27T13:36:49.266+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.719+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     create table tutor_language (
         is_native boolean not null,
         created_at timestamp(6) not null,
@@ -1144,7 +1144,7 @@ Hibernate:
         level varchar(255) not null check (level in ('BEGINNER','INTERMEDIATE','ADVANCED','FLUENT','NATIVE')),
         primary key (id)
     )
-2025-10-27T13:36:49.277+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.736+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     create table tutor_preferences (
         advance_booking_hours integer not null,
         auto_accept_bookings boolean not null,
@@ -1182,7 +1182,7 @@ Hibernate:
         timezone varchar(255) not null,
         primary key (id)
     )
-2025-10-27T13:36:49.293+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.753+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     create table tutor_profile (
         is_available boolean not null,
         is_verified boolean not null,
@@ -1208,7 +1208,7 @@ Hibernate:
         response_time varchar(255),
         primary key (id)
     )
-2025-10-27T13:36:49.309+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.767+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     create table tutor_review (
         helpful_count integer not null,
         is_anonymous boolean not null,
@@ -1236,7 +1236,7 @@ Hibernate:
         comment TEXT,
         primary key (id)
     )
-2025-10-27T13:36:49.319+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.777+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     create table tutor_subject (
         hourly_rate numeric(38,2) not null,
         is_primary boolean not null,
@@ -1260,7 +1260,7 @@ Hibernate:
         tutor_id bigint not null,
         primary key (id)
     )
-2025-10-27T13:36:49.327+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.785+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     create table utilisateur (
         accept_marketing boolean not null,
         accept_terms boolean not null,
@@ -1306,37 +1306,37 @@ Hibernate:
         profile_picture varchar(255),
         primary key (id)
     )
-2025-10-27T13:36:49.350+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.799+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     create index idx_audit_user_id 
        on audit_logs (user_id)
 Hibernate: 
     create index idx_audit_user_id 
        on audit_logs (user_id)
-2025-10-27T13:36:49.358+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.804+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     create index idx_audit_admin_id 
        on audit_logs (admin_id)
 Hibernate: 
     create index idx_audit_admin_id 
        on audit_logs (admin_id)
-2025-10-27T13:36:49.368+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.809+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     create index idx_audit_action 
        on audit_logs (action)
 Hibernate: 
     create index idx_audit_action 
        on audit_logs (action)
-2025-10-27T13:36:49.373+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.815+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     create index idx_audit_timestamp 
        on audit_logs (timestamp)
 Hibernate: 
     create index idx_audit_timestamp 
        on audit_logs (timestamp)
-2025-10-27T13:36:49.379+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.821+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     create index idx_audit_entity 
        on audit_logs (entity_type, entity_id)
 Hibernate: 
     create index idx_audit_entity 
        on audit_logs (entity_type, entity_id)
-2025-10-27T13:36:49.385+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.828+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists admin 
        add constraint FKgodqjbbtwk30kf3s0xuxklkr3 
        foreign key (id) 
@@ -1346,7 +1346,7 @@ Hibernate:
        add constraint FKgodqjbbtwk30kf3s0xuxklkr3 
        foreign key (id) 
        references utilisateur
-2025-10-27T13:36:49.391+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.833+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists application_languages 
        add constraint FKoc1jgi0gxg3jabhf5xlopxxwf 
        foreign key (application_id) 
@@ -1356,7 +1356,7 @@ Hibernate:
        add constraint FKoc1jgi0gxg3jabhf5xlopxxwf 
        foreign key (application_id) 
        references tutor_applications
-2025-10-27T13:36:49.395+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.836+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists application_levels 
        add constraint FK6540rmx5tmtf5q4x7vlkg02ge 
        foreign key (application_id) 
@@ -1366,7 +1366,7 @@ Hibernate:
        add constraint FK6540rmx5tmtf5q4x7vlkg02ge 
        foreign key (application_id) 
        references tutor_applications
-2025-10-27T13:36:49.398+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.840+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists application_qualifications 
        add constraint FKdfnojd090j2yehd358meq3tq6 
        foreign key (application_id) 
@@ -1376,7 +1376,7 @@ Hibernate:
        add constraint FKdfnojd090j2yehd358meq3tq6 
        foreign key (application_id) 
        references tutor_applications
-2025-10-27T13:36:49.401+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.844+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists application_subjects 
        add constraint FK48irl4f5w36skakefb67e7uir 
        foreign key (application_id) 
@@ -1386,7 +1386,7 @@ Hibernate:
        add constraint FK48irl4f5w36skakefb67e7uir 
        foreign key (application_id) 
        references tutor_applications
-2025-10-27T13:36:49.404+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.847+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists availability_subjects 
        add constraint FKlus3p4uqjmtn123fwyuqbl7a0 
        foreign key (tutor_availability_id) 
@@ -1396,7 +1396,7 @@ Hibernate:
        add constraint FKlus3p4uqjmtn123fwyuqbl7a0 
        foreign key (tutor_availability_id) 
        references tutor_availability
-2025-10-27T13:36:49.408+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.850+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists email_verification_tokens 
        add constraint FKkyrs2tv7xn3fnys5xcvlv3wqf 
        foreign key (user_id) 
@@ -1406,7 +1406,7 @@ Hibernate:
        add constraint FKkyrs2tv7xn3fnys5xcvlv3wqf 
        foreign key (user_id) 
        references utilisateur
-2025-10-27T13:36:49.412+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.855+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists lesson 
        add constraint FKs645vnxkeoaux8oddw8ppc9fa 
        foreign key (student_id) 
@@ -1416,7 +1416,7 @@ Hibernate:
        add constraint FKs645vnxkeoaux8oddw8ppc9fa 
        foreign key (student_id) 
        references student
-2025-10-27T13:36:49.416+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.858+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists moderation_reports 
        add constraint FKpva4c3fyq4prrmlfpyefb0f7i 
        foreign key (reported_user_id) 
@@ -1426,7 +1426,7 @@ Hibernate:
        add constraint FKpva4c3fyq4prrmlfpyefb0f7i 
        foreign key (reported_user_id) 
        references utilisateur
-2025-10-27T13:36:49.419+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.862+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists moderation_reports 
        add constraint FK7fm70778vci1vgbo3jfm2r9ch 
        foreign key (reporter_id) 
@@ -1436,7 +1436,7 @@ Hibernate:
        add constraint FK7fm70778vci1vgbo3jfm2r9ch 
        foreign key (reporter_id) 
        references utilisateur
-2025-10-27T13:36:49.425+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.866+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists parent 
        add constraint FKo31g185knxkcy425ddamct4o9 
        foreign key (id) 
@@ -1446,7 +1446,7 @@ Hibernate:
        add constraint FKo31g185knxkcy425ddamct4o9 
        foreign key (id) 
        references utilisateur
-2025-10-27T13:36:49.429+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.869+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists password_reset_tokens 
        add constraint FK8gsyvsi8r4jhmtir2upl4tc3h 
        foreign key (user_id) 
@@ -1456,7 +1456,7 @@ Hibernate:
        add constraint FK8gsyvsi8r4jhmtir2upl4tc3h 
        foreign key (user_id) 
        references utilisateur
-2025-10-27T13:36:49.433+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.872+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists qualification 
        add constraint FKgys8shqf43ev1m7mq14kcb7ul 
        foreign key (tutor_id) 
@@ -1466,7 +1466,7 @@ Hibernate:
        add constraint FKgys8shqf43ev1m7mq14kcb7ul 
        foreign key (tutor_id) 
        references tutor
-2025-10-27T13:36:49.437+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.874+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists refresh_tokens 
        add constraint FKheuwts6j2dy6h6g2hjvs89pcn 
        foreign key (user_id) 
@@ -1476,7 +1476,7 @@ Hibernate:
        add constraint FKheuwts6j2dy6h6g2hjvs89pcn 
        foreign key (user_id) 
        references utilisateur
-2025-10-27T13:36:49.441+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.877+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists social_accounts 
        add constraint FKmyf6rykkkxtpotmhtyx6j1u83 
        foreign key (user_id) 
@@ -1486,7 +1486,7 @@ Hibernate:
        add constraint FKmyf6rykkkxtpotmhtyx6j1u83 
        foreign key (user_id) 
        references utilisateur
-2025-10-27T13:36:49.445+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.880+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists student 
        add constraint FKqqq09m02bgrk47qoe6fs3ht4w 
        foreign key (parent_id) 
@@ -1496,7 +1496,7 @@ Hibernate:
        add constraint FKqqq09m02bgrk47qoe6fs3ht4w 
        foreign key (parent_id) 
        references parent
-2025-10-27T13:36:49.448+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.882+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists student 
        add constraint FKom57wtsticj6udoupbyx22vlv 
        foreign key (id) 
@@ -1506,7 +1506,7 @@ Hibernate:
        add constraint FKom57wtsticj6udoupbyx22vlv 
        foreign key (id) 
        references utilisateur
-2025-10-27T13:36:49.452+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.886+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists student_availability 
        add constraint FKe9dvu6t57c3ovsnp9ggtppqiu 
        foreign key (student_id) 
@@ -1516,7 +1516,7 @@ Hibernate:
        add constraint FKe9dvu6t57c3ovsnp9ggtppqiu 
        foreign key (student_id) 
        references student
-2025-10-27T13:36:49.455+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.888+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists student_favorite_tutors 
        add constraint FKqf9p637ufj48r7a60kd1e3jxt 
        foreign key (tutor_id) 
@@ -1526,7 +1526,7 @@ Hibernate:
        add constraint FKqf9p637ufj48r7a60kd1e3jxt 
        foreign key (tutor_id) 
        references tutor
-2025-10-27T13:36:49.458+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.891+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists student_favorite_tutors 
        add constraint FKbt5bfkf7tx20d3cqwjxy8t0i4 
        foreign key (student_id) 
@@ -1536,7 +1536,7 @@ Hibernate:
        add constraint FKbt5bfkf7tx20d3cqwjxy8t0i4 
        foreign key (student_id) 
        references student
-2025-10-27T13:36:49.461+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.894+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists student_preferred_subjects 
        add constraint FK1uib99eyswku30jnbpnv3fxjl 
        foreign key (student_id) 
@@ -1546,7 +1546,7 @@ Hibernate:
        add constraint FK1uib99eyswku30jnbpnv3fxjl 
        foreign key (student_id) 
        references student
-2025-10-27T13:36:49.464+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.897+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists tutor 
        add constraint FKevbhv6fi1jn88d46tyi8pkawe 
        foreign key (id) 
@@ -1556,7 +1556,7 @@ Hibernate:
        add constraint FKevbhv6fi1jn88d46tyi8pkawe 
        foreign key (id) 
        references utilisateur
-2025-10-27T13:36:49.467+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.900+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists tutor_applications 
        add constraint FKqrqdvbu157duv6o2ylgsh70s9 
        foreign key (utilisateur_id) 
@@ -1566,7 +1566,7 @@ Hibernate:
        add constraint FKqrqdvbu157duv6o2ylgsh70s9 
        foreign key (utilisateur_id) 
        references utilisateur
-2025-10-27T13:36:49.470+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.903+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists tutor_languages 
        add constraint FKjjkgbu14yxqk1b3e56iq00bwe 
        foreign key (tutor_profile_id) 
@@ -1576,7 +1576,7 @@ Hibernate:
        add constraint FKjjkgbu14yxqk1b3e56iq00bwe 
        foreign key (tutor_profile_id) 
        references tutor_profile
-2025-10-27T13:36:49.473+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.907+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists tutor_levels 
        add constraint FKo79hvbleyi5vmy5gkgkd01q5b 
        foreign key (tutor_profile_id) 
@@ -1586,7 +1586,7 @@ Hibernate:
        add constraint FKo79hvbleyi5vmy5gkgkd01q5b 
        foreign key (tutor_profile_id) 
        references tutor_profile
-2025-10-27T13:36:49.476+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.910+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists tutor_subject_levels 
        add constraint FKa7r9om160qmfptkopvx7pba3w 
        foreign key (tutor_subject_id) 
@@ -1596,7 +1596,7 @@ Hibernate:
        add constraint FKa7r9om160qmfptkopvx7pba3w 
        foreign key (tutor_subject_id) 
        references tutor_subject
-2025-10-27T13:36:49.479+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.913+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists tutor_subjects 
        add constraint FK2rgvjsbsp6aqto0jj07peljlc 
        foreign key (subject_id) 
@@ -1606,7 +1606,7 @@ Hibernate:
        add constraint FK2rgvjsbsp6aqto0jj07peljlc 
        foreign key (subject_id) 
        references subject
-2025-10-27T13:36:49.483+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.916+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists tutor_subjects 
        add constraint FKrbwej4ik99xyo11357qqwucco 
        foreign key (tutor_id) 
@@ -1616,7 +1616,7 @@ Hibernate:
        add constraint FKrbwej4ik99xyo11357qqwucco 
        foreign key (tutor_id) 
        references tutor
-2025-10-27T13:36:49.486+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.919+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists tutor_availability 
        add constraint FK7gm22v6vpadn2s8xq8t35kc5j 
        foreign key (tutor_id) 
@@ -1626,7 +1626,7 @@ Hibernate:
        add constraint FK7gm22v6vpadn2s8xq8t35kc5j 
        foreign key (tutor_id) 
        references tutor
-2025-10-27T13:36:49.494+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.922+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists tutor_document 
        add constraint FKgvajshkapp9eu4fcmvwn7hgrt 
        foreign key (tutor_id) 
@@ -1636,7 +1636,7 @@ Hibernate:
        add constraint FKgvajshkapp9eu4fcmvwn7hgrt 
        foreign key (tutor_id) 
        references tutor
-2025-10-27T13:36:49.497+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.924+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists tutor_language 
        add constraint FK6scg7ml282sgm26m4hpqecnxl 
        foreign key (tutor_id) 
@@ -1646,7 +1646,7 @@ Hibernate:
        add constraint FK6scg7ml282sgm26m4hpqecnxl 
        foreign key (tutor_id) 
        references tutor
-2025-10-27T13:36:49.500+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.928+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists tutor_preferences 
        add constraint FKr8gvr6et561c99jl5jsv43qt4 
        foreign key (tutor_id) 
@@ -1656,7 +1656,7 @@ Hibernate:
        add constraint FKr8gvr6et561c99jl5jsv43qt4 
        foreign key (tutor_id) 
        references tutor
-2025-10-27T13:36:49.503+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.931+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists tutor_profile 
        add constraint FK7q1hdtjfk2c7kmlnlbu7gkl8o 
        foreign key (user_id) 
@@ -1666,7 +1666,7 @@ Hibernate:
        add constraint FK7q1hdtjfk2c7kmlnlbu7gkl8o 
        foreign key (user_id) 
        references utilisateur
-2025-10-27T13:36:49.507+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.935+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists tutor_review 
        add constraint FKn1grl881osn7u0qtqi9epb4t3 
        foreign key (student_id) 
@@ -1676,7 +1676,7 @@ Hibernate:
        add constraint FKn1grl881osn7u0qtqi9epb4t3 
        foreign key (student_id) 
        references student
-2025-10-27T13:36:49.510+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.939+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists tutor_review 
        add constraint FK5gue1hsi9b3rjrj7qum03pspg 
        foreign key (tutor_id) 
@@ -1686,7 +1686,7 @@ Hibernate:
        add constraint FK5gue1hsi9b3rjrj7qum03pspg 
        foreign key (tutor_id) 
        references tutor
-2025-10-27T13:36:49.513+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.942+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists tutor_subject 
        add constraint FKc8um4d7iopbq72enywi84a1f7 
        foreign key (subject_id) 
@@ -1696,7 +1696,7 @@ Hibernate:
        add constraint FKc8um4d7iopbq72enywi84a1f7 
        foreign key (subject_id) 
        references subject
-2025-10-27T13:36:49.516+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.945+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     alter table if exists tutor_subject 
        add constraint FKrms2hp61pr8yiu7j7wenb2kx6 
        foreign key (tutor_id) 
@@ -1706,14 +1706,14 @@ Hibernate:
        add constraint FKrms2hp61pr8yiu7j7wenb2kx6 
        foreign key (tutor_id) 
        references tutor
-2025-10-27T13:36:49.524+01:00  INFO 52150 --- [tutorapp-backend] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-10-27T13:36:50.037+01:00  INFO 52150 --- [tutorapp-backend] [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
-2025-10-27T13:36:51.636+01:00  INFO 52150 --- [tutorapp-backend] [           main] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
-2025-10-27T13:36:51.637+01:00  WARN 52150 --- [tutorapp-backend] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
-2025-10-27T13:36:52.222+01:00  WARN 52150 --- [tutorapp-backend] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-10-27T13:36:52.727+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, JwtFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
-2025-10-27T13:36:55.145+01:00  INFO 52150 --- [tutorapp-backend] [           main] c.b.tutor_app.TutorAppApplicationTests   : Started TutorAppApplicationTests in 12.417 seconds (process running for 13.575)
-2025-10-27T13:36:55.212+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:48.954+01:00  INFO 18774 --- [tutorapp-backend] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-10-28T18:43:49.568+01:00  INFO 18774 --- [tutorapp-backend] [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-10-28T18:43:51.279+01:00  INFO 18774 --- [tutorapp-backend] [           main] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2025-10-28T18:43:51.280+01:00  WARN 18774 --- [tutorapp-backend] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2025-10-28T18:43:52.085+01:00  WARN 18774 --- [tutorapp-backend] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-10-28T18:43:52.694+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, JwtFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
+2025-10-28T18:43:54.919+01:00  INFO 18774 --- [tutorapp-backend] [           main] c.b.tutor_app.TutorAppApplicationTests   : Started TutorAppApplicationTests in 13.808 seconds (process running for 15.156)
+2025-10-28T18:43:54.999+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     select
         count(*) 
     from
@@ -1723,7 +1723,7 @@ Hibernate:
         count(*) 
     from
         utilisateur u1_0
-2025-10-27T13:36:55.441+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:55.272+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     insert 
     into
         utilisateur
@@ -1737,7 +1737,7 @@ Hibernate:
         (accept_marketing, accept_terms, created_at, email, email_verified, first_name, last_login, last_name, last_update, locked_until, login_attempts, password, password_changed_at, phone_number, profile_picture, role, status, user_type) 
     values
         (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'ADMIN')
-2025-10-27T13:36:55.465+01:00 DEBUG 52150 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
+2025-10-28T18:43:55.293+01:00 DEBUG 18774 --- [tutorapp-backend] [           main] org.hibernate.SQL                        : 
     insert 
     into
         admin

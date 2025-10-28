@@ -16,16 +16,18 @@ public interface AuthService {
     /**
      * Authentifie un utilisateur avec email/mot de passe
      * @param request Données de connexion (email, password)
+     * @param clientIp Adresse IP du client
      * @return AuthResponse avec tokens JWT et informations utilisateur
      */
-    AuthResponse login(AuthRequest request);
+    AuthResponse login(AuthRequest request, String clientIp);
     
     /**
      * Inscrit un nouvel utilisateur
      * @param request Données d'inscription (email, password, firstName, lastName, role)
+     * @param clientIp Adresse IP du client
      * @return AuthResponse avec tokens JWT et informations utilisateur
      */
-    AuthResponse register(RegisterRequest request);
+    AuthResponse register(RegisterRequest request, String clientIp);
     
     /**
      * Déconnecte un utilisateur et révoque ses tokens

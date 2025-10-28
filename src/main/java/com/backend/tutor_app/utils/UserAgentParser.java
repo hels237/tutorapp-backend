@@ -1,6 +1,8 @@
 package com.backend.tutor_app.utils;
 
 import com.backend.tutor_app.dto.Auth.DeviceInfoDto;
+import com.backend.tutor_app.services.IpAddressService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -10,10 +12,14 @@ import java.util.regex.Pattern;
 /**
  * (Q) PHASE 1 - ÉTAPE 1.2 : Utilitaire pour parser le User Agent et extraire les métadonnées device
  * Parse le User Agent pour identifier le navigateur, l'OS, les versions, etc.
+ * Utilise IpAddressService pour valider les adresses IP
  */
 @Component
+@RequiredArgsConstructor
 @Slf4j
 public class UserAgentParser {
+    
+    private final IpAddressService ipAddressService;
     
     // (Q) Patterns regex pour détecter les navigateurs
     private static final Pattern CHROME_PATTERN = Pattern.compile("Chrome/([\\d.]+)");
@@ -40,9 +46,16 @@ public class UserAgentParser {
     public DeviceInfoDto parseUserAgent(String userAgent, String ipAddress, String timezone, String language) {
         log.debug("Parsing User Agent: {}", userAgent);
         
+        // Validation et normalisation de l'IP
+        String validatedIp = ipAddress;
+        if (ipAddress == null || !ipAddressService.isValidIp(ipAddress)) {
+            log.warn("IP invalide fournie: {}, utilisation de l'IP par défaut", ipAddress);
+            validatedIp = "127.0.0.1";
+        }
+        
         DeviceInfoDto deviceInfo = DeviceInfoDto.builder()
             .userAgent(userAgent)
-            .ipAddress(ipAddress)
+            .ipAddress(validatedIp)
             .timezone(timezone)
             .browserLanguage(language)
             .build();
@@ -60,7 +73,10 @@ public class UserAgentParser {
         // (Q) Détection de l'OS
         parseOperatingSystem(userAgent, deviceInfo);
         
-        log.debug("Device parsed: {} sur {}", deviceInfo.getDeviceSummary(), deviceInfo.getIpAddress());
+        log.debug("Device parsed: {} sur {} (IP valide: {})", 
+            deviceInfo.getDeviceSummary(), 
+            deviceInfo.getIpAddress(),
+            ipAddressService.isValidIp(validatedIp));
         
         return deviceInfo;
     }

@@ -2,6 +2,7 @@ com/backend/tutor_app/model/enums/ApplicationStatus.class
 com/backend/tutor_app/model/Utilisateur.class
 com/backend/tutor_app/dto/Auth/AuthResponse.class
 com/backend/tutor_app/services/EmailService.class
+com/backend/tutor_app/dto/Auth/SecurityCheckResult$SecurityCheckResultBuilder.class
 com/backend/tutor_app/model/tutor/TutorDocument$TutorDocumentBuilder.class
 com/backend/tutor_app/dto/Auth/DeviceInfoDto.class
 com/backend/tutor_app/model/AbstractEntiity$AbstractEntiityBuilder.class
@@ -25,6 +26,7 @@ com/backend/tutor_app/model/Subject.class
 com/backend/tutor_app/model/support/PasswordResetToken$PasswordResetTokenBuilderImpl.class
 com/backend/tutor_app/controller/UserController.class
 com/backend/tutor_app/model/Student.class
+com/backend/tutor_app/servicesImpl/DeviceComparisonServiceImpl$1.class
 com/backend/tutor_app/dto/Auth/RegisterRequest$RegisterRequestBuilder.class
 com/backend/tutor_app/model/ModerationReport$ModerationReportBuilderImpl.class
 com/backend/tutor_app/repositories/StudentRepository.class
@@ -35,6 +37,7 @@ com/backend/tutor_app/controller/SocialAuthController.class
 com/backend/tutor_app/servicesImpl/SocialAuthServiceImpl.class
 com/backend/tutor_app/services/RateLimitService.class
 com/backend/tutor_app/model/StudentStats.class
+com/backend/tutor_app/services/SecurityAlertService.class
 com/backend/tutor_app/dto/Auth/UserDto$UserDtoBuilder.class
 com/backend/tutor_app/dto/Auth/RefreshTokenRequest.class
 com/backend/tutor_app/services/SocialAuthService.class
@@ -49,14 +52,20 @@ com/backend/tutor_app/model/Adresse$AdresseBuilder.class
 com/backend/tutor_app/dto/admin/UserModerationDto$UserModerationDtoBuilder.class
 com/backend/tutor_app/model/TutorApplication$TutorApplicationBuilderImpl.class
 com/backend/tutor_app/model/enums/QualificationType.class
+com/backend/tutor_app/servicesImpl/IpGeolocationServiceImpl.class
 com/backend/tutor_app/dto/Auth/UserDto.class
+com/backend/tutor_app/model/enums/SecurityRiskLevel.class
 com/backend/tutor_app/model/tutor/TutorReview$TutorReviewBuilderImpl.class
 com/backend/tutor_app/model/tutor/TutorSubject$TutorSubjectBuilder.class
+com/backend/tutor_app/servicesImpl/SecurityAlertServiceImpl.class
 com/backend/tutor_app/model/tutor/TutorDocument$TutorDocumentBuilderImpl.class
 com/backend/tutor_app/services/FileStorageService.class
+com/backend/tutor_app/services/DeviceComparisonService.class
 com/backend/tutor_app/servicesImpl/RateLimitServiceImpl.class
 com/backend/tutor_app/model/tutor/TutorAvailability$TutorAvailabilityBuilder.class
 com/backend/tutor_app/model/tutor/TutorPreferences.class
+com/backend/tutor_app/services/SecurityCheckService.class
+com/backend/tutor_app/dto/Auth/SecurityCheckResult.class
 com/backend/tutor_app/model/support/EmailVerificationToken$EmailVerificationTokenBuilder.class
 com/backend/tutor_app/model/support/RefreshToken$RefreshTokenBuilder.class
 com/backend/tutor_app/dto/admin/AuditLogDto$AuditLogDtoBuilder.class
@@ -68,8 +77,11 @@ com/backend/tutor_app/dto/UpdateStudentProfileRequest.class
 com/backend/tutor_app/servicesImpl/FileStorageServiceImpl.class
 com/backend/tutor_app/model/Lesson$LessonBuilder.class
 com/backend/tutor_app/model/enums/ReportStatus.class
+com/backend/tutor_app/services/IpGeolocationService.class
+com/backend/tutor_app/servicesImpl/SecurityCheckServiceImpl$1.class
 com/backend/tutor_app/dto/Auth/ResetPasswordRequest$ResetPasswordRequestBuilder.class
 com/backend/tutor_app/dto/common/UploadeResponse$UploadeResponseBuilder.class
+com/backend/tutor_app/servicesImpl/SecurityCheckServiceImpl.class
 com/backend/tutor_app/model/Adresse.class
 com/backend/tutor_app/security/SecurityConfig.class
 com/backend/tutor_app/dto/user/StudentProfileDto.class
@@ -102,10 +114,12 @@ com/backend/tutor_app/model/TutorApplication.class
 com/backend/tutor_app/services/AuthService.class
 com/backend/tutor_app/dto/user/UserProfileDto.class
 com/backend/tutor_app/model/enums/LanguageLevel.class
+com/backend/tutor_app/servicesImpl/IpAddressServiceImpl.class
 com/backend/tutor_app/dto/common/UploadeResponse.class
 com/backend/tutor_app/dto/user/AdminProfileDto.class
 com/backend/tutor_app/model/Admin.class
 com/backend/tutor_app/dto/admin/SystemConfigDto$SystemConfigDtoBuilder.class
+com/backend/tutor_app/servicesImpl/SecurityAlertServiceImpl$1.class
 com/backend/tutor_app/model/enums/ReportType.class
 com/backend/tutor_app/exceptions/ObjectValidationException.class
 com/backend/tutor_app/model/support/RefreshToken$RefreshTokenBuilderImpl.class
@@ -114,6 +128,7 @@ com/backend/tutor_app/dto/UpdateParentProfileRequest.class
 com/backend/tutor_app/repositories/UserRepository.class
 com/backend/tutor_app/servicesImpl/UserServiceImpl.class
 com/backend/tutor_app/dto/Auth/RefreshTokenRequest$RefreshTokenRequestBuilder.class
+com/backend/tutor_app/model/enums/DeviceChangeType.class
 com/backend/tutor_app/security/JwtServiceUtil.class
 com/backend/tutor_app/model/support/PasswordResetToken.class
 com/backend/tutor_app/model/support/EmailVerificationToken$EmailVerificationTokenBuilderImpl.class
@@ -137,6 +152,7 @@ com/backend/tutor_app/dto/user/UserProfileDto$UserProfileDtoBuilder.class
 com/backend/tutor_app/model/Qualification$QualificationBuilderImpl.class
 com/backend/tutor_app/dto/common/PagedResponse.class
 com/backend/tutor_app/servicesImpl/AdminServiceImpl.class
+com/backend/tutor_app/servicesImpl/DeviceComparisonServiceImpl.class
 com/backend/tutor_app/dto/Auth/RegisterRequest.class
 com/backend/tutor_app/model/support/PasswordResetToken$PasswordResetTokenBuilder.class
 com/backend/tutor_app/model/support/RefreshToken.class
@@ -169,6 +185,7 @@ com/backend/tutor_app/model/tutor/TutorLanguage.class
 com/backend/tutor_app/validator/ObjectValidator.class
 com/backend/tutor_app/model/Qualification.class
 com/backend/tutor_app/dto/admin/AdminStatsDto$AdminStatsDtoBuilder.class
+com/backend/tutor_app/services/IpAddressService.class
 com/backend/tutor_app/model/Utilisateur$UtilisateurBuilder.class
 com/backend/tutor_app/dto/admin/AdminStatsDto.class
 com/backend/tutor_app/dto/common/PagedResponse$PagedResponseBuilder.class

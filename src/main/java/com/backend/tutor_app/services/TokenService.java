@@ -104,6 +104,21 @@ public interface TokenService {
     void updateRefreshTokenLastUsed(String token);
     
     /**
+     * (Q) PHASE 2 - ÉTAPE 2.6 : Effectue la rotation d'un Refresh Token
+     * Révoque l'ancien token et crée un nouveau avec traçabilité
+     * @param oldToken Ancien token à révoquer
+     * @param deviceInfo Informations du device
+     * @return Nouveau Refresh Token créé
+     */
+    RefreshToken rotateRefreshToken(RefreshToken oldToken, com.backend.tutor_app.dto.Auth.DeviceInfoDto deviceInfo);
+    
+    /**
+     * (Q) PHASE 2 - ÉTAPE 2.3 : Révoque tous les tokens d'une famille (chaîne de rotation)
+     * @param tokenId ID du token de départ
+     */
+    void revokeTokenFamily(Long tokenId);
+    
+    /**
      * Nettoie les refresh tokens expirés
      * @return Nombre de tokens supprimés
      */

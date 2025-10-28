@@ -2,6 +2,7 @@ package com.backend.tutor_app.servicesImpl;
 
 import com.backend.tutor_app.dto.Auth.AuthRequest;
 import com.backend.tutor_app.dto.Auth.DeviceInfoDto; // (Q) PHASE 1 - Import DeviceInfoDto
+import com.backend.tutor_app.dto.Auth.SecurityCheckResult; // (Q) PHASE 2 - Import SecurityCheckResult
 import com.backend.tutor_app.utils.UserAgentParser; // (Q) PHASE 1 - Import UserAgentParser
 import com.backend.tutor_app.dto.Auth.AuthResponse;
 import com.backend.tutor_app.dto.Auth.RegisterRequest;
@@ -23,6 +24,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -52,13 +55,19 @@ public class AuthServiceImpl implements AuthService {
     
     // (Q) PHASE 1 - ÉTAPE 1.2 : Parser User Agent pour métadonnées enrichies
     private final UserAgentParser userAgentParser;
+    
+    // (Q) PHASE 2 - Services de sécurité avancés
+    private final SecurityCheckService securityCheckService;
+    private final SecurityAlertService securityAlertService;
+    
+    // Service dédié pour la récupération de l'IP client
+    private final IpAddressService ipAddressService;
 
     @Override
-    public AuthResponse login(AuthRequest request) {
-        log.info("Tentative de connexion pour l'email: {}", request.getEmail());
-        
+    public AuthResponse login(AuthRequest request, String clientIp) {
+        log.info("Tentative de connexion pour l'email: {} depuis IP: {}", request.getEmail(), clientIp);
+
         // Vérification du rate limiting
-        String clientIp = getCurrentClientIp();
         if (!rateLimitService.isLoginAllowed(clientIp, request.getEmail())) {
             log.warn("Tentative de connexion bloquée par rate limiting pour: {}", request.getEmail());
             throw new RuntimeException("Trop de tentatives de connexion. Veuillez réessayer plus tard.");
@@ -108,7 +117,7 @@ public class AuthServiceImpl implements AuthService {
                 .refreshToken(refreshToken)
                 .tokenType("Bearer")
                 .expiresIn(3600L) // 1 heure
-                .user(mapUserToDto(utilisateur))
+                .userProfileDto(UserProfileDto.fromEntity(utilisateur))
                 .build();
                 
         } catch (AuthenticationException e) {
@@ -134,11 +143,10 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public AuthResponse register(RegisterRequest request) {
-        log.info("Tentative d'inscription pour l'email: {}", request.getEmail());
+    public AuthResponse register(RegisterRequest request, String clientIp) {
+        log.info("Tentative d'inscription pour l'email: {} depuis IP: {}", request.getEmail(), clientIp);
         
         // Vérification du rate limiting
-        String clientIp = getCurrentClientIp();
         if (!rateLimitService.isRegistrationAllowed(clientIp)) {
             log.warn("Tentative d'inscription bloquée par rate limiting pour IP: {}", clientIp);
             throw new RuntimeException("Trop de tentatives d'inscription. Veuillez réessayer plus tard.");
@@ -203,7 +211,7 @@ public class AuthServiceImpl implements AuthService {
                 .refreshToken(refreshToken)
                 .tokenType("Bearer")
                 .expiresIn(3600L)
-                .user(mapUserToDto(savedUtilisateur))
+                .userProfileDto(UserProfileDto.fromEntity(savedUtilisateur))
                 .build();
                 
         } catch (Exception e) {
@@ -236,44 +244,122 @@ public class AuthServiceImpl implements AuthService {
         }
     }
 
+    /**
+     * (Q) PHASE 2 - Méthode refreshToken complètement refactorisée avec le flow de sécurité complet
+     * Implémente les étapes 2.1 à 2.8 de la PHASE 2
+     */
     @Override
     public AuthResponse refreshToken(String refreshToken) {
-        log.info("Tentative de rafraîchissement de token");
+        log.info("(Q) PHASE 2 - Tentative de rafraîchissement de token");
         
         try {
-            // Validation du refresh token
+            // (Q) PHASE 2 - ÉTAPE 2.2 : Validation initiale
             if (!tokenService.validateRefreshToken(refreshToken)) {
+                log.warn("(Q) PHASE 2 - ÉTAPE 2.2 : Refresh token invalide ou expiré");
                 throw new RuntimeException("Refresh token invalide ou expiré");
             }
             
-            // Récupération du refresh token
+            // (Q) PHASE 2 - ÉTAPE 2.2 : Récupération du refresh token
             var refreshTokenEntity = tokenService.findRefreshToken(refreshToken)
                 .orElseThrow(() -> new RuntimeException("Refresh token non trouvé"));
             
             Utilisateur utilisateur = refreshTokenEntity.getUtilisateur();
             
-            // Vérification de l'état de l'utilisateur
+            log.info("(Q) PHASE 2 - Refresh token trouvé pour: {}", utilisateur.getEmail());
+            
+            // (Q) PHASE 2 - ÉTAPE 2.1 : Collecte des métadonnées actuelles
+            String clientIp = ipAddressService.getClientIp();
+            String userAgent = getCurrentUserAgent();
+            
+            DeviceInfoDto currentDeviceInfo = userAgentParser.parseUserAgent(
+                userAgent,
+                clientIp,
+                null, // timezone sera ajouté depuis le frontend si disponible
+                null  // language sera ajouté depuis le frontend si disponible
+            );
+            
+            log.debug("(Q) PHASE 2 - Device actuel: {} depuis {}", 
+                currentDeviceInfo.getDeviceSummary(), 
+                clientIp);
+            
+            // (Q) PHASE 2 - ÉTAPES 2.3/2.4/2.5 : Vérifications de sécurité complètes
+            SecurityCheckResult securityCheck = securityCheckService.performSecurityChecks(
+                refreshTokenEntity, 
+                currentDeviceInfo
+            );
+            
+            log.info("(Q) PHASE 2 - Résultat sécurité: Risque={}, Autorisé={}", 
+                securityCheck.getRiskLevel(), 
+                securityCheck.isAllowed());
+            
+            // (Q) PHASE 2 - ÉTAPE 2.3 : Détection token révoqué réutilisé (CRITIQUE)
+            if (refreshTokenEntity.getIsRevoked()) {
+                log.error("(Q) PHASE 2 - 🚨 ALERTE CRITIQUE : Token révoqué réutilisé ! User: {}", 
+                    utilisateur.getEmail());
+                
+                // (Q) PHASE 2 - Actions immédiates
+                tokenService.revokeTokenFamily(refreshTokenEntity.getId());
+                tokenService.revokeAllUserRefreshTokens(utilisateur.getId());
+                
+                // (Q) PHASE 2 - Alertes sécurité
+                securityAlertService.sendSecurityAlerts(utilisateur, securityCheck);
+                securityAlertService.markAccountUnderSurveillance(utilisateur.getId());
+                
+                throw new RuntimeException("Token compromis détecté. Tous vos tokens ont été révoqués par sécurité.");
+            }
+            
+            // (Q) PHASE 2 - Si le risque est trop élevé, bloquer
+            if (securityCheck.isShouldBlock()) {
+                log.warn("(Q) PHASE 2 - Connexion bloquée : Risque trop élevé pour: {}", 
+                    utilisateur.getEmail());
+                
+                // (Q) PHASE 2 - Envoyer les alertes
+                securityAlertService.sendSecurityAlerts(utilisateur, securityCheck);
+                
+                throw new RuntimeException(securityCheck.getMessage());
+            }
+            
+            // (Q) PHASE 2 - Vérification de l'état de l'utilisateur
             validateUserForLogin(utilisateur);
             
-            // Génération d'un nouveau JWT
+            // (Q) PHASE 2 - ÉTAPE 2.6 : Rotation du Refresh Token
+            var newRefreshToken = tokenService.rotateRefreshToken(refreshTokenEntity, currentDeviceInfo);
+            
+            log.info("(Q) PHASE 2 - ÉTAPE 2.6 : Token rotation effectuée: {} → {}", 
+                refreshTokenEntity.getId(), 
+                newRefreshToken.getId());
+            
+            // (Q) PHASE 2 - ÉTAPE 2.6.4 : Génération d'un nouveau Access Token (JWT)
             String newJwtToken = tokenService.generateJwtToken(utilisateur);
             
-            // Mise à jour de la date de dernière utilisation du refresh token
-            tokenService.updateRefreshTokenLastUsed(refreshToken);
+            // (Q) PHASE 2 - ÉTAPE 2.7 : Mise à jour des métadonnées
+            newRefreshToken.incrementUsageCount();
+            tokenService.updateRefreshTokenLastUsed(newRefreshToken.getToken());
             
-            log.info("Rafraîchissement de token réussi pour l'utilisateur: {}", utilisateur.getEmail());
+            // (Q) PHASE 2 - Envoyer les alertes si nécessaire (mais permettre la connexion)
+            if (securityCheck.isRequireEmailAlert() || securityCheck.isRequireSmsAlert()) {
+                log.info("(Q) PHASE 2 - Envoi des alertes sécurité pour: {}", utilisateur.getEmail());
+                securityAlertService.sendSecurityAlerts(utilisateur, securityCheck);
+            }
             
+            log.info("(Q) PHASE 2 - Rafraîchissement réussi pour: {} (Risque: {})", 
+                utilisateur.getEmail(), 
+                securityCheck.getRiskLevel());
+            
+            // (Q) PHASE 2 - ÉTAPE 2.8 : Réponse sécurisée
             return AuthResponse.builder()
                 .accessToken(newJwtToken)
-                .refreshToken(refreshToken) // On garde le même refresh token
+                .refreshToken(newRefreshToken.getToken()) // (Q) NOUVEAU token après rotation
                 .tokenType("Bearer")
                 .expiresIn(3600L)
-                .user(mapUserToDto(utilisateur))
+                .userProfileDto(UserProfileDto.fromEntity(utilisateur))
+                // (Q) PHASE 2 - Alerte sécurité optionnelle pour le frontend
+                .securityAlert(securityCheck.getSecurityAlert())
                 .build();
                 
         } catch (Exception e) {
-            log.error("Erreur lors du rafraîchissement de token: {}", e.getMessage());
-            throw new RuntimeException("Erreur lors du rafraîchissement de token");
+            log.error("(Q) PHASE 2 - Erreur lors du rafraîchissement de token: {}", e.getMessage());
+            throw new RuntimeException("Erreur lors du rafraîchissement de token: " + e.getMessage());
         }
     }
 
@@ -296,7 +382,7 @@ public class AuthServiceImpl implements AuthService {
             }
             
             // Création du token de vérification
-            String clientIp = getCurrentClientIp();
+            String clientIp = ipAddressService.getClientIp();
             var verificationToken = tokenService.createEmailVerificationToken(utilisateur, clientIp);
             
             // Envoi de l'email
@@ -358,7 +444,7 @@ public class AuthServiceImpl implements AuthService {
         log.info("Demande de réinitialisation de mot de passe pour: {}", email);
         
         // Vérification du rate limiting
-        String clientIp = getCurrentClientIp();
+        String clientIp = ipAddressService.getClientIp();
         if (!rateLimitService.isPasswordResetAllowed(clientIp, email)) {
             log.warn("Demande de réinitialisation bloquée par rate limiting pour: {}", email);
             throw new RuntimeException("Trop de demandes de réinitialisation. Veuillez réessayer plus tard.");
@@ -440,7 +526,7 @@ public class AuthServiceImpl implements AuthService {
         log.info("Tentative de connexion sociale avec {}", provider);
         
         // Vérification du rate limiting
-        String clientIp = getCurrentClientIp();
+        String clientIp = ipAddressService.getClientIp();
         if (!rateLimitService.isSocialAuthAllowed(clientIp, provider.name())) {
             log.warn("Connexion sociale bloquée par rate limiting pour provider: {}", provider);
             throw new RuntimeException("Trop de tentatives de connexion sociale. Veuillez réessayer plus tard.");
@@ -507,7 +593,7 @@ public class AuthServiceImpl implements AuthService {
         
         try {
             Utilisateur utilisateur = userService.getUserById(userId)
-                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+                    .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
             
             // Vérification du mot de passe actuel
             if (!passwordEncoder.matches(currentPassword, utilisateur.getPassword())) {
@@ -535,28 +621,58 @@ public class AuthServiceImpl implements AuthService {
         }
     }
 
-    // ==================== MÉTHODES UTILITAIRES ====================
 
+    
+    /**
+     * (Q) PHASE 2 - ÉTAPE 2.1 : Récupère le User Agent depuis le contexte de la requête
+     */
+    private String getCurrentUserAgent() {
+        try {
+            // (Q) PHASE 2 - Récupération depuis RequestContextHolder
+            var request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+                .getRequest();
+            
+            String userAgent = request.getHeader("User-Agent");
+            return userAgent != null ? userAgent : "Unknown";
+            
+        } catch (Exception e) {
+            log.warn("(Q) PHASE 2 - Impossible de récupérer le User Agent: {}", e.getMessage());
+            return "Unknown";
+        }
+    }
+
+    /**
+     * Valide qu'un utilisateur peut se connecter
+     * Vérifie le statut, le verrouillage et la vérification email
+     */
     private void validateUserForLogin(Utilisateur utilisateur) {
+        // Vérification du statut de l'utilisateur
         if (utilisateur.getStatus() == UserStatus.SUSPENDED) {
-            throw new RuntimeException("Compte suspendu. Contactez l'administration.");
+            log.warn("Tentative de connexion d'un compte suspendu: {}", utilisateur.getEmail());
+            throw new RuntimeException("Votre compte a été suspendu. Contactez le support.");
         }
         
         if (utilisateur.getStatus() == UserStatus.DELETED) {
-            throw new RuntimeException("Compte supprimé.");
+            log.warn("Tentative de connexion d'un compte supprimé: {}", utilisateur.getEmail());
+            throw new RuntimeException("Ce compte n'existe plus.");
         }
         
+        // Vérification du verrouillage temporaire
         if (utilisateur.getLockedUntil() != null && utilisateur.getLockedUntil().isAfter(LocalDateTime.now())) {
-            throw new RuntimeException("Compte temporairement verrouillé. Réessayez plus tard.");
+            log.warn("Tentative de connexion d'un compte verrouillé: {}", utilisateur.getEmail());
+            long minutesRemaining = java.time.Duration.between(LocalDateTime.now(), utilisateur.getLockedUntil()).toMinutes();
+            throw new RuntimeException("Compte temporairement verrouillé. Réessayez dans " + minutesRemaining + " minutes.");
+        }
+        
+        // Vérification de l'email (optionnel selon la configuration)
+        if (!utilisateur.getEmailVerified() && utilisateur.getStatus() == UserStatus.PENDING_VERIFICATION) {
+            log.warn("Tentative de connexion avec email non vérifié: {}", utilisateur.getEmail());
+            // On peut soit bloquer, soit permettre avec avertissement
+            // Pour l'instant, on permet mais on log
+            log.info("Connexion autorisée malgré email non vérifié pour: {}", utilisateur.getEmail());
         }
     }
-
-    private String getCurrentClientIp() {
-        // TODO: Implémenter la récupération de l'IP client depuis la requête HTTP
-        // Pour l'instant, on retourne une IP par défaut
-        return "127.0.0.1";
-    }
-
+    
     /**
      * Convertit une entité User en UserProfileDto pour l'API
      */

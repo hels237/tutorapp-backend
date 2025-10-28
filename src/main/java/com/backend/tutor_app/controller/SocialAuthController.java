@@ -262,7 +262,7 @@ public class SocialAuthController {
             rateLimitService.recordSocialAuthAttempt(clientIp, provider.name());
             
             log.info("Authentification sociale réussie avec {} pour l'utilisateur: {}", 
-                provider, authResponse.getUser().getEmail());
+                provider, authResponse.getUserProfileDto().getEmail());
             
             return ResponseEntity.ok(ApiResponseDto.success(authResponse,
                 "Connexion " + provider.name() + " réussie"));

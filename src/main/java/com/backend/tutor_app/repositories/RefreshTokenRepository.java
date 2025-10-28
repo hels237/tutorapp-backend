@@ -134,4 +134,10 @@ public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Long
            "(rt.expiresAt <= :expiredBefore) OR " +
            "(rt.isRevoked = true AND rt.createdAt <= :revokedBefore)")
     int cleanupOldTokens(@Param("expiredBefore") LocalDateTime expiredBefore, @Param("revokedBefore") LocalDateTime revokedBefore);
+    
+    /**
+     * (Q) PHASE 2 - ÉTAPE 2.3 : Trouve tous les tokens enfants d'un token parent
+     * Utilisé pour la révocation en cascade de la famille de tokens
+     */
+    List<RefreshToken> findByParentTokenId(Long parentTokenId);
 }

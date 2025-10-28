@@ -8,6 +8,7 @@ import com.backend.tutor_app.model.enums.SocialProvider;
 import com.backend.tutor_app.model.enums.UserStatus;
 import com.backend.tutor_app.model.support.SocialAccount;
 import com.backend.tutor_app.repositories.SocialAccountRepository;
+import com.backend.tutor_app.services.IpAddressService;
 import com.backend.tutor_app.services.SocialAuthService;
 import com.backend.tutor_app.services.TokenService;
 import com.backend.tutor_app.services.UserService;
@@ -36,6 +37,7 @@ public class SocialAuthServiceImpl implements SocialAuthService {
     private final SocialAccountRepository socialAccountRepository;
     private final UserService userService;
     private final TokenService tokenService;  // ← Refactorisé pour déléguer à JwtServiceUtil
+    private final IpAddressService ipAddressService;  // Service dédié pour récupération IP
     private final RestTemplate restTemplate = new RestTemplate();
 
     @Value("${app.oauth2.google.client-id:}")
@@ -94,14 +96,14 @@ public class SocialAuthServiceImpl implements SocialAuthService {
             
             // Génération des tokens JWT (délégation vers JwtServiceUtil via TokenService refactorisé)
             String jwtToken = tokenService.generateJwtToken(utilisateur);  // ← Délègue à JwtServiceUtil.generateToken()
-            String refreshToken = tokenService.createRefreshToken(utilisateur, "Social Login", getCurrentClientIp()).getToken();
+            String refreshToken = tokenService.createRefreshToken(utilisateur, "Social Login", ipAddressService.getClientIp()).getToken();
             
             return AuthResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
                 .tokenType("Bearer")
                 .expiresIn(3600L)
-                .user(UserProfileDto.fromEntity(utilisateur))
+                .userProfileDto(UserProfileDto.fromEntity(utilisateur))
                 .build();
                 
         } catch (Exception e) {
@@ -504,9 +506,7 @@ public class SocialAuthServiceImpl implements SocialAuthService {
         socialAccountRepository.save(account);
     }
 
-    private String getCurrentClientIp() {
-        return "127.0.0.1"; // TODO: Récupérer la vraie IP client
-    }
+    // Méthode supprimée - utilisation de IpAddressService injecté
 
     private Object mapUserToDto(Utilisateur utilisateur) {
         return Map.of(

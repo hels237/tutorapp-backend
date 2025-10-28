@@ -63,7 +63,7 @@ public class AuthController {
             }
 
             // Authentification
-            AuthResponse authResponse = authService.login(request);
+            AuthResponse authResponse = authService.login(request, clientIp);
             
             // (Q) PHASE 1 - ÉTAPE 1.3 : Stockage sécurisé du Refresh Token dans HttpOnly Cookie
             setRefreshTokenCookie(httpResponse, authResponse.getRefreshToken());
@@ -74,7 +74,7 @@ public class AuthController {
                 .refreshToken(null) // (Q) Ne pas exposer le Refresh Token dans le body
                 .tokenType(authResponse.getTokenType())
                 .expiresIn(authResponse.getExpiresIn())
-                .user(authResponse.getUser())
+                .userProfileDto(authResponse.getUserProfileDto())
                 .build();
             
             return ResponseEntity.ok(ApiResponseDto.success(responseWithoutRefreshToken, "Connexion réussie"));
@@ -102,18 +102,18 @@ public class AuthController {
             // Objectif : empêcher qu’un même utilisateur (ou une même IP) spamme l’inscription.
             String clientIp = getClientIpAddress(httpRequest);
             log.info("Tentative d'inscription pour: {} depuis IP: {}", request.getEmail(), clientIp);
+
             /*
             * Vérification rate limiting : vérifie si cette IP n’a pas dépassé la limite autorisée d’inscriptions récentes.
             * Si c’est le cas → on bloque l’opération avec une exception.
             * */
-
             if (!rateLimitService.isRegistrationAllowed(clientIp)) {
                 return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS)
                     .body(ApiResponseDto.error("Trop de tentatives d'inscription. Veuillez réessayer plus tard."));
             }
 
             // Inscription
-            AuthResponse authResponse = authService.register(request);
+            AuthResponse authResponse = authService.register(request, clientIp);
 
             // (Q) PHASE 1 - ÉTAPE 1.3 : Stockage sécurisé du Refresh Token dans HttpOnly Cookie
             setRefreshTokenCookie(httpResponse, authResponse.getRefreshToken());
@@ -124,7 +124,7 @@ public class AuthController {
                 .refreshToken(null) // (Q) Ne pas exposer le Refresh Token dans le body
                 .tokenType(authResponse.getTokenType())
                 .expiresIn(authResponse.getExpiresIn())
-                .user(authResponse.getUser())
+                .userProfileDto(authResponse.getUserProfileDto())
                 .build();
 
             return ResponseEntity.status(HttpStatus.CREATED)
@@ -196,7 +196,7 @@ public class AuthController {
                 .refreshToken(null) // (Q) Ne pas exposer le Refresh Token
                 .tokenType(authResponse.getTokenType())
                 .expiresIn(authResponse.getExpiresIn())
-                .user(authResponse.getUser())
+                .userProfileDto(authResponse.getUserProfileDto())
                 .build();
             
             return ResponseEntity.ok(ApiResponseDto.success(responseWithoutRefreshToken, "Token renouvelé"));

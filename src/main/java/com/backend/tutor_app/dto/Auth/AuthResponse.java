@@ -12,8 +12,8 @@ public class AuthResponse {
     private String refreshToken;
     private String tokenType = "Bearer";
     private Long expiresIn;
-    private UserProfileDto user;
-
-    //############################W
-
+    private UserProfileDto userProfileDto;
+    
+    // (Q) PHASE 2 - ÉTAPE 2.8 : Alerte sécurité optionnelle pour le frontend
+    private String securityAlert;
 }
