@@ -99,11 +99,20 @@
             <version>3.0.0</version>
         </dependency>
 
+        <!-- GeoIP2 pour la géolocalisation des adresses IP -->
+        <dependency>
+            <groupId>com.maxmind.geoip2</groupId>
+            <artifactId>geoip2</artifactId>
+            <version>4.2.0</version>
+        </dependency>
+
+
         <!-- Thymeleaf pour templates email Html personnalisés -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
+
 
         <!-- Swagger/OpenAPI 3 -->
 

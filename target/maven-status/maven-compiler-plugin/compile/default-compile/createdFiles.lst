@@ -156,6 +156,7 @@ com/backend/tutor_app/servicesImpl/DeviceComparisonServiceImpl.class
 com/backend/tutor_app/dto/Auth/RegisterRequest.class
 com/backend/tutor_app/model/support/PasswordResetToken$PasswordResetTokenBuilder.class
 com/backend/tutor_app/model/support/RefreshToken.class
+com/backend/tutor_app/config/GeoIpConfig.class
 com/backend/tutor_app/dto/common/SocialLoginUrlResponse.class
 com/backend/tutor_app/dto/user/UpdatePersonalInfoRequest.class
 com/backend/tutor_app/model/Subject$SubjectBuilderImpl.class

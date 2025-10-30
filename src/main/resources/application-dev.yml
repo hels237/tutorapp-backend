@@ -90,6 +90,15 @@ app:
   frontend:
     url: http://localhost:3000
 
+  # MaxMind GeoIP2 Configuration
+  geoip:
+    enabled: true
+    account-id: ${MAXMIND_ACCOUNT_ID}
+    license-key: ${MAXMIND_LICENSE_KEY}
+    database-path: classpath:geoip/GeoLite2-City.mmdb
+    cache-size: 4096
+    fallback-enabled: true
+
 # ==========================================
 # CONFIGURATION LOGGING
 # ==========================================
@@ -99,3 +108,4 @@ logging:
     org.springframework.security: DEBUG
     org.springframework.mail: DEBUG
     org.hibernate.SQL: DEBUG
+    com.maxmind.geoip2: DEBUG

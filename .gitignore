@@ -4,3 +4,6 @@
 
 # target directory
 target/
+
+# resources directory
+resources/geoip/GeoLite2-City.mmdb
