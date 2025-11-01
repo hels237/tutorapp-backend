@@ -200,6 +200,55 @@ public class EmailServiceImpl implements EmailService {
             log.error("Erreur lors de l'envoi de l'alerte de sécurité à: {} - {}", utilisateur.getEmail(), e.getMessage());
         }
     }
+    
+    @Override
+    public void sendSecurityAlertWithRiskLevel(Utilisateur utilisateur, String subject, String riskLevel, Map<String, Object> details) {
+        log.info("(PHASE 3) Envoi d'alerte de sécurité {} à: {}", riskLevel, utilisateur.getEmail());
+        
+        try {
+            // Sélection du template selon le niveau de risque
+            String templateName;
+            switch (riskLevel.toUpperCase()) {
+                case "CRITICAL":
+                    templateName = "email/security-alert-critical";
+                    break;
+                case "HIGH":
+                    templateName = "email/security-alert-high";
+                    break;
+                case "MEDIUM":
+                    templateName = "email/security-alert-medium";
+                    break;
+                default:
+                    templateName = "email/security-alert-medium";
+                    log.warn("Niveau de risque inconnu: {}, utilisation du template MEDIUM", riskLevel);
+            }
+            
+            // Construction des variables du template
+            java.util.Map<String, Object> templateVariables = new java.util.HashMap<>();
+            templateVariables.put("user", utilisateur);
+            templateVariables.put("appName", appName);
+            templateVariables.put("supportEmail", fromEmail);
+            templateVariables.put("detectionTime", java.time.LocalDateTime.now());
+            templateVariables.put("secureAccountUrl", frontendUrl + "/account/security");
+            templateVariables.put("wasNotMeUrl", frontendUrl + "/account/security/report");
+            templateVariables.put("supportUrl", frontendUrl + "/support");
+            
+            // Ajout des détails fournis
+            if (details != null) {
+                templateVariables.putAll(details);
+            }
+            
+            // Envoi de l'email
+            sendTemplatedEmail(utilisateur.getEmail(), subject, templateName, templateVariables);
+            
+            log.info("(PHASE 3) ✅ Alerte de sécurité {} envoyée avec succès à: {}", riskLevel, utilisateur.getEmail());
+            
+        } catch (Exception e) {
+            log.error("(PHASE 3) ❌ Erreur lors de l'envoi de l'alerte de sécurité {} à: {} - {}", 
+                riskLevel, utilisateur.getEmail(), e.getMessage());
+            // Ne pas throw l'exception pour ne pas bloquer le processus de sécurité
+        }
+    }
 
     @Override
     public void sendAccountSuspensionNotification(Utilisateur utilisateur, String reason) {

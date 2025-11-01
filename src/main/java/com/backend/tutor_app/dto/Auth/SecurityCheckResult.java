@@ -81,4 +81,102 @@ public class SecurityCheckResult {
             .securityAlert("Activité suspecte détectée. Votre compte a été sécurisé.")
             .build();
     }
+    
+    /**
+     * (PHASE 3) Vérifie si le pays a changé
+     * Note: Cette vérification est basée sur les données déjà remplies par SecurityCheckServiceImpl
+     */
+    public boolean isCountryChanged() {
+        if (previousCountry == null || currentCountry == null) {
+            return false;
+        }
+        return !previousCountry.equalsIgnoreCase(currentCountry);
+    }
+    
+    /**
+     * (PHASE 3) Vérifie si l'appareil a changé
+     * Note: Utilise le DeviceChangeType déjà calculé par DeviceComparisonService
+     */
+    public boolean isDeviceChanged() {
+        return deviceChangeType != null && deviceChangeType != DeviceChangeType.NONE;
+    }
+    
+    /**
+     * (PHASE 3) Vérifie si le navigateur a changé
+     * Note: Cette vérification est basée sur les données déjà remplies par SecurityCheckServiceImpl
+     * Les valeurs proviennent de :
+     * - previousBrowser: token.getBrowserName() (stocké en BD)
+     * - currentBrowser: currentDeviceInfo.getBrowserName() (connexion actuelle)
+     */
+    public boolean isBrowserChanged() {
+        if (previousBrowser == null || currentBrowser == null) {
+            return false;
+        }
+        return !previousBrowser.equalsIgnoreCase(currentBrowser);
+    }
+    
+    /**
+     * (PHASE 3) Vérifie si le système d'exploitation a changé
+     * Note: Cette vérification est basée sur les données déjà remplies par SecurityCheckServiceImpl
+     * Les valeurs proviennent de :
+     * - previousOs: token.getOsName() (stocké en BD)
+     * - currentOs: currentDeviceInfo.getOsName() (connexion actuelle)
+     */
+    public boolean isOsChanged() {
+        if (previousOs == null || currentOs == null) {
+            return false;
+        }
+        return !previousOs.equalsIgnoreCase(currentOs);
+    }
+    
+    /**
+     * (PHASE 3) Vérifie s'il y a des changements suspects (VPN, Proxy, etc.)
+     */
+    public boolean hasSuspiciousActivity() {
+        return vpnDetected || proxyDetected;
+    }
+    
+    /**
+     * (PHASE 3) Retourne un résumé des changements détectés pour les emails
+     * Cette méthode est utilisée pour afficher un résumé dans les templates d'email
+     */
+    public String getChangesSummary() {
+        StringBuilder summary = new StringBuilder();
+        
+        if (ipChanged) {
+            summary.append("IP changée");
+        }
+        
+        if (isCountryChanged()) {
+            if (summary.length() > 0) summary.append(", ");
+            summary.append("Pays changé (").append(previousCountry).append(" → ").append(currentCountry).append(")");
+        }
+        
+        if (isDeviceChanged()) {
+            if (summary.length() > 0) summary.append(", ");
+            summary.append("Appareil changé (").append(deviceChangeType).append(")");
+        }
+        
+        if (isBrowserChanged()) {
+            if (summary.length() > 0) summary.append(", ");
+            summary.append("Navigateur changé (").append(previousBrowser).append(" → ").append(currentBrowser).append(")");
+        }
+        
+        if (isOsChanged()) {
+            if (summary.length() > 0) summary.append(", ");
+            summary.append("OS changé (").append(previousOs).append(" → ").append(currentOs).append(")");
+        }
+        
+        if (vpnDetected) {
+            if (summary.length() > 0) summary.append(", ");
+            summary.append("VPN détecté");
+        }
+        
+        if (proxyDetected) {
+            if (summary.length() > 0) summary.append(", ");
+            summary.append("Proxy détecté");
+        }
+        
+        return summary.length() > 0 ? summary.toString() : "Aucun changement détecté";
+    }
 }

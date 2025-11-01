@@ -25,29 +25,55 @@ public class SecurityAlertServiceImpl implements SecurityAlertService {
     
     @Override
     public void sendSecurityAlerts(Utilisateur user, SecurityCheckResult checkResult) {
-        log.info("(Q) PHASE 2 - Envoi des alertes sécurité pour: {} (Risque: {})", 
+        log.info("(PHASE 3) 🚨 Envoi des alertes sécurité pour: {} (Risque: {})", 
             user.getEmail(), 
             checkResult.getRiskLevel());
         
-        // (Q) PHASE 2 - Email d'alerte si requis
+        // (PHASE 3) Email d'alerte si requis
         if (checkResult.isRequireEmailAlert()) {
             String subject = buildEmailSubject(checkResult.getRiskLevel());
-            String message = buildEmailMessage(user, checkResult);
-            sendEmailAlert(user, subject, message);
+            String riskLevel = checkResult.getRiskLevel().name();
+            
+            // Construction des détails pour le template
+            java.util.Map<String, Object> details = new java.util.HashMap<>();
+            details.put("currentIp", checkResult.getCurrentIp());
+            details.put("previousIp", checkResult.getPreviousIp());
+            details.put("currentCountry", checkResult.getCurrentCountry());
+            details.put("previousCountry", checkResult.getPreviousCountry());
+            details.put("currentDevice", checkResult.getCurrentDevice());
+            details.put("previousDevice", checkResult.getPreviousDevice());
+            details.put("currentBrowser", checkResult.getCurrentBrowser());
+            details.put("previousBrowser", checkResult.getPreviousBrowser());
+            details.put("currentOs", checkResult.getCurrentOs());
+            details.put("previousOs", checkResult.getPreviousOs());
+            details.put("ipChanged", checkResult.isIpChanged());
+            details.put("countryChanged", checkResult.isCountryChanged());
+            details.put("deviceChanged", checkResult.isDeviceChanged());
+            details.put("browserChanged", checkResult.isBrowserChanged());
+            details.put("osChanged", checkResult.isOsChanged());
+            details.put("vpnDetected", checkResult.isVpnDetected());
+            details.put("proxyDetected", checkResult.isProxyDetected());
+            details.put("changeDetails", true);
+            details.put("changesSummary", checkResult.getChangesSummary());
+            
+            // Envoi de l'email avec le bon template
+            emailService.sendSecurityAlertWithRiskLevel(user, subject, riskLevel, details);
+            
+            log.info("(PHASE 3) ✅ Email d'alerte envoyé pour: {}", user.getEmail());
         }
         
-        // (Q) PHASE 2 - SMS d'alerte si requis
+        // (PHASE 3) SMS d'alerte si requis
         if (checkResult.isRequireSmsAlert() && user.getPhoneNumber() != null) {
             String smsMessage = buildSmsMessage(checkResult);
             sendSmsAlert(user, smsMessage);
         }
         
-        // (Q) PHASE 2 - Notification admin si requis
+        // (PHASE 3) Notification admin si requis
         if (checkResult.isRequireAdminNotification()) {
             notifyAdmins(user, checkResult);
         }
         
-        // (Q) PHASE 2 - Marquer le compte sous surveillance si risque critique
+        // (PHASE 3) Marquer le compte sous surveillance si risque critique
         if (checkResult.getRiskLevel() == SecurityRiskLevel.CRITICAL) {
             markAccountUnderSurveillance(user.getId());
         }
@@ -56,18 +82,41 @@ public class SecurityAlertServiceImpl implements SecurityAlertService {
     @Override
     public void sendEmailAlert(Utilisateur user, String subject, String message) {
         try {
-            log.info("(Q) PHASE 2 - Envoi email d'alerte à: {}", user.getEmail());
+            log.info("(PHASE 3) 📧 Envoi email d'alerte à: {}", user.getEmail());
             
-            // (Q) PHASE 2 - Utiliser le service email existant
-            // TODO: Créer une méthode dédiée dans EmailService pour les alertes sécurité
-            // Pour l'instant, on log juste
-            log.warn("(Q) PHASE 2 - EMAIL ALERT - To: {}, Subject: {}, Message: {}", 
-                user.getEmail(), subject, message);
+            // (PHASE 3) Utiliser le service email avec template
+            // Extraction du niveau de risque depuis le subject
+            String riskLevel = extractRiskLevelFromSubject(subject);
             
-            // emailService.sendSecurityAlert(user, subject, message);
+            // Construction des détails pour le template
+            java.util.Map<String, Object> details = new java.util.HashMap<>();
+            details.put("message", message);
+            
+            // Envoi de l'email avec le bon template
+            emailService.sendSecurityAlertWithRiskLevel(user, subject, riskLevel, details);
+            
+            log.info("(PHASE 3) ✅ Email d'alerte envoyé avec succès à: {}", user.getEmail());
             
         } catch (Exception e) {
-            log.error("(Q) PHASE 2 - Erreur envoi email d'alerte: {}", e.getMessage());
+            log.error("(PHASE 3) ❌ Erreur envoi email d'alerte: {}", e.getMessage());
+        }
+    }
+    
+    /**
+     * (PHASE 3) Extrait le niveau de risque depuis le sujet de l'email
+     */
+    private String extractRiskLevelFromSubject(String subject) {
+        if (subject == null) {
+            return "MEDIUM";
+        }
+        
+        String upperSubject = subject.toUpperCase();
+        if (upperSubject.contains("CRITIQUE") || upperSubject.contains("CRITICAL")) {
+            return "CRITICAL";
+        } else if (upperSubject.contains("ÉLEVÉ") || upperSubject.contains("HIGH") || upperSubject.contains("ALERTE")) {
+            return "HIGH";
+        } else {
+            return "MEDIUM";
         }
     }
     

@@ -51,6 +51,15 @@ public interface EmailService {
     void sendSecurityAlert(Utilisateur utilisateur, String alertType, Map<String, Object> details);
     
     /**
+     * (PHASE 3) Envoie un email d'alerte de sécurité avec niveau de risque
+     * @param utilisateur Utilisateur concerné
+     * @param subject Sujet de l'email
+     * @param riskLevel Niveau de risque (CRITICAL, HIGH, MEDIUM)
+     * @param details Détails de l'alerte (IP, device, country, etc.)
+     */
+    void sendSecurityAlertWithRiskLevel(Utilisateur utilisateur, String subject, String riskLevel, Map<String, Object> details);
+    
+    /**
      * Envoie un email de notification de suspension de compte
      * @param utilisateur Utilisateur suspendu
      * @param reason Raison de la suspension

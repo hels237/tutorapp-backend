@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚨 ALERTE SÉCURITÉ CRITIQUE</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #fef2f2; }
+        .email-container { max-width: 600px; margin: 0 auto; background-color: white; border: 3px solid #dc2626; }
+        .email-header { background: linear-gradient(135deg, #dc2626, #991b1b); color: white; padding: 30px; text-align: center; }
+        .alert-icon { font-size: 50px; margin-bottom: 10px; }
+        .app-name { margin: 0; font-size: 24px; font-weight: bold; }
+        .alert-title { font-size: 24px; font-weight: bold; margin: 10px 0; }
+        .email-content { padding: 30px; }
+        .critical-banner { background-color: #fee2e2; border-left: 4px solid #dc2626; padding: 20px; margin: 20px 0; border-radius: 8px; }
+        .critical-text { color: #991b1b; font-weight: bold; font-size: 18px; margin: 0; }
+        .warning-box { background-color: #fef3c7; border: 2px solid #f59e0b; padding: 20px; margin: 20px 0; border-radius: 8px; }
+        .info-section { background-color: #f9fafb; padding: 20px; margin: 20px 0; border-radius: 8px; }
+        .info-title { color: #1f2937; font-size: 18px; font-weight: bold; margin-bottom: 15px; }
+        .info-item { margin: 10px 0; padding: 10px; background-color: white; border-radius: 4px; }
+        .info-label { font-weight: bold; color: #4b5563; }
+        .info-value { color: #1f2937; }
+        .action-required { background-color: #fee2e2; border: 2px solid #dc2626; padding: 25px; margin: 25px 0; border-radius: 8px; text-align: center; }
+        .action-title { color: #dc2626; font-size: 20px; font-weight: bold; margin-bottom: 15px; }
+        .action-list { text-align: left; margin: 20px 0; }
+        .action-item { margin: 10px 0; padding: 10px; background-color: white; border-left: 3px solid #dc2626; }
+        .cta-button { background-color: #dc2626; color: white; padding: 15px 40px; text-decoration: none; border-radius: 8px; display: inline-block; font-weight: bold; font-size: 16px; margin: 10px; }
+        .button-container { text-align: center; margin: 20px 0; }
+        .security-tips { background-color: #eff6ff; padding: 20px; margin: 20px 0; border-radius: 8px; border-left: 4px solid #2563eb; }
+        .email-footer { background-color: #f9fafb; padding: 20px; text-align: center; color: #6b7280; font-size: 14px; }
+        .urgent-note { color: #dc2626; font-weight: bold; font-size: 14px; }
+        ul { padding-left: 20px; }
+        li { margin: 8px 0; }
+        a { color: #2563eb; text-decoration: none; }
+    </style>
+</head>
+<body>
+<div class="email-container">
+    <!-- Header -->
+    <div class="email-header">
+        <div class="alert-icon">🚨</div>
+        <h1 class="app-name" th:text="${appName}">TutorApp</h1>
+        <h2 class="alert-title">ALERTE SÉCURITÉ CRITIQUE</h2>
+    </div>
+
+    <!-- Main Content -->
+    <div class="email-content">
+        <!-- Critical Banner -->
+        <div class="critical-banner">
+            <p class="critical-text">
+                ⚠️ Une activité suspecte a été détectée sur votre compte !
+            </p>
+            <p style="margin-top: 10px; color: #991b1b;">
+                Par mesure de sécurité, <strong>tous vos tokens d'accès ont été révoqués</strong>.
+            </p>
+        </div>
+
+        <!-- Greeting -->
+        <p>Bonjour <strong th:text="${user.firstName}">Utilisateur</strong>,</p>
+
+        <p style="font-size: 16px; line-height: 1.6;">
+            Nous avons détecté une <strong>tentative d'utilisation d'un token révoqué</strong> sur votre compte.
+            Ceci est un indicateur fort d'une <strong>compromission de compte</strong>.
+        </p>
+
+        <!-- What Happened -->
+        <div class="warning-box">
+            <h3 style="margin-top: 0; color: #92400e;">🔍 Ce qui s'est passé :</h3>
+            <p style="margin: 0; color: #78350f;">
+                Un token d'authentification qui avait été révoqué a été réutilisé pour tenter d'accéder à votre compte.
+                Cela signifie qu'une personne non autorisée possède vos identifiants de connexion.
+            </p>
+        </div>
+
+        <!-- Connection Details -->
+        <div class="info-section">
+            <h3 class="info-title">📊 Détails de la tentative suspecte :</h3>
+            
+            <div class="info-item" th:if="${currentIp}">
+                <span class="info-label">🌐 Adresse IP :</span>
+                <span class="info-value" th:text="${currentIp}">XXX.XXX.XXX.XXX</span>
+                <span th:if="${currentCountry}" th:text="' (' + ${currentCountry} + ')'"></span>
+            </div>
+            
+            <div class="info-item" th:if="${currentDevice}">
+                <span class="info-label">💻 Appareil :</span>
+                <span class="info-value" th:text="${currentDevice}">Appareil inconnu</span>
+            </div>
+            
+            <div class="info-item" th:if="${detectionTime}">
+                <span class="info-label">⏰ Heure de détection :</span>
+                <span class="info-value" th:text="${#temporals.format(detectionTime, 'dd/MM/yyyy HH:mm:ss')}">Date</span>
+            </div>
+            
+            <div class="info-item">
+                <span class="info-label">🚨 Niveau de risque :</span>
+                <span class="info-value" style="color: #dc2626; font-weight: bold;">CRITIQUE</span>
+            </div>
+        </div>
+
+        <!-- Actions Taken -->
+        <div class="action-required">
+            <h3 class="action-title">✅ Actions de sécurité appliquées :</h3>
+            <div class="action-list">
+                <div class="action-item">✓ Tous vos tokens d'accès ont été révoqués</div>
+                <div class="action-item">✓ Toutes vos sessions actives ont été fermées</div>
+                <div class="action-item">✓ Votre compte a été marqué sous surveillance</div>
+                <div class="action-item">✓ Une notification a été envoyée aux administrateurs</div>
+            </div>
+        </div>
+
+        <!-- What To Do -->
+        <div class="action-required">
+            <h3 class="action-title">🔐 Actions URGENTES à effectuer :</h3>
+            <div class="action-list">
+                <div class="action-item">
+                    <strong>1. Changez immédiatement votre mot de passe</strong><br>
+                    Utilisez un mot de passe fort et unique
+                </div>
+                <div class="action-item">
+                    <strong>2. Vérifiez vos autres comptes</strong><br>
+                    Si vous utilisez le même mot de passe ailleurs, changez-le
+                </div>
+                <div class="action-item">
+                    <strong>3. Activez l'authentification à deux facteurs (2FA)</strong><br>
+                    Pour une sécurité maximale de votre compte
+                </div>
+                <div class="action-item">
+                    <strong>4. Vérifiez vos appareils connectés</strong><br>
+                    Assurez-vous qu'aucun appareil inconnu n'est connecté
+                </div>
+            </div>
+
+            <div class="button-container">
+                <a th:href="${secureAccountUrl}" class="cta-button">
+                    🔒 Sécuriser mon compte maintenant
+                </a>
+            </div>
+        </div>
+
+        <!-- Security Tips -->
+        <div class="security-tips">
+            <h3 style="margin-top: 0; color: #1e40af;">💡 Conseils de sécurité :</h3>
+            <ul style="color: #1e3a8a;">
+                <li>Ne partagez jamais votre mot de passe avec qui que ce soit</li>
+                <li>Utilisez un gestionnaire de mots de passe sécurisé</li>
+                <li>Méfiez-vous des emails de phishing demandant vos identifiants</li>
+                <li>Vérifiez toujours l'URL avant de vous connecter</li>
+                <li>Activez l'authentification à deux facteurs (2FA) sur tous vos comptes</li>
+            </ul>
+        </div>
+
+        <!-- Support -->
+        <div style="background-color: #f9fafb; padding: 20px; margin: 20px 0; border-radius: 8px; text-align: center;">
+            <h3 style="color: #1f2937;">Besoin d'aide ?</h3>
+            <p>Notre équipe support est disponible 24/7 pour vous assister.</p>
+            <p>
+                📧 <a th:href="'mailto:' + ${supportEmail}" th:text="${supportEmail}">security@tutorapp.com</a><br>
+                💬 <a th:href="${supportUrl}">Chat en direct</a>
+            </p>
+        </div>
+
+        <!-- Important Note -->
+        <p class="urgent-note" style="text-align: center; margin-top: 30px;">
+            ⚠️ Si vous n'êtes pas à l'origine de cette activité, contactez-nous IMMÉDIATEMENT !
+        </p>
+    </div>
+
+    <!-- Footer -->
+    <div class="email-footer">
+        <p>Cet email a été envoyé automatiquement par notre système de sécurité.</p>
+        <p>Pour votre sécurité, ne répondez pas directement à cet email.</p>
+        <p style="margin-top: 20px;">
+            L'équipe Sécurité <span th:text="${appName}">TutorApp</span><br>
+            <a th:href="'mailto:' + ${supportEmail}" th:text="${supportEmail}">security@tutorapp.com</a>
+        </p>
+        <p style="margin-top: 20px; color: #9ca3af; font-size: 12px;">
+            &copy; 2024 <span th:text="${appName}">TutorApp</span>. Tous droits réservés.
+        </p>
+    </div>
+</div>
+</body>
+</html>

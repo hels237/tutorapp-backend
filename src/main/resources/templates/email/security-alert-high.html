@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚠️ Alerte de Sécurité</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #fffbeb; }
+        .email-container { max-width: 600px; margin: 0 auto; background-color: white; border: 2px solid #f59e0b; }
+        .email-header { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; padding: 30px; text-align: center; }
+        .alert-icon { font-size: 50px; margin-bottom: 10px; }
+        .app-name { margin: 0; font-size: 24px; font-weight: bold; }
+        .alert-title { font-size: 24px; font-weight: bold; margin: 10px 0; }
+        .email-content { padding: 30px; }
+        .warning-banner { background-color: #fef3c7; border-left: 4px solid #f59e0b; padding: 20px; margin: 20px 0; border-radius: 8px; }
+        .warning-text { color: #92400e; font-weight: bold; font-size: 18px; margin: 0; }
+        .info-section { background-color: #f9fafb; padding: 20px; margin: 20px 0; border-radius: 8px; }
+        .info-title { color: #1f2937; font-size: 18px; font-weight: bold; margin-bottom: 15px; }
+        .info-item { margin: 10px 0; padding: 10px; background-color: white; border-radius: 4px; }
+        .info-label { font-weight: bold; color: #4b5563; }
+        .info-value { color: #1f2937; }
+        .action-box { background-color: #fef3c7; border: 2px solid #f59e0b; padding: 20px; margin: 20px 0; border-radius: 8px; }
+        .action-title { color: #92400e; font-size: 18px; font-weight: bold; margin-bottom: 15px; }
+        .cta-button { background-color: #f59e0b; color: white; padding: 15px 40px; text-decoration: none; border-radius: 8px; display: inline-block; font-weight: bold; font-size: 16px; margin: 10px; }
+        .button-container { text-align: center; margin: 20px 0; }
+        .security-tips { background-color: #eff6ff; padding: 20px; margin: 20px 0; border-radius: 8px; border-left: 4px solid #2563eb; }
+        .email-footer { background-color: #f9fafb; padding: 20px; text-align: center; color: #6b7280; font-size: 14px; }
+        ul { padding-left: 20px; }
+        li { margin: 8px 0; }
+        a { color: #2563eb; text-decoration: none; }
+    </style>
+</head>
+<body>
+<div class="email-container">
+    <!-- Header -->
+    <div class="email-header">
+        <div class="alert-icon">⚠️</div>
+        <h1 class="app-name" th:text="${appName}">TutorApp</h1>
+        <h2 class="alert-title">Alerte de Sécurité</h2>
+    </div>
+
+    <!-- Main Content -->
+    <div class="email-content">
+        <!-- Warning Banner -->
+        <div class="warning-banner">
+            <p class="warning-text">
+                ⚠️ Une connexion inhabituelle a été détectée sur votre compte
+            </p>
+        </div>
+
+        <!-- Greeting -->
+        <p>Bonjour <strong th:text="${user.firstName}">Utilisateur</strong>,</p>
+
+        <p style="font-size: 16px; line-height: 1.6;">
+            Nous avons détecté une <strong>activité inhabituelle</strong> sur votre compte.
+            Cette connexion présente des caractéristiques différentes de vos habitudes.
+        </p>
+
+        <!-- Connection Details -->
+        <div class="info-section">
+            <h3 class="info-title">📊 Détails de la connexion :</h3>
+            
+            <div class="info-item" th:if="${currentIp}">
+                <span class="info-label">🌐 Adresse IP :</span>
+                <span class="info-value" th:text="${currentIp}">XXX.XXX.XXX.XXX</span>
+                <span th:if="${currentCountry}" th:text="' (' + ${currentCountry} + ')'"></span>
+            </div>
+            
+            <div class="info-item" th:if="${previousIp}">
+                <span class="info-label">🌐 IP précédente :</span>
+                <span class="info-value" th:text="${previousIp}">XXX.XXX.XXX.XXX</span>
+                <span th:if="${previousCountry}" th:text="' (' + ${previousCountry} + ')'"></span>
+            </div>
+            
+            <div class="info-item" th:if="${currentDevice}">
+                <span class="info-label">💻 Appareil :</span>
+                <span class="info-value" th:text="${currentDevice}">Appareil</span>
+            </div>
+            
+            <div class="info-item" th:if="${detectionTime}">
+                <span class="info-label">⏰ Heure :</span>
+                <span class="info-value" th:text="${#temporals.format(detectionTime, 'dd/MM/yyyy HH:mm:ss')}">Date</span>
+            </div>
+            
+            <div class="info-item">
+                <span class="info-label">⚠️ Niveau de risque :</span>
+                <span class="info-value" style="color: #f59e0b; font-weight: bold;">ÉLEVÉ</span>
+            </div>
+        </div>
+
+        <!-- What Changed -->
+        <div class="warning-banner" th:if="${changeDetails}">
+            <h3 style="margin-top: 0; color: #92400e;">🔍 Changements détectés :</h3>
+            <ul style="color: #78350f; margin: 10px 0;">
+                <li th:if="${ipChanged}">Changement d'adresse IP</li>
+                <li th:if="${countryChanged}">Connexion depuis un nouveau pays</li>
+                <li th:if="${deviceChanged}">Nouvel appareil détecté</li>
+                <li th:if="${vpnDetected}">Utilisation d'un VPN ou Proxy</li>
+            </ul>
+        </div>
+
+        <!-- Was It You? -->
+        <div class="action-box">
+            <h3 class="action-title">❓ Était-ce vous ?</h3>
+            
+            <div style="margin: 20px 0;">
+                <p><strong>Si c'était vous :</strong></p>
+                <p>Aucune action n'est requise. Votre compte est sécurisé.</p>
+            </div>
+            
+            <div style="margin: 20px 0;">
+                <p><strong>Si ce n'était PAS vous :</strong></p>
+                <p style="color: #dc2626; font-weight: bold;">
+                    Sécurisez immédiatement votre compte !
+                </p>
+            </div>
+
+            <div class="button-container">
+                <a th:href="${secureAccountUrl}" class="cta-button">
+                    🔒 Sécuriser mon compte
+                </a>
+                <a th:href="${wasNotMeUrl}" class="cta-button" style="background-color: #dc2626;">
+                    🚨 Ce n'était pas moi
+                </a>
+            </div>
+        </div>
+
+        <!-- Recommended Actions -->
+        <div class="info-section">
+            <h3 class="info-title">✅ Actions recommandées :</h3>
+            <ul style="color: #1f2937;">
+                <li>Vérifiez vos sessions actives et déconnectez les appareils inconnus</li>
+                <li>Changez votre mot de passe si vous avez un doute</li>
+                <li>Activez l'authentification à deux facteurs (2FA)</li>
+                <li>Vérifiez l'activité récente de votre compte</li>
+            </ul>
+        </div>
+
+        <!-- Security Tips -->
+        <div class="security-tips">
+            <h3 style="margin-top: 0; color: #1e40af;">💡 Conseils de sécurité :</h3>
+            <ul style="color: #1e3a8a;">
+                <li>Utilisez un mot de passe unique et fort</li>
+                <li>Ne partagez jamais vos identifiants</li>
+                <li>Méfiez-vous des emails de phishing</li>
+                <li>Activez l'authentification à deux facteurs</li>
+            </ul>
+        </div>
+
+        <!-- Support -->
+        <div style="background-color: #f9fafb; padding: 20px; margin: 20px 0; border-radius: 8px; text-align: center;">
+            <h3 style="color: #1f2937;">Besoin d'aide ?</h3>
+            <p>Notre équipe support est disponible pour vous assister.</p>
+            <p>
+                📧 <a th:href="'mailto:' + ${supportEmail}" th:text="${supportEmail}">support@tutorapp.com</a><br>
+                💬 <a th:href="${supportUrl}">Chat en direct</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="email-footer">
+        <p>Cet email a été envoyé automatiquement par notre système de sécurité.</p>
+        <p style="margin-top: 20px;">
+            L'équipe Sécurité <span th:text="${appName}">TutorApp</span><br>
+            <a th:href="'mailto:' + ${supportEmail}" th:text="${supportEmail}">support@tutorapp.com</a>
+        </p>
+        <p style="margin-top: 20px; color: #9ca3af; font-size: 12px;">
+            &copy; 2024 <span th:text="${appName}">TutorApp</span>. Tous droits réservés.
+        </p>
+    </div>
+</div>
+</body>
+</html>
