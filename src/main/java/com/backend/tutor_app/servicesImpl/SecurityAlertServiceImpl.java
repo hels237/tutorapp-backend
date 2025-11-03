@@ -3,13 +3,19 @@ package com.backend.tutor_app.servicesImpl;
 import com.backend.tutor_app.dto.Auth.SecurityCheckResult;
 import com.backend.tutor_app.model.Utilisateur;
 import com.backend.tutor_app.model.enums.SecurityRiskLevel;
+import com.backend.tutor_app.model.enums.UserStatus;
 import com.backend.tutor_app.repositories.UserRepository;
 import com.backend.tutor_app.services.EmailService;
 import com.backend.tutor_app.services.SecurityAlertService;
+import com.backend.tutor_app.services.SecurityConfirmationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * (Q) PHASE 2 - ÉTAPE 2.3/2.4/2.5 : Implémentation du service d'alertes sécurité
@@ -22,10 +28,11 @@ public class SecurityAlertServiceImpl implements SecurityAlertService {
     
     private final EmailService emailService;
     private final UserRepository userRepository;
+    private final SecurityConfirmationService confirmationService;
     
     @Override
     public void sendSecurityAlerts(Utilisateur user, SecurityCheckResult checkResult) {
-        log.info("(PHASE 3) 🚨 Envoi des alertes sécurité pour: {} (Risque: {})", 
+        log.info("(PHASE 3)  Envoi des alertes sécurité pour: {} (Risque: {})",
             user.getEmail(), 
             checkResult.getRiskLevel());
         
@@ -59,7 +66,7 @@ public class SecurityAlertServiceImpl implements SecurityAlertService {
             // Envoi de l'email avec le bon template
             emailService.sendSecurityAlertWithRiskLevel(user, subject, riskLevel, details);
             
-            log.info("(PHASE 3) ✅ Email d'alerte envoyé pour: {}", user.getEmail());
+            log.info("(PHASE 3)  Email d'alerte envoyé pour: {}", user.getEmail());
         }
         
         // (PHASE 3) SMS d'alerte si requis
@@ -82,14 +89,14 @@ public class SecurityAlertServiceImpl implements SecurityAlertService {
     @Override
     public void sendEmailAlert(Utilisateur user, String subject, String message) {
         try {
-            log.info("(PHASE 3) 📧 Envoi email d'alerte à: {}", user.getEmail());
+            log.info("(PHASE 3)  Envoi email d'alerte à: {}", user.getEmail());
             
             // (PHASE 3) Utiliser le service email avec template
             // Extraction du niveau de risque depuis le subject
             String riskLevel = extractRiskLevelFromSubject(subject);
             
             // Construction des détails pour le template
-            java.util.Map<String, Object> details = new java.util.HashMap<>();
+            Map<String, Object> details = new java.util.HashMap<>();
             details.put("message", message);
             
             // Envoi de l'email avec le bon template
@@ -156,19 +163,115 @@ public class SecurityAlertServiceImpl implements SecurityAlertService {
     @Override
     public void markAccountUnderSurveillance(Long userId) {
         try {
-            log.warn("(Q) PHASE 2 - Marquage compte sous surveillance: {}", userId);
+            log.warn("(PHASE 3 - Priorité 2)  Marquer le compte sous surveillance: {}", userId);
             
-            // (Q) PHASE 2 - TODO: Ajouter un champ 'underSurveillance' dans Utilisateur
-            // Pour l'instant, on log juste
+            Utilisateur user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé: " + userId));
             
-            // Utilisateur user = userRepository.findById(userId).orElseThrow();
-            // user.setUnderSurveillance(true);
-            // user.setSurveillanceStartDate(LocalDateTime.now());
-            // userRepository.save(user);
+            user.setUnderSurveillance(true);
+            user.setSurveillanceStartedAt(LocalDateTime.now());
+            userRepository.save(user);
+            
+            log.info("(PHASE 3 - Priorité 2) ✅ Compte {} mis sous surveillance", user.getEmail());
             
         } catch (Exception e) {
-            log.error("(Q) PHASE 2 - Erreur marquage surveillance: {}", e.getMessage());
+            log.error("(PHASE 3 - Priorité 2) ❌ Erreur marquage surveillance: {}", e.getMessage());
         }
+    }
+    
+    /**
+     * (PHASE 3 - Priorité 2/3) Marque un compte comme compromis et applique les mesures de sécurité
+     */
+    public void markAccountAsCompromised(Long userId, String reason) {
+        markAccountAsCompromised(userId, reason, null, null);
+    }
+    
+    /**
+     * (PHASE 3 - Priorité 3) Marque un compte comme compromis avec détails complets
+     */
+    public void markAccountAsCompromised(Long userId, String reason, String ipAddress, String userAgent) {
+        try {
+            log.error("(PHASE 3 - Priorité 2/3)  COMPTE COMPROMIS DÉTECTÉ: {} - Raison: {}", userId, reason);
+            
+            Utilisateur user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé: " + userId));
+            
+            // Marquer comme compromis
+            user.setCompromised(true);
+            user.setCompromisedAt(LocalDateTime.now());
+            user.setCompromisedReason(reason);
+            user.setStatus(UserStatus.COMPROMISED);
+            
+            // Mettre sous surveillance
+            user.setUnderSurveillance(true);
+            if (user.getSurveillanceStartedAt() == null) {
+                user.setSurveillanceStartedAt(LocalDateTime.now());
+            }
+            
+            userRepository.save(user);
+            
+            log.error("(PHASE 3 - Priorité 2/3)  Compte {} marqué comme COMPROMIS et bloqué", user.getEmail());
+            
+            // (PHASE 3 - Priorité 3) Générer et envoyer token de confirmation obligatoire
+            try {
+                confirmationService.generateAndSendConfirmationToken(
+                    user, 
+                    reason, 
+                    ipAddress != null ? ipAddress : "Unknown",
+                    userAgent != null ? userAgent : "Unknown"
+                );
+                log.info("(PHASE 3 - Priorité 3)  Token de confirmation envoyé à: {}", user.getEmail());
+            } catch (Exception e) {
+                log.error("(PHASE 3 - Priorité 3) ❌ Erreur envoi token confirmation: {}", e.getMessage());
+            }
+            
+            // Envoyer notification critique
+            sendCriticalCompromisedAlert(user, reason);
+            
+        } catch (Exception e) {
+            log.error("(PHASE 3 - Priorité 2/3) ❌ Erreur marquage compte compromis: {}", e.getMessage());
+        }
+    }
+    
+    /**
+     * (PHASE 3 - Priorité 2) Envoie une alerte critique pour compte compromis
+     */
+    private void sendCriticalCompromisedAlert(Utilisateur user, String reason) {
+        try {
+            String subject = "ALERTE CRITIQUE - Votre compte a été compromis";
+            
+            Map<String, Object> details = new HashMap<>();
+            details.put("message", "Votre compte a été automatiquement bloqué suite à la détection d'une activité suspecte.");
+            details.put("compromisedReason", reason);
+            details.put("compromisedAt", user.getCompromisedAt());
+            details.put("actionTaken", "Compte bloqué automatiquement");
+            
+            emailService.sendSecurityAlertWithRiskLevel(user, subject, "CRITICAL", details);
+            
+            log.info("(PHASE 3 - Priorité 2)  Email d'alerte COMPROMIS envoyé à: {}", user.getEmail());
+            
+        } catch (Exception e) {
+            log.error("(PHASE 3 - Priorité 2) ❌ Erreur envoi alerte compromis: {}", e.getMessage());
+        }
+    }
+    
+    /**
+     * (PHASE 3 - Priorité 2) Vérifie si un compte doit être automatiquement bloqué
+     */
+    public boolean shouldBlockAccount(SecurityCheckResult checkResult) {
+        // Bloquer si risque CRITICAL
+        if (checkResult.getRiskLevel() == com.backend.tutor_app.model.enums.SecurityRiskLevel.CRITICAL) {
+            return true;
+        }
+        
+        // Bloquer si plusieurs indicateurs suspects
+        int suspiciousCount = 0;
+        if (checkResult.isVpnDetected()) suspiciousCount++;
+        if (checkResult.isProxyDetected()) suspiciousCount++;
+        if (checkResult.isCountryChanged()) suspiciousCount++;
+        if (checkResult.isDeviceChanged()) suspiciousCount++;
+        
+        return suspiciousCount >= 3; // 3+ indicateurs = blocage
     }
     
     /**
@@ -177,11 +280,11 @@ public class SecurityAlertServiceImpl implements SecurityAlertService {
     private String buildEmailSubject(SecurityRiskLevel riskLevel) {
         switch (riskLevel) {
             case CRITICAL:
-                return "🚨 ALERTE SÉCURITÉ CRITIQUE - Activité suspecte détectée";
+                return " ALERTE SÉCURITÉ CRITIQUE - Activité suspecte détectée";
             case HIGH:
-                return "⚠️ Alerte sécurité - Connexion inhabituelle";
+                return " Alerte sécurité - Connexion inhabituelle";
             case MEDIUM:
-                return "ℹ️ Notification sécurité - Nouvelle connexion";
+                return "ℹ Notification sécurité - Nouvelle connexion";
             default:
                 return "Notification sécurité";
         }
@@ -197,17 +300,17 @@ public class SecurityAlertServiceImpl implements SecurityAlertService {
         
         switch (checkResult.getRiskLevel()) {
             case CRITICAL:
-                message.append("🚨 Une activité suspecte a été détectée sur votre compte.\n\n");
+                message.append("Une activité suspecte a été détectée sur votre compte.\n\n");
                 message.append("Par mesure de sécurité, tous vos tokens d'accès ont été révoqués.\n");
                 message.append("Veuillez vous reconnecter et changer votre mot de passe immédiatement.\n\n");
                 break;
                 
             case HIGH:
-                message.append("⚠️ Une connexion inhabituelle a été détectée sur votre compte.\n\n");
+                message.append(" Une connexion inhabituelle a été détectée sur votre compte.\n\n");
                 break;
                 
             case MEDIUM:
-                message.append("ℹ️ Une nouvelle connexion a été détectée sur votre compte.\n\n");
+                message.append(" Une nouvelle connexion a été détectée sur votre compte.\n\n");
                 break;
         }
         

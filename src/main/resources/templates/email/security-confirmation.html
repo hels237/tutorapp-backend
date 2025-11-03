@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔐 Confirmation de Sécurité Requise</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #fff5f5; }
+        .email-container { max-width: 600px; margin: 0 auto; background-color: white; border: 3px solid #dc2626; }
+        .email-header { background: linear-gradient(135deg, #dc2626, #991b1b); color: white; padding: 30px; text-align: center; }
+        .lock-icon { font-size: 60px; margin-bottom: 10px; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        .app-name { margin: 0; font-size: 24px; font-weight: bold; }
+        .alert-title { font-size: 26px; font-weight: bold; margin: 10px 0; }
+        .email-content { padding: 30px; }
+        .critical-banner { background-color: #fee2e2; border-left: 4px solid #dc2626; padding: 20px; margin: 20px 0; border-radius: 8px; }
+        .critical-text { color: #991b1b; font-weight: bold; font-size: 18px; margin: 0; }
+        .info-box { background-color: #f9fafb; padding: 20px; margin: 20px 0; border-radius: 8px; border: 1px solid #e5e7eb; }
+        .info-title { color: #1f2937; font-size: 18px; font-weight: bold; margin-bottom: 15px; }
+        .info-item { margin: 10px 0; padding: 10px; background-color: white; border-radius: 4px; }
+        .info-label { font-weight: bold; color: #4b5563; }
+        .info-value { color: #1f2937; }
+        .confirmation-box { background-color: #fef3c7; border: 3px solid #f59e0b; padding: 30px; margin: 30px 0; border-radius: 12px; text-align: center; }
+        .confirmation-title { color: #92400e; font-size: 22px; font-weight: bold; margin-bottom: 20px; }
+        .cta-button { background-color: #dc2626; color: white; padding: 18px 50px; text-decoration: none; border-radius: 8px; display: inline-block; font-weight: bold; font-size: 18px; margin: 15px 0; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .cta-button:hover { background-color: #991b1b; }
+        .token-box { background-color: #f3f4f6; padding: 15px; margin: 20px 0; border-radius: 8px; font-family: monospace; font-size: 14px; word-break: break-all; border: 2px dashed #9ca3af; }
+        .warning-box { background-color: #fef3c7; padding: 20px; margin: 20px 0; border-radius: 8px; border-left: 4px solid #f59e0b; }
+        .steps-box { background-color: #eff6ff; padding: 20px; margin: 20px 0; border-radius: 8px; border-left: 4px solid #2563eb; }
+        .email-footer { background-color: #f9fafb; padding: 20px; text-align: center; color: #6b7280; font-size: 14px; }
+        ul { padding-left: 20px; }
+        li { margin: 10px 0; line-height: 1.6; }
+        .countdown { color: #dc2626; font-weight: bold; font-size: 20px; }
+        a { color: #2563eb; text-decoration: none; }
+    </style>
+</head>
+<body>
+<div class="email-container">
+    <!-- Header -->
+    <div class="email-header">
+        <div class="lock-icon">🔐</div>
+        <h1 class="app-name" th:text="${appName}">TutorApp</h1>
+        <h2 class="alert-title">Confirmation de Sécurité Requise</h2>
+    </div>
+
+    <!-- Main Content -->
+    <div class="email-content">
+        <!-- Critical Banner -->
+        <div class="critical-banner">
+            <p class="critical-text">
+                ⚠️ Votre compte a été temporairement bloqué suite à une activité suspecte
+            </p>
+        </div>
+
+        <!-- Greeting -->
+        <p>Bonjour <strong th:text="${user.firstName}">Utilisateur</strong>,</p>
+
+        <p style="font-size: 16px; line-height: 1.6;">
+            Par mesure de sécurité, nous avons <strong>temporairement bloqué votre compte</strong> 
+            suite à la détection d'une activité inhabituelle.
+        </p>
+
+        <!-- Reason -->
+        <div class="info-box">
+            <h3 class="info-title">📋 Raison du blocage :</h3>
+            <div class="info-item">
+                <p th:text="${reason}" style="color: #dc2626; font-weight: bold;">Raison</p>
+            </div>
+        </div>
+
+        <!-- Detection Details -->
+        <div class="info-box" th:if="${detectionTime}">
+            <h3 class="info-title">🕐 Détails de la détection :</h3>
+            
+            <div class="info-item">
+                <span class="info-label">⏰ Heure :</span>
+                <span class="info-value" th:text="${#temporals.format(detectionTime, 'dd/MM/yyyy HH:mm:ss')}">Date</span>
+            </div>
+            
+            <div class="info-item" th:if="${ipAddress}">
+                <span class="info-label">🌐 Adresse IP :</span>
+                <span class="info-value" th:text="${ipAddress}">IP</span>
+            </div>
+            
+            <div class="info-item" th:if="${device}">
+                <span class="info-label">💻 Appareil :</span>
+                <span class="info-value" th:text="${device}">Device</span>
+            </div>
+        </div>
+
+        <!-- Confirmation Required -->
+        <div class="confirmation-box">
+            <h3 class="confirmation-title">🔐 Confirmation Obligatoire</h3>
+            
+            <p style="font-size: 16px; margin: 20px 0;">
+                Pour débloquer votre compte, vous devez <strong>confirmer votre identité</strong> 
+                en cliquant sur le bouton ci-dessous :
+            </p>
+
+            <a th:href="${confirmationUrl}" class="cta-button">
+                ✅ Confirmer mon identité
+            </a>
+
+            <p style="margin-top: 25px; font-size: 14px; color: #78350f;">
+                <strong>⏱️ Ce lien expire dans :</strong><br>
+                <span class="countdown" th:text="${expirationMinutes} + ' minutes'">30 minutes</span>
+            </p>
+        </div>
+
+        <!-- Alternative: Manual Token -->
+        <div class="warning-box">
+            <h3 style="color: #92400e; margin-top: 0;">🔑 Lien ne fonctionne pas ?</h3>
+            <p>Si le bouton ne fonctionne pas, copiez et collez ce lien dans votre navigateur :</p>
+            <div class="token-box" th:text="${confirmationUrl}">URL</div>
+        </div>
+
+        <!-- Security Steps -->
+        <div class="steps-box">
+            <h3 style="color: #1e40af; margin-top: 0;">🛡️ Après la confirmation :</h3>
+            <ul style="margin: 10px 0;">
+                <li><strong>Changez votre mot de passe</strong> immédiatement</li>
+                <li><strong>Vérifiez vos appareils connectés</strong></li>
+                <li><strong>Activez l'authentification à deux facteurs</strong> (recommandé)</li>
+                <li><strong>Vérifiez les activités récentes</strong> sur votre compte</li>
+            </ul>
+        </div>
+
+        <!-- Warning -->
+        <div class="warning-box">
+            <h3 style="color: #92400e; margin-top: 0;">⚠️ Important :</h3>
+            <ul style="margin: 10px 0;">
+                <li>Si vous n'êtes <strong>pas à l'origine</strong> de cette activité, <strong>ne confirmez pas</strong> et contactez immédiatement notre support</li>
+                <li>Ne partagez <strong>jamais</strong> ce lien avec qui que ce soit</li>
+                <li>Notre équipe ne vous demandera <strong>jamais</strong> ce lien par email ou téléphone</li>
+            </ul>
+        </div>
+
+        <!-- Support -->
+        <p style="margin-top: 30px; padding: 20px; background-color: #f9fafb; border-radius: 8px; text-align: center;">
+            <strong>Besoin d'aide ?</strong><br>
+            Contactez notre support : 
+            <a th:href="'mailto:' + ${supportEmail}" th:text="${supportEmail}">support@tutorapp.com</a>
+        </p>
+
+        <!-- Signature -->
+        <p style="margin-top: 30px;">
+            Cordialement,<br>
+            <strong>L'équipe Sécurité de <span th:text="${appName}">TutorApp</span></strong>
+        </p>
+    </div>
+
+    <!-- Footer -->
+    <div class="email-footer">
+        <p style="margin: 5px 0;">
+            Cet email a été envoyé automatiquement par notre système de sécurité.
+        </p>
+        <p style="margin: 5px 0;">
+            © 2024 <span th:text="${appName}">TutorApp</span>. Tous droits réservés.
+        </p>
+        <p style="margin: 15px 0 5px 0;">
+            <a th:href="${frontendUrl}" style="color: #2563eb; margin: 0 10px;">Accueil</a> |
+            <a th:href="${frontendUrl} + '/help'" style="color: #2563eb; margin: 0 10px;">Aide</a> |
+            <a th:href="${frontendUrl} + '/security'" style="color: #2563eb; margin: 0 10px;">Sécurité</a>
+        </p>
+    </div>
+</div>
+</body>
+</html>

@@ -82,6 +82,22 @@ public class Utilisateur extends AbstractEntiity implements UserDetails {
 
     @Column(name = "password_changed_at")
     private LocalDateTime passwordChangedAt;
+    
+    // (PHASE 3 - Priorité 2) Champs de sécurité avancée
+    @Column(name = "under_surveillance", nullable = false)
+    private Boolean underSurveillance = false;
+    
+    @Column(name = "surveillance_started_at")
+    private LocalDateTime surveillanceStartedAt;
+    
+    @Column(name = "compromised", nullable = false)
+    private Boolean compromised = false;
+    
+    @Column(name = "compromised_at")
+    private LocalDateTime compromisedAt;
+    
+    @Column(name = "compromised_reason")
+    private String compromisedReason;
 
     // Champs de consentement (RGPD)
     @Column(name = "accept_terms", nullable = false)

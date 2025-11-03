@@ -60,6 +60,9 @@ public class AuthServiceImpl implements AuthService {
     private final SecurityCheckService securityCheckService;
     private final SecurityAlertService securityAlertService;
     
+    // (PHASE 3 - Priorité 3) Service de confirmation de sécurité
+    private final SecurityConfirmationService securityConfirmationService;
+    
     // Service dédié pour la récupération de l'IP client
     private final IpAddressService ipAddressService;
 
@@ -292,31 +295,43 @@ public class AuthServiceImpl implements AuthService {
                 securityCheck.getRiskLevel(), 
                 securityCheck.isAllowed());
             
-            // (Q) PHASE 2 - ÉTAPE 2.3 : Détection token révoqué réutilisé (CRITIQUE)
+            // (PHASE 3 - Priorité 2) ÉTAPE 2.3 : Détection token révoqué réutilisé (CRITIQUE)
             if (refreshTokenEntity.getIsRevoked()) {
-                log.error("(Q) PHASE 2 - 🚨 ALERTE CRITIQUE : Token révoqué réutilisé ! User: {}", 
+                log.error("(PHASE 3 - Priorité 2)  ALERTE CRITIQUE : Token révoqué réutilisé ! User: {}",
                     utilisateur.getEmail());
                 
-                // (Q) PHASE 2 - Actions immédiates
+                // (PHASE 3 - Priorité 2) Actions immédiates
                 tokenService.revokeTokenFamily(refreshTokenEntity.getId());
                 tokenService.revokeAllUserRefreshTokens(utilisateur.getId());
                 
-                // (Q) PHASE 2 - Alertes sécurité
-                securityAlertService.sendSecurityAlerts(utilisateur, securityCheck);
-                securityAlertService.markAccountUnderSurveillance(utilisateur.getId());
+                // (PHASE 3 - Priorité 2) Marquer le compte comme COMPROMIS
+                securityAlertService.markAccountAsCompromised(
+                    utilisateur.getId(), 
+                    "Token révoqué réutilisé - Possible vol de session"
+                );
                 
-                throw new RuntimeException("Token compromis détecté. Tous vos tokens ont été révoqués par sécurité.");
+                // (PHASE 3 - Priorité 2) Alertes sécurité
+                securityAlertService.sendSecurityAlerts(utilisateur, securityCheck);
+                
+                throw new RuntimeException("Token compromis détecté. Votre compte a été bloqué par sécurité.");
             }
             
-            // (Q) PHASE 2 - Si le risque est trop élevé, bloquer
-            if (securityCheck.isShouldBlock()) {
-                log.warn("(Q) PHASE 2 - Connexion bloquée : Risque trop élevé pour: {}", 
+            // (PHASE 3 - Priorité 2) Si le risque est trop élevé, bloquer automatiquement
+            if (securityCheck.isShouldBlock() || securityAlertService.shouldBlockAccount(securityCheck)) {
+                log.error("(PHASE 3 - Priorité 2)  Connexion bloquée : Risque trop élevé pour: {}",
                     utilisateur.getEmail());
                 
-                // (Q) PHASE 2 - Envoyer les alertes
+                // (PHASE 3 - Priorité 2) Marquer le compte comme compromis
+                String reason = String.format("Activité suspecte détectée: %s", securityCheck.getChangesSummary());
+                securityAlertService.markAccountAsCompromised(utilisateur.getId(), reason);
+                
+                // (PHASE 3 - Priorité 2) Révoquer tous les tokens
+                tokenService.revokeAllUserRefreshTokens(utilisateur.getId());
+                
+                // (PHASE 3 - Priorité 2) Envoyer les alertes
                 securityAlertService.sendSecurityAlerts(utilisateur, securityCheck);
                 
-                throw new RuntimeException(securityCheck.getMessage());
+                throw new RuntimeException("Activité suspecte détectée. Votre compte a été bloqué par sécurité.");
             }
             
             // (Q) PHASE 2 - Vérification de l'état de l'utilisateur
@@ -646,6 +661,18 @@ public class AuthServiceImpl implements AuthService {
      * Vérifie le statut, le verrouillage et la vérification email
      */
     private void validateUserForLogin(Utilisateur utilisateur) {
+        // (PHASE 3 - Priorité 3) Vérification confirmation en attente
+        if (utilisateur.getCompromised() && securityConfirmationService.hasPendingConfirmation(utilisateur.getId())) {
+            log.error("(PHASE 3 - Priorité 3) 🔐 Tentative de connexion avec confirmation en attente: {}", utilisateur.getEmail());
+            throw new RuntimeException("Votre compte nécessite une confirmation de sécurité. Veuillez vérifier votre email.");
+        }
+        
+        // (PHASE 3 - Priorité 2) Vérification compte compromis
+        if (utilisateur.getStatus() == UserStatus.COMPROMISED) {
+            log.error("(PHASE 3 - Priorité 2) 🚨 Tentative de connexion d'un compte COMPROMIS: {}", utilisateur.getEmail());
+            throw new RuntimeException("Votre compte a été bloqué pour des raisons de sécurité. Contactez immédiatement le support.");
+        }
+        
         // Vérification du statut de l'utilisateur
         if (utilisateur.getStatus() == UserStatus.SUSPENDED) {
             log.warn("Tentative de connexion d'un compte suspendu: {}", utilisateur.getEmail());

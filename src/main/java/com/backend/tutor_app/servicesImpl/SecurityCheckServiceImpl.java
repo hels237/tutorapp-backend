@@ -191,7 +191,7 @@ public class SecurityCheckServiceImpl implements SecurityCheckService {
                 result.setRequireSmsAlert(false);
                 result.setRequireConfirmation(false);
                 result.setMessage("Changement de device suspect");
-                result.setSecurityAlert("⚠️ Connexion depuis un appareil très différent");
+                result.setSecurityAlert(" Connexion depuis un appareil très différent");
                 log.warn("(Q) PHASE 2 - Changement SUSPECT : {}", 
                     deviceComparisonService.getChangeDescription(previousDevice, currentDeviceInfo));
                 break;

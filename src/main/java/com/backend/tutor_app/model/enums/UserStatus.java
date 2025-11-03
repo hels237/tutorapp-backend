@@ -9,7 +9,8 @@ public enum UserStatus {
     SUSPENDED("Suspendu"),
     PENDING_VERIFICATION("En attente de vérification"),
     LOCKED("Verrouillé"),
-    DELETED("Supprimé");
+    DELETED("Supprimé"),
+    COMPROMISED("Compromis"); // (PHASE 3 - Priorité 2) Compte compromis détecté
 
     private final String displayName;
 
@@ -18,6 +19,20 @@ public enum UserStatus {
     }
 
     public boolean isActive() {
+        return this == ACTIVE;
+    }
+    
+    /**
+     * (PHASE 3 - Priorité 2) Vérifie si le compte est dans un état critique
+     */
+    public boolean isCriticalStatus() {
+        return this == COMPROMISED || this == LOCKED || this == SUSPENDED;
+    }
+    
+    /**
+     * (PHASE 3 - Priorité 2) Vérifie si le compte peut se connecter
+     */
+    public boolean canLogin() {
         return this == ACTIVE;
     }
 }
