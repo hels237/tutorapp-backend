@@ -92,6 +92,7 @@
             <version>0.11.5</version>
             <scope>runtime</scope>
         </dependency>
+
         <!--Cette lib est conçue pour Spring Boot : elle détecte automatiquement ton .env-->
         <dependency>
             <groupId>me.paulschwarz</groupId>
@@ -141,6 +142,32 @@
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
         </dependency>
+
+
+        <!-- ==============================web socket notification ============================-->
+
+        <!-- WebSocket & Real-time -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+
+        <!-- Pour STOMP (Simple Text Oriented Messaging Protocol) -->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>stomp-websocket</artifactId>
+            <version>2.3.4</version>
+        </dependency>
+
+        <!-- Pour SockJS (fallback) -->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>sockjs-client</artifactId>
+            <version>1.5.1</version>
+        </dependency>
+
+        <!-- ================================================================================-->
+
 
         <!-- TEST -->
 		<dependency>
