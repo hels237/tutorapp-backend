@@ -4,6 +4,7 @@
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/config/SwaggerConfig.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/controller/AdminController.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/controller/AuthController.java
+/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/controller/NotificationController.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/controller/SecurityConfirmationController.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/controller/SocialAuthController.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/controller/UserController.java
@@ -25,16 +26,13 @@
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/dto/admin/SystemConfigDto.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/dto/admin/TutorApplicationDto.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/dto/admin/UserModerationDto.java
-/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/dto/auth/ForgotPasswordRequest.java
-/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/dto/auth/RefreshTokenRequest.java
-/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/dto/auth/ResendVerificationRequest.java
-/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/dto/auth/SocialAuthRequest.java
-/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/dto/auth/UserDto.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/dto/common/ApiResponseDto.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/dto/common/MessageResponse.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/dto/common/PagedResponse.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/dto/common/SocialLoginUrlResponse.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/dto/common/UploadeResponse.java
+/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/dto/notification/NotificationDTO.java
+/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/dto/notification/NotificationRequest.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/dto/user/AdminProfileDto.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/dto/user/BecomeTutorRequest.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/dto/user/ChangePasswordRequest.java
@@ -51,6 +49,7 @@
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/AuditLog.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/Lesson.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/ModerationReport.java
+/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/Notification.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/Parent.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/Qualification.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/Student.java
@@ -58,7 +57,6 @@
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/Subject.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/Tutor.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/TutorApplication.java
-/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/User.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/Utilisateur.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/enums/AdminLevel.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/enums/AlertLevel.java
@@ -69,6 +67,8 @@
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/enums/EducationLevel.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/enums/LanguageLevel.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/enums/ModerationStatus.java
+/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/enums/NotificationPriority.java
+/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/enums/NotificationType.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/enums/QualificationType.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/enums/ReportStatus.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/enums/ReportType.java
@@ -76,7 +76,6 @@
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/enums/SecurityRiskLevel.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/enums/SocialProvider.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/enums/SubjectCategory.java
-/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/enums/UserRole.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/enums/UserStatus.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/enums/VerificationStatus.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/support/EmailVerificationToken.java
@@ -97,15 +96,16 @@
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/repositories/AuditLogRepository.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/repositories/EmailVerificationTokenRepository.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/repositories/ModerationReportRepository.java
+/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/repositories/NotificationRepository.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/repositories/ParentRepository.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/repositories/PasswordResetTokenRepository.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/repositories/RefreshTokenRepository.java
+/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/repositories/SecurityConfirmationTokenRepository.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/repositories/SocialAccountRepository.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/repositories/StudentRepository.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/repositories/TutorApplicationRepository.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/repositories/TutorRepository.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/repositories/UserRepository.java
-/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/repository/SecurityConfirmationTokenRepository.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/security/CustomUserService.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/security/InitAdminConfig.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/security/JwtFilter.java
@@ -119,11 +119,11 @@
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/services/FileStorageService.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/services/IpAddressService.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/services/IpGeolocationService.java
+/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/services/NotificationService.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/services/RateLimitService.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/services/SecurityAlertService.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/services/SecurityCheckService.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/services/SecurityConfirmationService.java
-/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/services/SecurityNotificationService.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/services/SocialAuthService.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/services/TokenService.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/services/UserService.java
@@ -135,6 +135,7 @@
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/servicesImpl/FileStorageServiceImpl.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/servicesImpl/IpAddressServiceImpl.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/servicesImpl/IpGeolocationServiceImpl.java
+/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/servicesImpl/NotificationServiceImpl.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/servicesImpl/RateLimitServiceImpl.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/servicesImpl/SecurityAlertServiceImpl.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/servicesImpl/SecurityCheckServiceImpl.java
@@ -144,3 +145,4 @@
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/servicesImpl/UserServiceImpl.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/utils/UserAgentParser.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/validator/ObjectValidator.java
+/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/websocket/WebSocketEventListener.java

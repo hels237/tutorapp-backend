@@ -108,7 +108,7 @@ firebase:
   database:
     url: ${FIREBASE_DATABASE_URL}
   project:
-    id: ${FIREBASE_PROJECT_ID:tutorapp-81992}
+    id: ${FIREBASE_PROJECT_ID}
 
 # ==========================================
 # CONFIGURATION LOGGING

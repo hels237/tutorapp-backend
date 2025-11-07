@@ -1,11 +1,15 @@
 package com.backend.tutor_app.servicesImpl;
 
 import com.backend.tutor_app.dto.Auth.SecurityCheckResult;
+import com.backend.tutor_app.dto.notification.NotificationRequest;
+import com.backend.tutor_app.model.enums.NotificationPriority;
+import com.backend.tutor_app.model.enums.NotificationType;
 import com.backend.tutor_app.model.Utilisateur;
 import com.backend.tutor_app.model.enums.SecurityRiskLevel;
 import com.backend.tutor_app.model.enums.UserStatus;
 import com.backend.tutor_app.repositories.UserRepository;
 import com.backend.tutor_app.services.EmailService;
+import com.backend.tutor_app.services.NotificationService;
 import com.backend.tutor_app.services.SecurityAlertService;
 import com.backend.tutor_app.services.SecurityConfirmationService;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +23,7 @@ import java.util.Map;
 
 /**
  * (Q) PHASE 2 - ÉTAPE 2.3/2.4/2.5 : Implémentation du service d'alertes sécurité
+ * REFACTORISÉ : Utilise maintenant NotificationService pour les notifications temps réel
  */
 @Service
 @RequiredArgsConstructor
@@ -29,6 +34,7 @@ public class SecurityAlertServiceImpl implements SecurityAlertService {
     private final EmailService emailService;
     private final UserRepository userRepository;
     private final SecurityConfirmationService confirmationService;
+    private final NotificationService notificationService;
     
     @Override
     public void sendSecurityAlerts(Utilisateur user, SecurityCheckResult checkResult) {
@@ -42,6 +48,9 @@ public class SecurityAlertServiceImpl implements SecurityAlertService {
         
         log.debug("[PHASE 4] Traitement alertes - User: {}, RiskLevel: {}, AlertLevel: {}",
             user.getEmail(), checkResult.getRiskLevel(), checkResult.getAlertLevel());
+        
+        // ✅ NOUVEAU : Notification temps réel à l'utilisateur via NotificationService
+        sendSecurityNotificationToUser(user, checkResult);
         
         // (PHASE 3) Email d'alerte si requis
         if (checkResult.isRequireEmailAlert()) {
@@ -90,6 +99,71 @@ public class SecurityAlertServiceImpl implements SecurityAlertService {
         // (PHASE 3) Marquer le compte sous surveillance si risque critique
         if (checkResult.getRiskLevel() == SecurityRiskLevel.CRITICAL) {
             markAccountUnderSurveillance(user.getId());
+        }
+    }
+    
+    /**
+     * ✅ NOUVEAU : Envoie une notification temps réel à l'utilisateur via NotificationService
+     */
+    private void sendSecurityNotificationToUser(Utilisateur user, SecurityCheckResult checkResult) {
+        try {
+            // Construire les métadonnées
+            Map<String, Object> metadata = new HashMap<>();
+            metadata.put("ip", checkResult.getCurrentIp());
+            metadata.put("country", checkResult.getCurrentCountry());
+            metadata.put("device", checkResult.getCurrentDevice());
+            metadata.put("browser", checkResult.getCurrentBrowser());
+            metadata.put("os", checkResult.getCurrentOs());
+            metadata.put("riskLevel", checkResult.getRiskLevel().name());
+            
+            // Déterminer le type de notification selon le risque
+            NotificationType notifType;
+            NotificationPriority priority;
+            String title;
+            String message;
+            
+            switch (checkResult.getRiskLevel()) {
+                case CRITICAL:
+                    notifType = NotificationType.SECURITY_ALERT;
+                    priority = NotificationPriority.CRITICAL;
+                    title = "🚨 Alerte Sécurité Critique";
+                    message = "Activité suspecte détectée sur votre compte. Tous vos tokens ont été révoqués par sécurité.";
+                    break;
+                    
+                case HIGH:
+                    notifType = NotificationType.SECURITY_ALERT;
+                    priority = NotificationPriority.HIGH;
+                    title = "⚠️ Alerte Sécurité";
+                    message = "Connexion inhabituelle détectée depuis " + 
+                             (checkResult.getCurrentCountry() != null ? checkResult.getCurrentCountry() : "un emplacement inconnu");
+                    break;
+                    
+                case MEDIUM:
+                    notifType = NotificationType.SECURITY_LOGIN;
+                    priority = NotificationPriority.MEDIUM;
+                    title = "ℹ️ Nouvelle Connexion";
+                    message = "Une nouvelle connexion a été détectée sur votre compte.";
+                    break;
+                    
+                default:
+                    notifType = NotificationType.SECURITY_LOGIN;
+                    priority = NotificationPriority.LOW;
+                    title = "Connexion détectée";
+                    message = "Connexion à votre compte.";
+            }
+            
+            // Utiliser la méthode spécialisée de NotificationService
+            notificationService.sendSecurityAlert(
+                user.getId(),
+                title,
+                message,
+                metadata
+            );
+            
+            log.info("✅ Notification temps réel envoyée à l'utilisateur {} via NotificationService", user.getEmail());
+            
+        } catch (Exception e) {
+            log.error("❌ Erreur envoi notification temps réel: {}", e.getMessage());
         }
     }
     
@@ -154,12 +228,38 @@ public class SecurityAlertServiceImpl implements SecurityAlertService {
             log.error("[PHASE 4][CRITICAL] Notification admin - User: {}, RiskLevel: {}, Message: {}", 
                 user.getEmail(), checkResult.getRiskLevel(), checkResult.getMessage());
             
-            // (Q) PHASE 2 - TODO: Implémenter notification admin
-            // Options :
-            // 1. Email aux admins
-            // 2. Webhook vers un système de monitoring
-            // 3. Notification dans un dashboard admin
-            // 4. Log dans un système centralisé (ELK, Splunk, etc.)
+            // ✅ REFACTORISÉ : Utilisation de NotificationService
+            Map<String, Object> metadata = new HashMap<>();
+            metadata.put("userId", user.getId());
+            metadata.put("userEmail", user.getEmail());
+            metadata.put("riskLevel", checkResult.getRiskLevel().name());
+            metadata.put("currentIp", checkResult.getCurrentIp());
+            metadata.put("currentCountry", checkResult.getCurrentCountry());
+            metadata.put("currentDevice", checkResult.getCurrentDevice());
+            metadata.put("changesSummary", checkResult.getChangesSummary());
+            
+            NotificationRequest request = NotificationRequest.builder()
+                .type(NotificationType.ADMIN_ACTION_REQUIRED)
+                .priority(NotificationPriority.CRITICAL)
+                .title("🚨 Alerte Sécurité - Action requise")
+                .message(String.format(
+                    "Activité suspecte détectée pour l'utilisateur %s (%s). Niveau de risque: %s",
+                    user.getEmail(),
+                    user.getFirstName() + " " + user.getLastName(),
+                    checkResult.getRiskLevel().name()
+                ))
+                .metadata(metadata)
+                .actionUrl("/admin/security/users/" + user.getId())
+                .actionLabel("Voir les détails")
+                .iconUrl("/icons/security-alert.svg")
+                .sendEmail(true)  // Email aux admins
+                .sendPush(true)   // Notification push
+                .sendWebSocket(true) // Notification temps réel
+                .build();
+            
+            notificationService.sendToAdmins(request);
+            
+            log.info("✅ Notification admin envoyée via NotificationService");
             
         } catch (Exception e) {
             log.error("[PHASE 4] Erreur notification admin - Error: {}", e.getMessage());

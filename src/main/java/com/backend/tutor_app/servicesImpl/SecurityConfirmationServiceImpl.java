@@ -3,7 +3,7 @@ package com.backend.tutor_app.servicesImpl;
 import com.backend.tutor_app.model.Utilisateur;
 import com.backend.tutor_app.model.enums.UserStatus;
 import com.backend.tutor_app.model.support.SecurityConfirmationToken;
-import com.backend.tutor_app.repository.SecurityConfirmationTokenRepository;
+import com.backend.tutor_app.repositories.SecurityConfirmationTokenRepository;
 import com.backend.tutor_app.repositories.UserRepository;
 import com.backend.tutor_app.services.EmailService;
 import com.backend.tutor_app.services.SecurityConfirmationService;

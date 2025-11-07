@@ -1,4 +1,4 @@
-package com.backend.tutor_app.repository;
+package com.backend.tutor_app.repositories;
 
 import com.backend.tutor_app.model.support.SecurityConfirmationToken;
 import org.springframework.data.jpa.repository.JpaRepository;
