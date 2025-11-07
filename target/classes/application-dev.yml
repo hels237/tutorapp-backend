@@ -100,6 +100,17 @@ app:
     fallback-enabled: true
 
 # ==========================================
+# FIREBASE CONFIGURATION
+# ==========================================
+firebase:
+  config:
+    path: ${FIREBASE_CONFIG_PATH}
+  database:
+    url: ${FIREBASE_DATABASE_URL}
+  project:
+    id: ${FIREBASE_PROJECT_ID:tutorapp-81992}
+
+# ==========================================
 # CONFIGURATION LOGGING
 # ==========================================
 logging:

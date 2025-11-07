@@ -7,3 +7,6 @@ target/
 
 # resources directory
 resources/geoip/GeoLite2-City.mmdb
+
+# Firebase service account file
+src/main/resources/firebase/*.json

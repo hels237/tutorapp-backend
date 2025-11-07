@@ -1,5 +1,6 @@
 package com.backend.tutor_app.dto.Auth;
 
+import com.backend.tutor_app.model.enums.AlertLevel;
 import com.backend.tutor_app.model.enums.DeviceChangeType;
 import com.backend.tutor_app.model.enums.SecurityRiskLevel;
 import lombok.*;
@@ -16,6 +17,7 @@ public class SecurityCheckResult {
     
     // (Q) PHASE 2 - Résultat global
     private SecurityRiskLevel riskLevel;
+    private AlertLevel alertLevel;
     private boolean allowed;
     private String message;
     
@@ -178,5 +180,19 @@ public class SecurityCheckResult {
         }
         
         return summary.length() > 0 ? summary.toString() : "Aucun changement détecté";
+    }
+    
+    /**
+     * (PHASE 4) Calcule automatiquement l'AlertLevel depuis le SecurityRiskLevel
+     */
+    public AlertLevel calculateAlertLevel() {
+        return AlertLevel.fromSecurityRiskLevel(this.riskLevel);
+    }
+    
+    /**
+     * (PHASE 4) Met à jour l'alertLevel depuis le riskLevel
+     */
+    public void updateAlertLevel() {
+        this.alertLevel = calculateAlertLevel();
     }
 }

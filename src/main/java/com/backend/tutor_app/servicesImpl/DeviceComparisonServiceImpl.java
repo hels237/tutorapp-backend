@@ -36,6 +36,10 @@ public class DeviceComparisonServiceImpl implements DeviceComparisonService {
         String prevOsVersion = previousDevice.getOsVersion();
         String currOsVersion = currentDevice.getOsVersion();
         
+        // (PHASE 4) - Comparaison timezone
+        String prevTimezone = previousDevice.getTimezone();
+        String currTimezone = currentDevice.getTimezone();
+        
         // (Q) PHASE 2 - Aucun changement : tout identique
         if (isSame(prevBrowser, currBrowser) && 
             isSame(prevBrowserVersion, currBrowserVersion) &&
@@ -44,6 +48,17 @@ public class DeviceComparisonServiceImpl implements DeviceComparisonService {
             
             log.debug("(Q) PHASE 2 - Aucun changement de device détecté");
             return DeviceChangeType.NONE;
+        }
+        
+        // (PHASE 4) - Changement timezone seul = INFO (changement mineur)
+        if (isSame(prevBrowser, currBrowser) && 
+            isSame(prevBrowserVersion, currBrowserVersion) &&
+            isSame(prevOs, currOs) && 
+            isSame(prevOsVersion, currOsVersion) &&
+            !isSame(prevTimezone, currTimezone)) {
+            
+            log.info("[PHASE 4][INFO] Changement timezone détecté: {} → {}", prevTimezone, currTimezone);
+            return DeviceChangeType.MINOR;
         }
         
         // (Q) PHASE 2 - Changement mineur : même browser/OS, versions différentes

@@ -5,9 +5,11 @@ com/backend/tutor_app/services/EmailService.class
 com/backend/tutor_app/dto/Auth/SecurityCheckResult$SecurityCheckResultBuilder.class
 com/backend/tutor_app/model/support/SecurityConfirmationToken$SecurityConfirmationTokenBuilder.class
 com/backend/tutor_app/model/tutor/TutorDocument$TutorDocumentBuilder.class
+com/backend/tutor_app/model/enums/AlertLevel.class
 com/backend/tutor_app/dto/Auth/DeviceInfoDto.class
 com/backend/tutor_app/model/AbstractEntiity$AbstractEntiityBuilder.class
 com/backend/tutor_app/dto/UpdateTutorProfileRequest.class
+com/backend/tutor_app/notificationConfig/WebSocketAuthConfig.class
 com/backend/tutor_app/dto/common/ApiResponseDto$ApiResponseDtoBuilder.class
 com/backend/tutor_app/servicesImpl/AuthServiceImpl.class
 com/backend/tutor_app/dto/admin/TutorApplicationDto.class
@@ -33,6 +35,7 @@ com/backend/tutor_app/dto/Auth/RegisterRequest$RegisterRequestBuilder.class
 com/backend/tutor_app/model/ModerationReport$ModerationReportBuilderImpl.class
 com/backend/tutor_app/repositories/StudentRepository.class
 com/backend/tutor_app/model/AbstractEntiity.class
+com/backend/tutor_app/servicesImpl/AttackPatternDetectionServiceImpl.class
 com/backend/tutor_app/dto/user/ParentProfileDto.class
 com/backend/tutor_app/dto/user/UpdateProfileRequest.class
 com/backend/tutor_app/controller/SocialAuthController.class
@@ -41,6 +44,7 @@ com/backend/tutor_app/services/RateLimitService.class
 com/backend/tutor_app/model/StudentStats.class
 com/backend/tutor_app/services/SecurityAlertService.class
 com/backend/tutor_app/dto/Auth/UserDto$UserDtoBuilder.class
+com/backend/tutor_app/config/FireBaseConfig.class
 com/backend/tutor_app/dto/Auth/RefreshTokenRequest.class
 com/backend/tutor_app/services/SocialAuthService.class
 com/backend/tutor_app/model/support/SocialAccount$SocialAccountBuilderImpl.class
@@ -127,6 +131,7 @@ com/backend/tutor_app/model/Admin.class
 com/backend/tutor_app/dto/admin/SystemConfigDto$SystemConfigDtoBuilder.class
 com/backend/tutor_app/servicesImpl/SecurityAlertServiceImpl$1.class
 com/backend/tutor_app/model/enums/ReportType.class
+com/backend/tutor_app/services/AttackPatternDetectionService.class
 com/backend/tutor_app/exceptions/ObjectValidationException.class
 com/backend/tutor_app/model/support/RefreshToken$RefreshTokenBuilderImpl.class
 com/backend/tutor_app/dto/admin/AuditLogDto.class
@@ -187,14 +192,18 @@ com/backend/tutor_app/dto/common/MessageResponse.class
 com/backend/tutor_app/utils/UserAgentParser.class
 com/backend/tutor_app/security/JwtFilter.class
 com/backend/tutor_app/dto/user/BecomeTutorRequest.class
+com/backend/tutor_app/servicesImpl/AttackPatternDetectionServiceImpl$SuspiciousAttempt.class
 com/backend/tutor_app/dto/Auth/AuthResponse$AuthResponseBuilder.class
+com/backend/tutor_app/notificationConfig/WebSocketConfig.class
 com/backend/tutor_app/repositories/AuditLogRepository.class
 com/backend/tutor_app/model/tutor/TutorLanguage.class
 com/backend/tutor_app/validator/ObjectValidator.class
+com/backend/tutor_app/model/enums/AlertLevel$1.class
 com/backend/tutor_app/model/Qualification.class
 com/backend/tutor_app/dto/admin/AdminStatsDto$AdminStatsDtoBuilder.class
 com/backend/tutor_app/services/IpAddressService.class
 com/backend/tutor_app/model/Utilisateur$UtilisateurBuilder.class
+com/backend/tutor_app/services/SecurityNotificationService.class
 com/backend/tutor_app/dto/admin/AdminStatsDto.class
 com/backend/tutor_app/dto/common/PagedResponse$PagedResponseBuilder.class
 com/backend/tutor_app/model/AuditLog$AuditLogBuilderImpl.class

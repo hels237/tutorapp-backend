@@ -5,6 +5,7 @@ import com.backend.tutor_app.dto.Auth.SecurityCheckResult;
 import com.backend.tutor_app.model.enums.DeviceChangeType;
 import com.backend.tutor_app.model.enums.SecurityRiskLevel;
 import com.backend.tutor_app.model.support.RefreshToken;
+import com.backend.tutor_app.services.AttackPatternDetectionService;
 import com.backend.tutor_app.services.DeviceComparisonService;
 import com.backend.tutor_app.services.IpGeolocationService;
 import com.backend.tutor_app.services.SecurityCheckService;
@@ -23,18 +24,39 @@ public class SecurityCheckServiceImpl implements SecurityCheckService {
     
     private final IpGeolocationService ipGeolocationService;
     private final DeviceComparisonService deviceComparisonService;
+    private final AttackPatternDetectionService attackPatternDetectionService;
     
     @Override
     public SecurityCheckResult performSecurityChecks(RefreshToken token, DeviceInfoDto currentDeviceInfo) {
-        log.info("(Q) PHASE 2 - Démarrage des vérifications de sécurité pour le token: {}", token.getId());
+        log.debug("[PHASE 4] Démarrage vérifications sécurité - TokenID: {}, IP: {}, Device: {}", 
+            token.getId(), currentDeviceInfo.getIpAddress(), currentDeviceInfo.getDeviceSummary());
         
         SecurityCheckResult result = SecurityCheckResult.builder().build();
         
         // (Q) PHASE 2 - ÉTAPE 2.3 : Vérification si token révoqué
         if (token.getIsRevoked()) {
-            log.error("(Q) PHASE 2 - ALERTE CRITIQUE : Token révoqué réutilisé ! Token ID: {}", token.getId());
+            log.error("[PHASE 4][CRITICAL] Token révoqué réutilisé - TokenID: {}, UserID: {}, IP: {}, Attaque potentielle détectée", 
+                token.getId(), token.getUtilisateur().getId(), currentDeviceInfo.getIpAddress());
+            
+            // (PHASE 4) Enregistrer tentative suspecte
+            attackPatternDetectionService.recordSuspiciousAttempt(
+                token.getUtilisateur().getId(), 
+                "Token révoqué réutilisé"
+            );
+            
             return SecurityCheckResult.criticalRisk(
                 "Token révoqué réutilisé - Possible attaque en cours"
+            );
+        }
+        
+        // (PHASE 4) Vérifier pattern d'attaque AVANT les autres vérifications
+        if (attackPatternDetectionService.hasAttackPattern(token.getUtilisateur().getId())) {
+            log.error("[PHASE 4][CRITICAL] Pattern d'attaque détecté - UserID: {}, Tentatives: {}", 
+                token.getUtilisateur().getId(),
+                attackPatternDetectionService.getRecentSuspiciousAttempts(token.getUtilisateur().getId()));
+            
+            return SecurityCheckResult.criticalRisk(
+                "Pattern d'attaque détecté - Multiples tentatives suspectes"
             );
         }
         
@@ -55,7 +77,7 @@ public class SecurityCheckServiceImpl implements SecurityCheckService {
         String previousIp = token.getIpAddress();
         String currentIp = currentDeviceInfo.getIpAddress();
         
-        log.debug("(Q) PHASE 2 - Vérification IP: {} → {}", previousIp, currentIp);
+        log.debug("[PHASE 4] Vérification IP - Previous: {}, Current: {}", previousIp, currentIp);
         
         SecurityCheckResult result = SecurityCheckResult.builder()
             .previousIp(previousIp)
@@ -84,7 +106,7 @@ public class SecurityCheckServiceImpl implements SecurityCheckService {
         result.setVpnDetected(isVpn);
         
         if (isVpn) {
-            log.warn("(Q) PHASE 2 - VPN/Proxy détecté: {}", currentIp);
+            log.error("[PHASE 4][ERROR] VPN/Proxy détecté - IP: {}, Pays: {}", currentIp, currentCountry);
         }
         
         // (Q) PHASE 2 - Calculer le niveau de risque
@@ -97,7 +119,7 @@ public class SecurityCheckServiceImpl implements SecurityCheckService {
                 result.setAllowed(true);
                 result.setRequireEmailAlert(false);
                 result.setMessage("Changement d'IP dans le même pays");
-                log.debug("(Q) PHASE 2 - Risque IP FAIBLE");
+                log.info("[PHASE 4][INFO] Risque IP faible - IP changée même pays: {} → {}", previousCountry, currentCountry);
                 break;
                 
             case MEDIUM:
@@ -106,7 +128,8 @@ public class SecurityCheckServiceImpl implements SecurityCheckService {
                 result.setRequireConfirmation(false);
                 result.setMessage(String.format("Connexion depuis un nouveau pays: %s", currentCountry));
                 result.setSecurityAlert(String.format("Connexion détectée depuis %s", currentCountry));
-                log.info("(Q) PHASE 2 - Risque IP MOYEN : {} → {}", previousCountry, currentCountry);
+                log.warn("[PHASE 4][WARNING] Risque IP moyen - Changement pays: {} → {}, IP: {}", 
+                    previousCountry, currentCountry, currentIp);
                 break;
                 
             case HIGH:
@@ -117,7 +140,14 @@ public class SecurityCheckServiceImpl implements SecurityCheckService {
                 result.setShouldBlock(true);
                 result.setMessage("Connexion depuis une IP à risque élevé");
                 result.setSecurityAlert("Connexion suspecte bloquée. Veuillez confirmer votre identité.");
-                log.warn("(Q) PHASE 2 - Risque IP ÉLEVÉ : VPN={}, Pays={}", isVpn, currentCountry);
+                log.error("[PHASE 4][ERROR] Risque IP élevé - VPN: {}, Pays: {}, IP: {}", 
+                    isVpn, currentCountry, currentIp);
+                
+                // (PHASE 4) Enregistrer tentative suspecte
+                attackPatternDetectionService.recordSuspiciousAttempt(
+                    token.getUtilisateur().getId(),
+                    String.format("IP à risque élevé: VPN=%s, Pays=%s", isVpn, currentCountry)
+                );
                 break;
         }
         
@@ -128,8 +158,6 @@ public class SecurityCheckServiceImpl implements SecurityCheckService {
      * (Q) PHASE 2 - ÉTAPE 2.5 : Vérification du Device
      */
     private SecurityCheckResult checkDevice(RefreshToken token, DeviceInfoDto currentDeviceInfo) {
-        log.debug("(Q) PHASE 2 - Vérification Device");
-        
         // (Q) PHASE 2 - Construire le DeviceInfoDto précédent depuis le token
         DeviceInfoDto previousDevice = DeviceInfoDto.builder()
             .browserName(token.getBrowserName())
@@ -141,6 +169,9 @@ public class SecurityCheckServiceImpl implements SecurityCheckService {
             .userAgent(token.getUserAgent())
             .ipAddress(token.getIpAddress())
             .build();
+        
+        log.debug("[PHASE 4] Vérification Device - Previous: {}, Current: {}", 
+            previousDevice.getDeviceSummary(), currentDeviceInfo.getDeviceSummary());
         
         SecurityCheckResult result = SecurityCheckResult.builder()
             .previousDevice(previousDevice.getDeviceSummary())
@@ -162,7 +193,7 @@ public class SecurityCheckServiceImpl implements SecurityCheckService {
                 result.setAllowed(true);
                 result.setRequireEmailAlert(false);
                 result.setMessage("Aucun changement de device");
-                log.debug("(Q) PHASE 2 - Aucun changement de device");
+                log.info("[PHASE 4][INFO] Aucun changement device - Device: {}", currentDeviceInfo.getDeviceSummary());
                 break;
                 
             case MINOR:
@@ -170,7 +201,7 @@ public class SecurityCheckServiceImpl implements SecurityCheckService {
                 result.setAllowed(true);
                 result.setRequireEmailAlert(false);
                 result.setMessage("Mise à jour de navigateur/OS détectée");
-                log.info("(Q) PHASE 2 - Changement mineur : {}", 
+                log.info("[PHASE 4][INFO] Changement device mineur - Details: {}", 
                     deviceComparisonService.getChangeDescription(previousDevice, currentDeviceInfo));
                 break;
                 
@@ -180,8 +211,9 @@ public class SecurityCheckServiceImpl implements SecurityCheckService {
                 result.setRequireEmailAlert(true);
                 result.setMessage("Changement de device détecté");
                 result.setSecurityAlert("Connexion depuis un nouvel appareil détectée");
-                log.warn("(Q) PHASE 2 - Changement majeur : {}", 
-                    deviceComparisonService.getChangeDescription(previousDevice, currentDeviceInfo));
+                log.warn("[PHASE 4][WARNING] Changement device majeur - Details: {}, Previous: {}, Current: {}", 
+                    deviceComparisonService.getChangeDescription(previousDevice, currentDeviceInfo),
+                    previousDevice.getDeviceSummary(), currentDeviceInfo.getDeviceSummary());
                 break;
                 
             case SUSPICIOUS:
@@ -192,8 +224,9 @@ public class SecurityCheckServiceImpl implements SecurityCheckService {
                 result.setRequireConfirmation(false);
                 result.setMessage("Changement de device suspect");
                 result.setSecurityAlert(" Connexion depuis un appareil très différent");
-                log.warn("(Q) PHASE 2 - Changement SUSPECT : {}", 
-                    deviceComparisonService.getChangeDescription(previousDevice, currentDeviceInfo));
+                log.error("[PHASE 4][ERROR] Changement device suspect - Details: {}, Previous: {}, Current: {}", 
+                    deviceComparisonService.getChangeDescription(previousDevice, currentDeviceInfo),
+                    previousDevice.getDeviceSummary(), currentDeviceInfo.getDeviceSummary());
                 break;
         }
         
@@ -204,15 +237,15 @@ public class SecurityCheckServiceImpl implements SecurityCheckService {
      * (Q) PHASE 2 - Combine les résultats IP et Device pour déterminer le risque global
      */
     private SecurityCheckResult combineResults(SecurityCheckResult ipCheck, SecurityCheckResult deviceCheck) {
-        log.debug("(Q) PHASE 2 - Combinaison des résultats : IP={}, Device={}", 
-            ipCheck.getRiskLevel(), 
-            deviceCheck.getRiskLevel());
+        log.debug("[PHASE 4] Combinaison résultats - RisqueIP: {}, RisqueDevice: {}", 
+            ipCheck.getRiskLevel(), deviceCheck.getRiskLevel());
         
         // (Q) PHASE 2 - Le risque le plus élevé l'emporte
         SecurityRiskLevel globalRisk = getHighestRisk(ipCheck.getRiskLevel(), deviceCheck.getRiskLevel());
         
         SecurityCheckResult combined = SecurityCheckResult.builder()
             .riskLevel(globalRisk)
+            .alertLevel(com.backend.tutor_app.model.enums.AlertLevel.fromSecurityRiskLevel(globalRisk))
             .allowed(ipCheck.isAllowed() && deviceCheck.isAllowed())
             .message(buildCombinedMessage(ipCheck, deviceCheck))
             // (Q) Données IP
@@ -240,11 +273,26 @@ public class SecurityCheckServiceImpl implements SecurityCheckService {
             .securityAlert(buildSecurityAlert(ipCheck, deviceCheck))
             .build();
         
-        log.info("(Q) PHASE 2 - Résultat global : Risque={}, Autorisé={}, Alertes=Email:{}/SMS:{}", 
-            combined.getRiskLevel(), 
-            combined.isAllowed(),
-            combined.isRequireEmailAlert(),
-            combined.isRequireSmsAlert());
+        String logMessage = String.format(
+            "[PHASE 4] Résultat global - AlertLevel: %s, RiskLevel: %s, Autorisé: %s, Email: %s, SMS: %s, Blocage: %s",
+            combined.getAlertLevel(), combined.getRiskLevel(), combined.isAllowed(),
+            combined.isRequireEmailAlert(), combined.isRequireSmsAlert(), combined.isShouldBlock()
+        );
+        
+        switch (combined.getAlertLevel()) {
+            case INFO:
+                log.info(logMessage);
+                break;
+            case WARNING:
+                log.warn(logMessage);
+                break;
+            case ERROR:
+                log.error(logMessage);
+                break;
+            case CRITICAL:
+                log.error("[CRITICAL] " + logMessage);
+                break;
+        }
         
         return combined;
     }

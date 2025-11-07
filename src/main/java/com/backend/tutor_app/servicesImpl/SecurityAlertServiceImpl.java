@@ -32,9 +32,16 @@ public class SecurityAlertServiceImpl implements SecurityAlertService {
     
     @Override
     public void sendSecurityAlerts(Utilisateur user, SecurityCheckResult checkResult) {
-        log.info("(PHASE 3)  Envoi des alertes sécurité pour: {} (Risque: {})",
-            user.getEmail(), 
-            checkResult.getRiskLevel());
+        // (PHASE 4) Calculer l'alertLevel si non défini
+        if (checkResult.getAlertLevel() == null) {
+            checkResult.updateAlertLevel();
+        }
+        
+        // (PHASE 4) Log avec le bon niveau
+        logSecurityAlert(user, checkResult);
+        
+        log.debug("[PHASE 4] Traitement alertes - User: {}, RiskLevel: {}, AlertLevel: {}",
+            user.getEmail(), checkResult.getRiskLevel(), checkResult.getAlertLevel());
         
         // (PHASE 3) Email d'alerte si requis
         if (checkResult.isRequireEmailAlert()) {
@@ -66,7 +73,7 @@ public class SecurityAlertServiceImpl implements SecurityAlertService {
             // Envoi de l'email avec le bon template
             emailService.sendSecurityAlertWithRiskLevel(user, subject, riskLevel, details);
             
-            log.info("(PHASE 3)  Email d'alerte envoyé pour: {}", user.getEmail());
+            log.info("[PHASE 4] Email alerte envoyé - User: {}, RiskLevel: {}", user.getEmail(), riskLevel);
         }
         
         // (PHASE 3) SMS d'alerte si requis
@@ -102,10 +109,10 @@ public class SecurityAlertServiceImpl implements SecurityAlertService {
             // Envoi de l'email avec le bon template
             emailService.sendSecurityAlertWithRiskLevel(user, subject, riskLevel, details);
             
-            log.info("(PHASE 3) ✅ Email d'alerte envoyé avec succès à: {}", user.getEmail());
+            log.info("[PHASE 4] Email alerte envoyé avec succès - User: {}", user.getEmail());
             
         } catch (Exception e) {
-            log.error("(PHASE 3) ❌ Erreur envoi email d'alerte: {}", e.getMessage());
+            log.error("[PHASE 4] Erreur envoi email alerte - Error: {}", e.getMessage());
         }
     }
     
@@ -130,23 +137,22 @@ public class SecurityAlertServiceImpl implements SecurityAlertService {
     @Override
     public void sendSmsAlert(Utilisateur user, String message) {
         try {
-            log.info("(Q) PHASE 2 - Envoi SMS d'alerte à: {}", user.getPhoneNumber());
+            log.info("[PHASE 4] Envoi SMS alerte - Phone: {}", user.getPhoneNumber());
             
             // (Q) PHASE 2 - TODO: Intégrer un service SMS (Twilio, AWS SNS, etc.)
-            log.warn("(Q) PHASE 2 - SMS ALERT - To: {}, Message: {}", 
+            log.warn("[PHASE 4] SMS alerte (TODO implémentation) - Phone: {}, Message: {}", 
                 user.getPhoneNumber(), message);
             
         } catch (Exception e) {
-            log.error("(Q) PHASE 2 - Erreur envoi SMS d'alerte: {}", e.getMessage());
+            log.error("[PHASE 4] Erreur envoi SMS alerte - Error: {}", e.getMessage());
         }
     }
     
     @Override
     public void notifyAdmins(Utilisateur user, SecurityCheckResult checkResult) {
         try {
-            log.warn("(Q) PHASE 2 - NOTIFICATION ADMIN - Activité suspecte pour: {} ({})", 
-                user.getEmail(), 
-                checkResult.getMessage());
+            log.error("[PHASE 4][CRITICAL] Notification admin - User: {}, RiskLevel: {}, Message: {}", 
+                user.getEmail(), checkResult.getRiskLevel(), checkResult.getMessage());
             
             // (Q) PHASE 2 - TODO: Implémenter notification admin
             // Options :
@@ -156,14 +162,14 @@ public class SecurityAlertServiceImpl implements SecurityAlertService {
             // 4. Log dans un système centralisé (ELK, Splunk, etc.)
             
         } catch (Exception e) {
-            log.error("(Q) PHASE 2 - Erreur notification admin: {}", e.getMessage());
+            log.error("[PHASE 4] Erreur notification admin - Error: {}", e.getMessage());
         }
     }
     
     @Override
     public void markAccountUnderSurveillance(Long userId) {
         try {
-            log.warn("(PHASE 3 - Priorité 2)  Marquer le compte sous surveillance: {}", userId);
+            log.warn("[PHASE 4][WARNING] Mise sous surveillance - UserID: {}", userId);
             
             Utilisateur user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé: " + userId));
@@ -172,10 +178,10 @@ public class SecurityAlertServiceImpl implements SecurityAlertService {
             user.setSurveillanceStartedAt(LocalDateTime.now());
             userRepository.save(user);
             
-            log.info("(PHASE 3 - Priorité 2) ✅ Compte {} mis sous surveillance", user.getEmail());
+            log.warn("[PHASE 4][WARNING] Compte mis sous surveillance - User: {}", user.getEmail());
             
         } catch (Exception e) {
-            log.error("(PHASE 3 - Priorité 2) ❌ Erreur marquage surveillance: {}", e.getMessage());
+            log.error("[PHASE 4] Erreur marquage surveillance - Error: {}", e.getMessage());
         }
     }
     
@@ -191,7 +197,7 @@ public class SecurityAlertServiceImpl implements SecurityAlertService {
      */
     public void markAccountAsCompromised(Long userId, String reason, String ipAddress, String userAgent) {
         try {
-            log.error("(PHASE 3 - Priorité 2/3)  COMPTE COMPROMIS DÉTECTÉ: {} - Raison: {}", userId, reason);
+            log.error("[PHASE 4][CRITICAL] Compte compromis détecté - UserID: {}, Raison: {}, IP: {}", userId, reason, ipAddress);
             
             Utilisateur user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé: " + userId));
@@ -210,7 +216,7 @@ public class SecurityAlertServiceImpl implements SecurityAlertService {
             
             userRepository.save(user);
             
-            log.error("(PHASE 3 - Priorité 2/3)  Compte {} marqué comme COMPROMIS et bloqué", user.getEmail());
+            log.error("[PHASE 4][CRITICAL] Compte marqué COMPROMIS et bloqué - User: {}, Status: {}", user.getEmail(), user.getStatus());
             
             // (PHASE 3 - Priorité 3) Générer et envoyer token de confirmation obligatoire
             try {
@@ -220,16 +226,16 @@ public class SecurityAlertServiceImpl implements SecurityAlertService {
                     ipAddress != null ? ipAddress : "Unknown",
                     userAgent != null ? userAgent : "Unknown"
                 );
-                log.info("(PHASE 3 - Priorité 3)  Token de confirmation envoyé à: {}", user.getEmail());
+                log.info("[PHASE 4] Token confirmation envoyé - User: {}", user.getEmail());
             } catch (Exception e) {
-                log.error("(PHASE 3 - Priorité 3) ❌ Erreur envoi token confirmation: {}", e.getMessage());
+                log.error("[PHASE 4] Erreur envoi token confirmation - Error: {}", e.getMessage());
             }
             
             // Envoyer notification critique
             sendCriticalCompromisedAlert(user, reason);
             
         } catch (Exception e) {
-            log.error("(PHASE 3 - Priorité 2/3) ❌ Erreur marquage compte compromis: {}", e.getMessage());
+            log.error("[PHASE 4][CRITICAL] Erreur marquage compte compromis - Error: {}", e.getMessage());
         }
     }
     
@@ -335,6 +341,36 @@ public class SecurityAlertServiceImpl implements SecurityAlertService {
         message.append("L'équipe TutorApp");
         
         return message.toString();
+    }
+    
+    /**
+     * (PHASE 4) Log l'alerte avec le bon niveau selon AlertLevel
+     */
+    private void logSecurityAlert(Utilisateur user, SecurityCheckResult checkResult) {
+        String logMessage = String.format(
+            "[PHASE 4] Alerte sécurité - User: %s, AlertLevel: %s, RiskLevel: %s, Message: %s",
+            user.getEmail(),
+            checkResult.getAlertLevel(),
+            checkResult.getRiskLevel(),
+            checkResult.getMessage()
+        );
+        
+        switch (checkResult.getAlertLevel()) {
+            case INFO:
+                log.info(logMessage);
+                break;
+            case WARNING:
+                log.warn(logMessage);
+                break;
+            case ERROR:
+                log.error(logMessage);
+                break;
+            case CRITICAL:
+                log.error("[CRITICAL] " + logMessage);
+                break;
+            default:
+                log.info(logMessage);
+        }
     }
     
     /**
