@@ -74,7 +74,8 @@ public class Student extends Utilisateur {
     @Transient
     private StudentStats stats;
 
-
+    @OneToOne(mappedBy = "student")
+    private TicketAccount ticketAccount;
 
 
 }
