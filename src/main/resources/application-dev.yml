@@ -90,6 +90,12 @@ app:
   frontend:
     url: http://localhost:3000
 
+  # Stripe (paiements) - clés chargées depuis .env
+  stripe:
+    secret-key: ${STRIPE_SECRET_KEY}
+    webhook-secret: ${STRIPE_WEBHOOK_SECRET}
+    mode: test
+
   # MaxMind GeoIP2 Configuration
   geoip:
     enabled: true

@@ -33,6 +33,12 @@
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/dto/common/UploadeResponse.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/dto/notification/NotificationDTO.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/dto/notification/NotificationRequest.java
+/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/dto/tickets/DebitRequest.java
+/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/dto/tickets/RefundRequest.java
+/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/dto/tickets/TicketAccountDTO.java
+/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/dto/tickets/TicketRechargeDTO.java
+/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/dto/tickets/TicketRechargeRequest.java
+/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/dto/tickets/TicketTransactionDTO.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/dto/user/AdminProfileDto.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/dto/user/BecomeTutorRequest.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/dto/user/ChangePasswordRequest.java
@@ -42,6 +48,9 @@
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/dto/user/UpdatePersonalInfoRequest.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/dto/user/UpdateProfileRequest.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/dto/user/UserProfileDto.java
+/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/entities/Notification.java
+/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/enums/NotificationPriority.java
+/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/enums/NotificationType.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/exceptions/ObjectValidationException.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/AbstractEntiity.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/Admin.java
@@ -55,6 +64,9 @@
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/Student.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/StudentStats.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/Subject.java
+/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/TicketAccount.java
+/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/TicketRecharge.java
+/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/TicketTransaction.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/Tutor.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/TutorApplication.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/Utilisateur.java
@@ -76,6 +88,8 @@
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/enums/SecurityRiskLevel.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/enums/SocialProvider.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/enums/SubjectCategory.java
+/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/enums/TicketRechargeStatus.java
+/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/enums/TicketTransactionType.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/enums/UserStatus.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/enums/VerificationStatus.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/model/support/EmailVerificationToken.java
@@ -103,6 +117,9 @@
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/repositories/SecurityConfirmationTokenRepository.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/repositories/SocialAccountRepository.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/repositories/StudentRepository.java
+/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/repositories/TicketAccountRepository.java
+/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/repositories/TicketRechargeRepository.java
+/home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/repositories/TicketTransactionRepository.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/repositories/TutorApplicationRepository.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/repositories/TutorRepository.java
 /home/hels/Desktop/TutorApp project/TutorApp-fullstack/TutorApp-backend/src/main/java/com/backend/tutor_app/repositories/UserRepository.java
